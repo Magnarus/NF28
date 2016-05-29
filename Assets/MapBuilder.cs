@@ -16,7 +16,7 @@ public class MapBuilder : MonoBehaviour {
         {
             for (int j = 0; j < size[1]; ++j)
             {
-                var primitive = GameObject.Instantiate(GameObject.Find("SpriteObject"));
+                var primitive = GameObject.Instantiate(GameObject.Find("GameTile"));
                 primitive.transform.parent = this.transform;
                 var iso = primitive.GetComponent<IsoObject>();
                 var sprite = primitive.GetComponent<SpriteRenderer>();
@@ -24,7 +24,7 @@ public class MapBuilder : MonoBehaviour {
                 iso.Position = new Vector3(i - size[0] / 2f, j - size[1] / 2f, 0);
                 //sprite.sprite = Resources.Load("altlas4_" + rng.Next(0, 23), typeof(Sprite)) as Sprite;
 
-                primitive.GetComponent<inactive>().active = true;
+                sprite.enabled = true;
             }
         }
 	}
