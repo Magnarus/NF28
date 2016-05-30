@@ -1,22 +1,16 @@
-﻿using System;
+﻿using Game;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Game;
-using UnityEditor;
-using UnityEngine;
 
 namespace Descriptors
 {
-    [Serializable]
-    public class CreatureDescriptor : Descriptor
+    public class EquipmentDescriptor : Descriptor
     {
         [SimpleGameValue]
-        public GameValue<int> Level;
-
-        //[CompositeGameValue]
         public GameValue<float> HP;
-        //[CompositeGameValue] - exemple
+        [SimpleGameValue]
         public GameValue<float> MP;
 
         [SimpleGameValue]
