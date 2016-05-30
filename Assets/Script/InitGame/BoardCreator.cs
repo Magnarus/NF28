@@ -167,9 +167,11 @@ public class BoardCreator : MonoBehaviour {
             CreateSaveDirectory();
 
         LevelData board = ScriptableObject.CreateInstance<LevelData>();
-        board.tiles = new Dictionary<Vector3, string>(tiles.Count);
-        foreach (PhysicTile t in tiles.Values)
-            board.tiles.Add(new Vector3(t.pos.x, t.height, t.pos.y), t.type);
+        board.tiles = new List<InputOutputData>(tiles.Count);
+        Debug.Log(tiles.Count);
+        foreach (PhysicTile t in tiles.Values) {
+            board.tiles.Add(new InputOutputData(new Vector3(t.pos.x, t.height, t.pos.y), t.type));
+        }
 
         string fileName = string.Format("Assets/Resources/Levels/{1}.asset", filePath, name);
         AssetDatabase.CreateAsset(board, fileName);
@@ -199,10 +201,10 @@ public class BoardCreator : MonoBehaviour {
         if (levelData == null)
             return;
 
-        foreach (Vector3 v in levelData.tiles.Keys)
+        foreach (InputOutputData v in levelData.tiles)
         {
-            PhysicTile t = Create(levelData.tiles[v]);
-            t.Load(v);
+            PhysicTile t = Create(v.type);
+            t.Load(v.pos);
             tiles.Add(t.pos, t);
         }
     }
