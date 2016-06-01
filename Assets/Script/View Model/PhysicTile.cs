@@ -3,10 +3,18 @@ using System.Collections;
 
 public class PhysicTile : MonoBehaviour {
 
-    public const float stepHeight = 0.25f;
-    public Point pos;
-    public int height;
-    public string type;
+    public const float stepHeight = 0.25f; // Hauteur d'un niveau d'écart
+    public Point pos; // Positions x et y de la case sur la map
+    public int height; // Hauteur du cube
+    public string type; // Eau / Boue / Standard
+
+    public GameObject contentTile; // Personnage de la case / Autre si on ajoute des coffres
+
+
+    [HideInInspector]
+    public PhysicTile prev; // Case sur laquelle on était précédemment avant celle ci
+    [HideInInspector]
+    public int distance; // Distance parcouru pour atteindre cette case
 
     public Vector3 center { get { return new Vector3(pos.x, height * stepHeight, pos.y); } }
 

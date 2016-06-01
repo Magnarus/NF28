@@ -3,19 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 
 /**
- * Classe qui est capable de générer un board ( = De cube dans la scène unity) à partir d'un objet LevelData
+ * Classe qui est capable de générer un board ( = Des cubes dans la scène unity) à partir d'un objet LevelData
  * */
 public class Board : MonoBehaviour
 {
     [SerializeField]
-    GameObject tilePrefab;
+    GameObject tilePrefab; // Prefab d'une case normale
     [SerializeField]
-    GameObject tilePrefabWater;
+    GameObject tilePrefabWater; // Prefab d'une case 'eau'
     [SerializeField]
-    GameObject tilePrefabBoue;
-    public Dictionary<Point, PhysicTile> tiles = new Dictionary<Point, PhysicTile>();
+    GameObject tilePrefabBoue; // Prefab d'une case 'boue'
+    public Dictionary<Point, PhysicTile> tiles = new Dictionary<Point, PhysicTile>(); // Liste de toutes les cases du board
 
-    public void Load(LevelData data)
+
+    // Parcours l'asset LevelData et crée un board
+    public void LoadBoardFromData(LevelData data)
     {
         for (int i = 0; i < data.tiles.Count; ++i)
         {
