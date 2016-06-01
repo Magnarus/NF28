@@ -24,7 +24,9 @@ public class EquipmentContainer : MonoBehaviour {
     {
         EquipmentInstance i = new EquipmentInstance();
         i.target = this.gameObject;
-        i.baseItem = equipment;
+
+        //Act on a copy
+        i.baseItem = GameObject.Instantiate(equipment.gameObject).GetComponent<Equipment>();
         equipment.Equip(i, this.gameObject);
         Equipment.Push(i);
     }
@@ -41,6 +43,7 @@ public class EquipmentContainer : MonoBehaviour {
 
         foreach (var item in removed)
         {
+            GameObject.Destroy(item.baseItem.gameObject);
             item.Unequip();
         }
 

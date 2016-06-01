@@ -12,9 +12,6 @@ public class Equipment : MonoBehaviour {
     [BitMask(typeof(EquipmentTag))]
     public EquipmentTag Description;
 
-    //TODO: CombinedMagicEffect
-    public MagicEffect Enchantment;
-
     public void ReEquip(EquipmentInstance i, GameObject target)
     {
         Unequip(i, target);
@@ -36,7 +33,7 @@ public class Equipment : MonoBehaviour {
             //TODO ...
         };
 
-        i["Enchant"] = effectList.applyEffect(Enchantment, this.gameObject);
+        //i["Enchant"] = effectList.applyEffect(Enchantment, this.gameObject);
     }
 
     public void Unequip(EquipmentInstance i, GameObject target)
@@ -47,6 +44,6 @@ public class Equipment : MonoBehaviour {
             item.Dispose();
         }
 
-        effectList.dispellEffect((MagicEffectInstance)i["Enchant"]);
+        //effectList.dispellEffect((MagicEffectInstance)i["Enchant"]);
     }
 }
