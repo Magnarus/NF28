@@ -3,6 +3,7 @@ using System.Collections;
 using Descriptors;
 using Game;
 using System.Collections.Generic;
+using System.Linq;
 
 //Can receive after-market modifications (player enchantment = poisoned dagger)
 [RequireComponent(typeof(MagicEffectContainer))]
@@ -28,10 +29,11 @@ public class Equipment : MonoBehaviour {
         equipmentContainer.Unequip(Description & EquipmentTag.SLOT);
 
 
-        i["statsModifiers"] = new List<ModifierInstance<float>>() {
-            toMod.HP.ApplyEffect(Modifier.Float.Add(descriptor.HP.value)),
-            //TODO ...
-        };
+        i["statsModifiers"] = descriptor.Join(toMod,
+            x => x.Key,
+            y => y.Key,
+            (x, y) => x.Value.ApplyEffect(z => z + y.Value.value)
+        );
 
         //i["Enchant"] = effectList.applyEffect(Enchantment, this.gameObject);
     }
