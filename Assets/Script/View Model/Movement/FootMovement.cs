@@ -5,6 +5,10 @@ using System;
 
 public class FootMovement : Movement
 {
+    public int jumpHash = Animator.StringToHash("Base Layer.Jump");
+    public int walkHash = Animator.StringToHash("Base Layer.RunFront");
+    public int idleHash = Animator.StringToHash("Base Layer.Idle");
+    Animator anim;
 
 
     /** Fonction de recherche spécifique aux personnages à pieds **/
@@ -26,6 +30,8 @@ public class FootMovement : Movement
     {
         // On met à jour les attributs du personnage
         unit.Place(tile);
+        anim = unit.gameObject.GetComponent<Animator>();
+        
 
         // A la façon du liste chainée, en partant de la cible, on récupère le chemin 
         List<PhysicTile> targets = new List<PhysicTile>();
@@ -35,12 +41,12 @@ public class FootMovement : Movement
             tile = tile.prev;
         }
 
+
         // On se déplace de case en case...
         for (int i = 1; i < targets.Count; ++i)
         {
             PhysicTile from = targets[i - 1];
             PhysicTile to = targets[i];
-
             // En mettant à jour la direction à chaque fois 
             Directions dir = from.GetDirection(to);
             if (unit.dir != dir)
@@ -48,17 +54,24 @@ public class FootMovement : Movement
 
             // On vérifie que le mouvement ne s'accompagne pas d'un saut
             if (from.height == to.height)
+            {
                 yield return StartCoroutine(Walk(to));
+            }
             else
+            {
                 yield return StartCoroutine(Jump(to));
-        }
+            }
 
+                
+        }
+        anim.Play("Idle");
         yield return null;
     }
 
     /** Déplacement en marchant **/
     IEnumerator Walk(PhysicTile target)
     {
+        anim.Play("RunFront");
         Tweener tweener = transform.MoveTo(target.center, 0.5f, EasingEquations.Linear);
         while (tweener != null)
             yield return null;
@@ -67,12 +80,8 @@ public class FootMovement : Movement
     /** Déplacement en sautant **/
     IEnumerator Jump(PhysicTile to)
     {
+        anim.Play("Jump");
         Tweener tweener = transform.MoveTo(to.center, 0.5f, EasingEquations.Linear);
-
-        Tweener t2 = jumper.MoveToLocal(new Vector3(0, PhysicTile.stepHeight * 2f, 0), tweener.easingControl.duration / 2f, EasingEquations.EaseOutQuad);
-        t2.easingControl.loopCount = 1;
-        t2.easingControl.loopType = EasingControl.LoopType.PingPong;
-
         while (tweener != null)
             yield return null;
     }
