@@ -3,6 +3,10 @@ using System.Collections;
 using Descriptors;
 
 [RequireComponent(typeof(CreatureDescriptor))]
+
+//Peut être buffer (en force) et s'équiper d'une (grosse) hache sMOOOOOOOORC
+[RequireComponent(typeof(MagicEffectContainer))]
+[RequireComponent(typeof(EquipmentContainer))]
 public class Creature : MonoBehaviour
 {
     public PhysicTile tile { get; protected set; }
