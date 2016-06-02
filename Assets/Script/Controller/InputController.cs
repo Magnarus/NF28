@@ -6,7 +6,7 @@ public class InputController : MonoBehaviour {
 
     Repeater _hor = new Repeater("Horizontal");
     Repeater _ver = new Repeater("Vertical");
-    string[] _buttons = new string[] { "Fire1", "Fire2", "Fire3" };
+    string[] _buttons = new string[] { "Fire1", "Fire2", "Fire3", "Scroll" };
 
     public static event EventHandler<InfoEventArgs<Point>> moveEvent;
     public static event EventHandler<InfoEventArgs<int>> fireEvent;

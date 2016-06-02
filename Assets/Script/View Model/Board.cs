@@ -154,7 +154,16 @@ public class Board : MonoBehaviour
      * */
     public void NotSelectedColor(List<PhysicTile> tiles)
     {
+        Color c = new Color();
         for (int i = tiles.Count - 1; i >= 0; --i)
-            tiles[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(1, 1, 1, 1));
+        {
+            switch (tiles[i].type)
+            {
+                case "water": c = tilePrefabWater.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
+                case "boue": c = tilePrefabBoue.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
+                default: c = tilePrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
+            }
+            tiles[i].GetComponent<Renderer>().material.SetColor("_Color", c);
+        }
     }
 }
