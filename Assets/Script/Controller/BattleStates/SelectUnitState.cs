@@ -13,6 +13,7 @@ public class SelectUnitState : BattleState
     /** Le personnage tire **/
     protected override void OnFire(object sender, InfoEventArgs<int> e)
     {
+        Debug.Log("Fire in select unit " + e.info);
         GameObject content = owner.currentTile.contentTile;
         if (content != null)
         {

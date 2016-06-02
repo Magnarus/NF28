@@ -19,6 +19,7 @@ public abstract class BattleState : State
 
     protected override void AddListeners()
     {
+        Debug.Log("AddListeners");
         InputController.moveEvent += OnMove;
         InputController.fireEvent += OnFire;
     }
