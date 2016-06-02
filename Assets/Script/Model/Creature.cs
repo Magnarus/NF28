@@ -14,6 +14,13 @@ public class Creature : MonoBehaviour
     public Directions dir;
     public string type = "foot";
     public Sprite Icone;
+    public CreatureDescriptor stats
+    {
+	get
+	{
+            return gameObject.GetComponent<CreatureDescriptor>();
+        }
+    }
 
     public void Place(PhysicTile target)
     {
@@ -35,5 +42,4 @@ public class Creature : MonoBehaviour
         transform.localPosition = tile.center;
         // Et remet la personnage dans la direction souhaitée
         transform.localEulerAngles = dir.ToEuler();
-    }
 }

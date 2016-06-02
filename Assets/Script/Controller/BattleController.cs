@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System;
+using System.Collections.Generic;
 
 public class BattleController : StateMachine
 {
@@ -8,6 +8,8 @@ public class BattleController : StateMachine
     public LevelData levelData; // Board généré avec le BoardGenerator et sauvegardé
     public Transform tileSelectionIndicator; // Marqueur de la case selectionnée
     public Point pos;
+
+    public List<Creature> creatures;
 
     public GameObject heroPrefab; // Quand il y aura des rois
     public Creature currentUnit; // Unité selectionnée en ce moment
