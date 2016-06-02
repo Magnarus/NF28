@@ -9,6 +9,13 @@ public class BattleController : StateMachine
     public Transform tileSelectionIndicator; // Marqueur de la case selectionnée
     public Point pos;
 
+    public GameObject heroPrefab; // Quand il y aura des rois
+    public Creature currentUnit; // Unité selectionnée en ce moment
+    public PhysicTile currentTile // Case actuelle
+    {
+        get { return board.tiles[pos]; }
+    }
+
     void Start()
     {
         ChangeState<InitBattleState>();
