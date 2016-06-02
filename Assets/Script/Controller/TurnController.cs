@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Descriptors;
 
 public class TurnOrderController : MonoBehaviour
 {
-    #region Constants
     const int turnActivation = 1000;
     const int turnCost = 500;
     const int moveCost = 300;
@@ -15,6 +15,8 @@ public class TurnOrderController : MonoBehaviour
     public const string TurnCompletedNotification = "TurnOrderController.turnCompleted";
     public const string RoundEndedNotification = "TurnOrderController.roundEnded";
 
+    public CreatureDescriptor cStats;
+
     #region Public
     public IEnumerator Round()
     {
@@ -23,52 +25,30 @@ public class TurnOrderController : MonoBehaviour
         {
             //this.PostNotification(RoundBeganNotification);
 
-            List<Creature> units = new List<Creature>(bc.units);
-            for (int i = 0; i < units.Count; ++i)
+            List<Creature> creaturesJ1 = new List<Creature>(bc.creaturesJ1);
+            List<Creature> creaturesJ2 = new List<Creature>(bc.creaturesJ2);
+
+
+            for(int i=0; i<creaturesJ1.Count; ++i)
             {
-              //  Stats s = units[i].GetComponent<Stats>();
-              //  s[StatTypes.CTR] += s[StatTypes.SPD];
+                cStats = creaturesJ1[i].GetComponent<CreatureDescriptor>();
+                if(cStats.HP.CurrentValue != 0)
+                {
+                    // TODO : Actions du J1
+                }
+
             }
 
-            units.Sort((a, b) => GetCounter(a).CompareTo(GetCounter(b)));
-
-            for (int i = units.Count - 1; i >= 0; --i)
+            for (int i = 0; i < creaturesJ2.Count; ++i)
             {
-                if (CanTakeTurn(units[i]))
+                cStats = creaturesJ2[i].GetComponent<CreatureDescriptor>();
+                if (cStats.HP.CurrentValue != 0)
                 {
-                  /*  bc.turn.Change(units[i]);
-                    yield return units[i];
-
-                    int cost = turnCost;
-                    if (bc.turn.hasUnitMoved)
-                        cost += moveCost;
-                    if (bc.turn.hasUnitActed)
-                        cost += actionCost;
-
-                    Stats s = units[i].GetComponent<Stats>();
-                    s.SetValue(StatTypes.CTR, s[StatTypes.CTR] - cost, false);
-
-                    units[i].PostNotification(TurnCompletedNotification);*/
+                    // TODO : Actions du J2
                 }
             }
 
-           // this.PostNotification(RoundEndedNotification);
         }
-    }
-    #endregion
-
-    #region Private
-    bool CanTakeTurn(Creature target)
-    {
-       // BaseException exc = new BaseException(GetCounter(target) >= turnActivation);
-      //  target.PostNotification(TurnCheckNotification, exc);
-       return false;
-    }
-
-    int GetCounter(Creature target)
-    {
-        //return target.GetComponent<Stats>()[StatTypes.CTR];
-        return 0;
     }
     #endregion
 }

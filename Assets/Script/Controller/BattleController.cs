@@ -9,7 +9,8 @@ public class BattleController : StateMachine
     public Transform tileSelectionIndicator; // Marqueur de la case selectionnée
     public Point pos;
 
-    public List<Creature> creatures;
+    public List<Creature> creaturesJ1; // Créatures du joueur 1
+    public List<Creature> creaturesJ2; // Créatures du joueur 2
 
     public GameObject heroPrefab; // Quand il y aura des rois
     public Creature currentUnit; // Unité selectionnée en ce moment
