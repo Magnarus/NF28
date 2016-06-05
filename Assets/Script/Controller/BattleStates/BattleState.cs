@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public abstract class BattleState : State
 {
@@ -9,6 +9,11 @@ public abstract class BattleState : State
     public LevelData levelData { get { return owner.levelData; } }
     public Transform tileSelectionIndicator { get { return owner.tileSelectionIndicator; } }
     public Point pos { get { return owner.pos; } set { owner.pos = value; } }
+
+    public AbilityMenuPanel abilityMenuPanel { get { return owner.abilityMenuPanelController; } }
+    public Turn turn { get { return owner.turn; } }
+    public List<Creature> creatureJ1 { get { return owner.creaturesJ1; } }
+    public List<Creature> creatureJ2 { get { return owner.creaturesJ2; } }
 
     // Référence vers le propriétaire de ce état de bataille 
     // Awake est trigger par Unity

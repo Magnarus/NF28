@@ -3,22 +3,42 @@ using System.Collections;
 
 public class SelectUnitState : BattleState
 {
+        int index = -1;
+        public string currentPlayer = "J1";
 
-    /** Le personnage se déplace **/
-    protected override void OnMove(object sender, InfoEventArgs<Point> e)
-    {
-        SelectTile(e.info + pos);
-    }
-
-    /** Le personnage tire **/
-    protected override void OnFire(object sender, InfoEventArgs<int> e)
-    {
-        Debug.Log("Fire in select unit " + e.info);
-        GameObject content = owner.currentTile.contentTile;
-        if (content != null)
+        public override void Enter()
         {
-            owner.currentUnit = content.GetComponent<Creature>();
-            owner.ChangeState<MoveTargetState>();
+            base.Enter();
+            StartCoroutine("ChangeCurrentUnit");
+        }
+
+        IEnumerator ChangeCurrentUnit()
+        {
+            switchPlayerIfNecessary();
+            
+            index = (index + 1) % creatureJ1.Count;
+            if(currentPlayer == "J1")
+            {
+                 turn.Change(creatureJ1[index]);
+            } else {
+               turn.Change(creatureJ2[index]);
+            }   
+            
+            yield return null;
+            owner.ChangeState<CommandSelectionState>();
+
+        }
+        
+    // Switch entre player avant mieux peut être
+    public void switchPlayerIfNecessary()
+    {
+        if(index + 1 == creatureJ1.Count)
+        {
+            currentPlayer = "J2";
+        } else
+        {
+            currentPlayer = "J1";
         }
     }
+
 }

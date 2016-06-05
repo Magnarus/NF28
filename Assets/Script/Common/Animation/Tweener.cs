@@ -15,7 +15,7 @@ public abstract class Tweener : MonoBehaviour
 	#region MonoBehaviour
 	protected virtual void Awake ()
 	{
-		easingControl = gameObject.AddComponent<EasingControl>();
+        easingControl = gameObject.AddComponent<EasingControl>();
 	}
 	
 	protected virtual void OnEnable ()

@@ -9,7 +9,7 @@ public class MoveTargetState : BattleState
     public override void Enter()
     {
         base.Enter();
-        Movement mover = owner.currentUnit.GetComponent<Movement>();
+        Movement mover = turn.currentCreature.GetComponent<Movement>();
         tiles = mover.GetTilesInRange(board);
         board.SelectedColor(tiles);
     }
@@ -28,7 +28,14 @@ public class MoveTargetState : BattleState
 
     protected override void OnFire(object sender, InfoEventArgs<int> e)
     {
-        if (tiles.Contains(owner.currentTile))
-            owner.ChangeState<InterruptUserInputState>();
+        if (e.info == 0)
+        {
+            if (tiles.Contains(owner.currentTile))
+                owner.ChangeState<InterruptUserInputState>();
+        }
+        else
+        {
+            owner.ChangeState<CommandSelectionState>();
+        }
     }
 }
