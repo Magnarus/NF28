@@ -31,11 +31,14 @@ public class MoveTargetState : BattleState
         if (e.info == 0)
         {
             if (tiles.Contains(owner.currentTile))
+            {
+                owner.turn.currentCreature.hasMoved = true;
                 owner.ChangeState<InterruptUserInputState>();
+            }
         }
         else
         {
-            owner.ChangeState<CommandSelectionState>();
+            owner.ChangeState<SelectUnitState>();
         }
     }
 }

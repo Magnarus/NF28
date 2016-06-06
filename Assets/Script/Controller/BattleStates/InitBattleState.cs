@@ -19,6 +19,7 @@ public class InitBattleState : BattleState
         SelectTile(p);
         SpawnTestUnits(creatureJ1, "first"); //Ajout d'une unité pour test
         SpawnTestUnits(creatureJ2, "last");
+        owner.teamSize = creatureJ1.Count;
         yield return null;
         owner.round = owner.gameObject.AddComponent<TurnOrderController>().Round();
         owner.ChangeState<SelectUnitState>(); 

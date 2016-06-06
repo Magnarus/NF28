@@ -23,37 +23,27 @@ public class AbilityMenuPanel : MonoBehaviour
     /** Au trigger du script on génère un pool de prefab pour les menus où MenuCount est le nombre de menu max**/
     void Awake()
     {
-        // PoolManager.PoolManagerData(MenuCount, entryPrefab);
-        GameObjectPoolController.AddEntry(EntryPoolKey, entryPrefab, MenuCount, int.MaxValue);
+        PoolManager.PoolManagerData(MenuCount, entryPrefab);
     }
 
     /** Récupère un des gameObject généré dans Awake pour créer un menu **/
     AbilityMenu Dequeue()
     {
-        /*GameObject p = PoolManager.GetObject();
-        AbilityMenu entry = p.GetComponent<AbilityMenu>();
-        entry.transform.SetParent(panel.transform, false);
-        entry.transform.localScale = Vector3.one;
-        entry.gameObject.SetActive(true);
-        entry.Reset();
-        return entry;*/
-
-        Poolable p = GameObjectPoolController.Dequeue(EntryPoolKey);
+        GameObject p = PoolManager.GetObject();
         AbilityMenu entry = p.GetComponent<AbilityMenu>();
         entry.transform.SetParent(panel.transform, false);
         entry.transform.localScale = Vector3.one;
         entry.gameObject.SetActive(true);
         entry.Reset();
         return entry;
+        
     }
 
     /** Libère l'objet pour une autre utilisation ultérieure (aka pas de création suppression excessive)**/
     void Enqueue(AbilityMenu entry)
     {
-        /*GameObject g = entry.gameObject;
-        PoolManager.DestroyObjectPool(g);*/
-        Poolable p = entry.GetComponent<Poolable>();
-        GameObjectPoolController.Enqueue(p);
+        GameObject g = entry.gameObject;
+        PoolManager.DestroyObjectPool(g);
     }
 
     /** On n'a plus besoin de données**/
@@ -73,7 +63,6 @@ public class AbilityMenuPanel : MonoBehaviour
 
     Tweener TogglePos(string pos)
     {
-        Debug.Log("pos ! " + pos);
         Tweener t = panel.SetPosition(pos, true);
         t.easingControl.duration = 0.5f;
         t.easingControl.equation = EasingEquations.EaseOutQuad;
@@ -124,13 +113,14 @@ public class AbilityMenuPanel : MonoBehaviour
     /** Méthode initiale pour donner le titre de la fenêtre et les options que ce menu contiendra **/
     public void Show(string title, List<string> options)
     {
-        
+        Debug.Log("Show appelé with title : " + title + " options.size : " + options.Count);
         canvas.SetActive(true);
         Clear();
         titleLabel.text = title;
         for (int i = 0; i < options.Count; ++i)
         {
             AbilityMenu entry = Dequeue();
+            
             entry.Title = options[i];
             menuEntries.Add(entry);
         }

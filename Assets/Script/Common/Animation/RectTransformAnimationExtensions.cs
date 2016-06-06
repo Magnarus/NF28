@@ -19,6 +19,7 @@ public static class RectTransformAnimationExtensions
         RectTransformAnchorPositionTweener tweener = t.gameObject.AddComponent<RectTransformAnchorPositionTweener>();
         tweener.startValue = t.anchoredPosition;
         tweener.endValue = position;
+        tweener.easingControl = t.gameObject.AddComponent<EasingControl>();
         tweener.easingControl.duration = duration;
         tweener.easingControl.equation = equation;
         tweener.easingControl.Play();

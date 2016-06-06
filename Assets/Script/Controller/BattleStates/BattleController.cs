@@ -10,6 +10,7 @@ public class BattleController : StateMachine
     public Transform tileSelectionIndicator; // Marqueur de la case selectionnée
     public Point pos;
 
+    public int teamSize; // Taille d'origine de l'armée
     public List<Creature> creaturesJ1; // Créatures du joueur 1
     public List<Creature> creaturesJ2; // Créatures du joueur 2
 
@@ -26,6 +27,7 @@ public class BattleController : StateMachine
 
     void Start()
     {
+        turn.owner = this;
         ChangeState<InitBattleState>();
     }
 }

@@ -11,9 +11,9 @@ public class InterruptUserInputState : BattleState
 
     IEnumerator Sequence()
     {
+        turn.hasUnitMoved = true;
         Movement m = turn.currentCreature.GetComponent<Movement>();
         yield return StartCoroutine(m.Traverse(owner.currentTile));
-        turn.hasUnitMoved = true;
-        owner.ChangeState<CommandSelectionState>();
+        owner.ChangeState<SelectUnitState>();
     }
 }
