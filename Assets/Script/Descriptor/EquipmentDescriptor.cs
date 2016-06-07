@@ -19,5 +19,14 @@ namespace Descriptors
         public GameValue<float> Armor;
         [SimpleGameValue]
         public GameValue<float> Luck;
+
+        public EquipmentDescriptor() : base()
+        {
+            HP = new GameValue<float>();
+            MP = new GameValue<float>();
+            Strength = new GameValue<float>();
+            Armor = new GameValue<float>();
+            Luck = new GameValue<float>();
+        }
     }
 }

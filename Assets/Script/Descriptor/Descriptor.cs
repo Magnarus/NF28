@@ -9,6 +9,11 @@ public abstract class Descriptor : MonoBehaviour, IEnumerable<KeyValuePair<strin
     [SimpleGameValue]
     public GameValue<string> Name;
 
+    public Descriptor()
+    {
+        Name = new GameValue<string>();
+    }
+
     //TODO generic enumerator type (duno how to do)
     public virtual IEnumerator<KeyValuePair<string, GameValue<float>>> GetEnumerator()
     {
