@@ -5,30 +5,15 @@ using System.Collections.Generic;
 public class PoolManager : MonoBehaviour {
 
 
-    static List<GameObject> list; // Liste de gameObject instantiés.
-
-    static PoolManager Instance
-    {
-        get
-        {
-            if (instance == null)
-                CreateSharedInstance();
-            return instance;
-        }
-    }
-    static PoolManager instance;
+    static List<GameObject> list = new List<GameObject>(); // Liste de gameObject instantiés.
 
     void Awake()
     {
-        if (instance != null && instance != this)
-            Destroy(this);
-        else
-            instance = this;
+
     }
 
     public static void PoolManagerData(int size, GameObject prefab)
     {
-        list = new List<GameObject>();
         for (int i = 0; i < size; i++)
         {
             GameObject obj = Instantiate(prefab) as GameObject;
@@ -65,10 +50,4 @@ public class PoolManager : MonoBehaviour {
         list = null;
     }
 
-    static void CreateSharedInstance()
-    {
-        GameObject obj = new GameObject("Pool Manager");
-        DontDestroyOnLoad(obj);
-        instance = obj.AddComponent<PoolManager>();
-    }
 }

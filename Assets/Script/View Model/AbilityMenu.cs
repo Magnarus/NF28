@@ -73,4 +73,21 @@ public class AbilityMenu : MonoBehaviour
         State = States.None;
     }
 
+    void OnTouch()
+    {
+        switch(Title)
+        {
+            case "Déplacement":
+                Debug.Log("dpt start ! ");
+                break;
+            case "Attaque":
+                Debug.Log("att start ! ");
+                break;
+            case "Attendre":
+                Debug.Log("wait start ! ");
+                break;
+        }
+    }
+    /** **/
+
 }

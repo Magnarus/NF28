@@ -23,7 +23,7 @@ public class AbilityMenuPanel : MonoBehaviour
     /** Au trigger du script on génère un pool de prefab pour les menus où MenuCount est le nombre de menu max**/
     void Awake()
     {
-        PoolManager.PoolManagerData(MenuCount, entryPrefab);
+        
     }
 
     /** Récupère un des gameObject généré dans Awake pour créer un menu **/
@@ -57,17 +57,18 @@ public class AbilityMenuPanel : MonoBehaviour
 
     void Start()
     {
-        panel.SetPosition(HideKey, false);
+        //panel.SetPosition(HideKey, false);
         canvas.SetActive(false);
+        PoolManager.PoolManagerData(MenuCount, entryPrefab);
     }
 
-    Tweener TogglePos(string pos)
+    /*Tweener TogglePos(string pos)
     {
         Tweener t = panel.SetPosition(pos, true);
         t.easingControl.duration = 0.5f;
         t.easingControl.equation = EasingEquations.EaseOutQuad;
         return t;
-    }
+    }*/
 
     /** Un seul élément en état selected à la fois **/
     bool SetSelection(int value)
@@ -113,8 +114,17 @@ public class AbilityMenuPanel : MonoBehaviour
     /** Méthode initiale pour donner le titre de la fenêtre et les options que ce menu contiendra **/
     public void Show(string title, List<string> options)
     {
-        Debug.Log("Show appelé with title : " + title + " options.size : " + options.Count);
         canvas.SetActive(true);
+
+        
+        RectTransform rectTransform = panel.GetComponent<RectTransform>();
+        //rectTransform.localPosition = new Vector(0, 20, 0);
+        rectTransform.anchoredPosition = new Vector2(0, 20);
+        Debug.Log(rectTransform.gameObject);
+
+
+        Debug.Log(rectTransform.anchoredPosition);
+
         Clear();
         titleLabel.text = title;
         for (int i = 0; i < options.Count; ++i)
@@ -125,7 +135,7 @@ public class AbilityMenuPanel : MonoBehaviour
             menuEntries.Add(entry);
         }
         SetSelection(0);
-        TogglePos(ShowKey);
+        //TogglePos(ShowKey);
     }
 
 
@@ -143,8 +153,8 @@ public class AbilityMenuPanel : MonoBehaviour
 
     public void Hide()
     {
-        Tweener t = TogglePos(HideKey);
-        t.easingControl.completedEvent += delegate (object sender, System.EventArgs e)
+        //Tweener t = TogglePos(HideKey);
+        //t.easingControl.completedEvent += delegate (object sender, System.EventArgs e)
         {
             if (panel.CurrentPosition == panel[HideKey])
             {
