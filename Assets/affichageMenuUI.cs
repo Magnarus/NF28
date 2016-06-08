@@ -3,37 +3,25 @@ using System.Collections;
 
 public class affichageMenuUI : MonoBehaviour {
 
+    GameObject left;
+    GameObject right;
+
 
     // Use this for initialization
     void Start()
     {
-        //menu State
-        GameObject.Find("Right").SetActive(false);
-
-
-        //menu action
-        GameObject.Find("Left").SetActive(false);
-
+        left = GameObject.Find("Left");
+        right = GameObject.Find("Right");
+        //this.gameObject.SetActive(false);
+        left.SetActive(false);
+        right.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //var myObject = GameObject.Find("BattleController").;
-        if (!myObject) return;
-        else
-        {
-
-            //menu State
-            GameObject.Find("Right").SetActive(true);
-
-
-            //menu action
-            GameObject.Find("Left").SetActive(true);
-
-
-        }
-
-
+        var myObject = GameObject.Find("BattleController").GetComponent<BattleController>().currentTile.contentTile;
+        left.SetActive(myObject);
+        right.SetActive(myObject);
     }
 }
