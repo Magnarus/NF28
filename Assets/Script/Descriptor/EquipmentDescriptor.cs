@@ -9,24 +9,24 @@ namespace Descriptors
     public class EquipmentDescriptor : Descriptor
     {
         [SimpleGameValue]
-        public GameValue<float> HP;
+        public FloatGameValue HP;
         [SimpleGameValue]
-        public GameValue<float> MP;
+        public FloatGameValue MP;
 
         [SimpleGameValue]
-        public GameValue<float> Strength;
+        public FloatGameValue Strength;
         [SimpleGameValue]
-        public GameValue<float> Armor;
+        public FloatGameValue Armor;
         [SimpleGameValue]
-        public GameValue<float> Luck;
+        public FloatGameValue Luck;
 
         public EquipmentDescriptor() : base()
         {
-            HP = new GameValue<float>();
-            MP = new GameValue<float>();
-            Strength = new GameValue<float>();
-            Armor = new GameValue<float>();
-            Luck = new GameValue<float>();
+            HP = new FloatGameValue();
+            MP = new FloatGameValue();
+            Strength = new FloatGameValue();
+            Armor = new FloatGameValue();
+            Luck = new FloatGameValue();
         }
     }
 }

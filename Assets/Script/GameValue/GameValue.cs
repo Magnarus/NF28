@@ -115,5 +115,7 @@ namespace Game
         }
     }
 
-
+    [Serializable] public class FloatGameValue : GameValue<float> { }
+    [Serializable] public class IntGameValue : GameValue<int> { }
+    [Serializable] public class StringGameValue : GameValue<string> { }
 }

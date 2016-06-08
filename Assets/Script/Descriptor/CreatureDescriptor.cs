@@ -12,28 +12,28 @@ namespace Descriptors
     public class CreatureDescriptor : Descriptor
     {
         [SimpleGameValue]
-        public GameValue<int> Level;
+        public IntGameValue Level;
 
         //[CompositeGameValue]
-        public GameValue<float> HP;
+        public FloatGameValue HP;
         //[CompositeGameValue] - exemple
-        public GameValue<float> MP;
+        public FloatGameValue MP;
 
         [SimpleGameValue]
-        public GameValue<float> Strength;
+        public FloatGameValue Strength;
         [SimpleGameValue]
-        public GameValue<float> Armor;
+        public FloatGameValue Armor;
         [SimpleGameValue]
-        public GameValue<float> Luck;
+        public FloatGameValue Luck;
 
         public CreatureDescriptor() : base()
         {
-            Level = new GameValue<int>();
-            HP = new GameValue<float>();
-            MP = new GameValue<float>();
-            Strength = new GameValue<float>();
-            Armor = new GameValue<float>();
-            Luck = new GameValue<float>();
+            Level = new IntGameValue();
+            HP = new FloatGameValue();
+            MP = new FloatGameValue();
+            Strength = new FloatGameValue();
+            Armor = new FloatGameValue();
+            Luck = new FloatGameValue();
         }
     }
 }

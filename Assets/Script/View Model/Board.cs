@@ -92,13 +92,8 @@ public class Board : MonoBehaviour
                 if (addTile(t, next))
                 {
                     if (type == "foot") { // On prend en considération les problèmes de terrains
-                        switch (t.type)
-                        {
-                            case "water": next.distance = t.distance + 3; break;
-                            case "boue": next.distance = t.distance + 2; break;
-                            default: next.distance = t.distance + 1; break;
-                        }
-                    } else // on ignore les problèmes de terrain
+                        next.distance = t.distance + t.descriptor.WalkPenality.value;
+                    } else //TODO: appliquer les modifier pour cheval/volant (volant: difficile de voler par temps froid, portance toussa et cheval + marai = fossile)
                     {
                         next.distance = t.distance + 1; break;
                     }  

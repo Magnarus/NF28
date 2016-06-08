@@ -1,15 +1,33 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(TerrainDescriptor))]
 public class PhysicTile : MonoBehaviour {
 
     public const float stepHeight = 0.25f; // Hauteur d'un niveau d'écart
     public Point pos; // Positions x et y de la case sur la map
     public int height; // Hauteur du cube
-    public string type; // Eau / Boue / Standard
 
     public GameObject contentTile; // Personnage de la case / Autre si on ajoute des coffres
-
+    //Helpers avant passage au descriptor
+    public TerrainDescriptor descriptor
+    {
+        get
+        {
+                return this.gameObject.GetComponent<TerrainDescriptor>();
+        }
+    }
+    public string type
+    {
+        get
+        {
+            return this.gameObject.GetComponent<TerrainDescriptor>().Type.value;
+        }
+        set
+        {
+            this.gameObject.GetComponent<TerrainDescriptor>().Type.value = value;
+        }
+    }
 
     [HideInInspector]
     public PhysicTile prev; // Case sur laquelle on était précédemment avant celle ci

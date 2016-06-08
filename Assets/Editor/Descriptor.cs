@@ -15,13 +15,14 @@ namespace Descriptors
         public override void OnInspectorGUI()
         {
 
-            base.OnInspectorGUI();
+            if (base.GetType() != typeof(Component))
+                base.OnInspectorGUI();
 
             Type derived = target.GetType();
 
             foreach(var gv in 
                 derived.GetFields()
-                .Where(x => x.FieldType.GetGenericTypeDefinition() == typeof(GameValue<>)))
+                .Where(x => (x.FieldType.IsGenericType ? x.FieldType : x.FieldType.BaseType.IsGenericType ? x.FieldType.BaseType : typeof(List<string>)).GetGenericTypeDefinition() == typeof(GameValue<>)))
             {
                 object fieldAccess = gv.GetValue(target);
                 if (fieldAccess == null)
@@ -32,7 +33,7 @@ namespace Descriptors
                 
                 var MaxValueProperty = fieldAccess.GetType().GetProperty("BaseValue");
                 var CurrentValueProperty = fieldAccess.GetType().GetProperty("CurrentValue");
-                Type gvType = gv.FieldType.GetGenericArguments()[0];  
+                Type gvType = (gv.FieldType.IsGenericType ? gv.FieldType : gv.FieldType.BaseType).GetGenericArguments()[0];  
 
                 var MaxValue = MaxValueProperty.GetValue(fieldAccess, null);
                 var CurrentValue = CurrentValueProperty.GetValue(fieldAccess, null);

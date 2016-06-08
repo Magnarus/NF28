@@ -4,26 +4,27 @@ using System;
 using Descriptors;
 using Game;
 
-public class PeriodicTriggerEffect : MagicEffect {
+public class PeriodicOnHitEffect : MagicEffect {
     public MagicEffect effect;
+    //TODO: magic effect descriptor
     public float chance = 1;
 
-
     System.Random rng = new System.Random();
+
     public override bool Apply(MagicEffectInstance i, GameObject to, GameObject by)
     {
         //immune
         if (!base.Apply(i, to, by))
             return false;
 
-        //Dot only works on enchentable objects
-        if (!to.GetComponent<MagicEffectContainer>())
+        //Does only works on enchantable objects
+        if (!to.GetComponent<MagicEffectContainer>() || !by.GetComponent<Equipment>())
             return false;
 
         //TODO game events
-        /*Game.Events.OnTurnStart +=*/ i["onTurnStart"] =  (Action)(() => {
-            if (rng.NextDouble() <= chance)
-                to.GetComponent<MagicEffectContainer>().applyEffect(effect, this.gameObject);
+        /*by.GetComponent<Equipment>().OnHit +=*/ i["onHit"] =  (Action<GameObject>)((x) => {
+            if (x.GetComponent<MagicEffectContainer>() && rng.NextDouble() <= chance)
+                x.GetComponent<MagicEffectContainer>().applyEffect(effect, this.gameObject);
         });
         return true;
     }
@@ -32,7 +33,7 @@ public class PeriodicTriggerEffect : MagicEffect {
         if (!base.Dispell(i, from, by))
             return false;
 
-        //Game.Events.OnTurnStart -= (Action)i["onTurnStart"];
+        //by.GetComponent<Equipment>().OnHit -= (Action)i["onHit"];
         return true;
     }
 }
