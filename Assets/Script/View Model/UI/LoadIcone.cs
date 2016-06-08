@@ -19,7 +19,7 @@ public class LoadIcone : MonoBehaviour {
     public void refreshIcone()
     {
         icone= GameObject.Find("Guerrier").GetComponent<Image>();
-        var myObject = GameObject.Find("BattleController").GetComponent<BattleController>().currentUnit;
+        var myObject = GameObject.Find("BattleController").GetComponent<BattleController>().currentTile.contentTile;
         if (!myObject) return;
         icone.sprite = myObject.GetComponent<Creature>().Icone;
 

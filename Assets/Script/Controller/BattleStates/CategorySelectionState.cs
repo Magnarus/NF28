@@ -13,17 +13,10 @@ public class CategorySelectionState : BaseAbilityMenuState
             menuOptions.Add("Attack");
         }
 
-        abilityMenuPanel.Show(menuTitle, menuOptions);
     }
 
     protected override void Confirm()
     {
-        switch (abilityMenuPanel.selection)
-        {
-            case 0:
-                Attack();
-                break;
-        }
     }
 
     protected override void Cancel()
@@ -39,8 +32,5 @@ public class CategorySelectionState : BaseAbilityMenuState
 
     void SetCategory(int index)
     {
-    /*        ActionSelectionState.category = index;
-        owner.ChangeState<ActionSelectionState>();*/
-        // Quand y'aura de la magie toussa
     }
 }

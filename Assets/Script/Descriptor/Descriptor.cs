@@ -6,8 +6,7 @@ using System.Linq;
 using System;
 
 public abstract class Descriptor : MonoBehaviour, 
-    IEnumerable<KeyValuePair<string, FloatGameValue>>,
-    ISerializationCallbackReceiver
+    IEnumerable<KeyValuePair<string, FloatGameValue>>
 {
     [SimpleGameValue]
     [SerializeField]
@@ -37,19 +36,6 @@ public abstract class Descriptor : MonoBehaviour,
             .ToDictionary(
             x => x.Name,
             x => x.GetValue(this) as GameValue<T>);
-    }
-
-    public void OnAfterDeserialize()
-    {
-        foreach (var item in this)
-            Debug.Log(Name + "." + item.Key + ": " + item.Value.value);
-        foreach (var item in this.AsDictionary(default(int)))
-            Debug.Log(Name + "." + item.Key + ": " + item.Value.value);
-    }
-
-    public void OnBeforeSerialize()
-    {
-        
     }
 
 

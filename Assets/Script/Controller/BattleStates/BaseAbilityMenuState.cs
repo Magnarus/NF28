@@ -17,7 +17,6 @@ public abstract class BaseAbilityMenuState : BattleState
     public override void Exit()
     {
         base.Exit();
-        //abilityMenuPanel.Hide();
     }
 
     protected override void OnFire(object sender, InfoEventArgs<int> e)
@@ -33,10 +32,7 @@ public abstract class BaseAbilityMenuState : BattleState
         if (e.info.x > 0 || e.info.y < 0)
         {
             Debug.Log("On move detected " + e.info.x);
-            abilityMenuPanel.Next();
         }
-        else
-            abilityMenuPanel.Previous();
     }
 
     protected abstract void LoadMenu();

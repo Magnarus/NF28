@@ -15,27 +15,10 @@ public class CommandSelectionState : BaseAbilityMenuState
         s.Add("Déplacement");
         s.Add("Attaque");
         s.Add("Attendre");
-
-        abilityMenuPanel.Show("Commandes", s);
-        abilityMenuPanel.SetLocked(0, owner.turn.hasUnitMoved); // Lock le bouton de déplacement si on a déjà bougé
-        abilityMenuPanel.SetLocked(1, owner.turn.hasUnitActed); // Lock le bouton d'action si on a déjà effectué une action
     }
 
     protected override void Confirm()
     {
-        Debug.Log("Confirm appelé " + abilityMenuPanel.selection);
-        switch (abilityMenuPanel.selection)
-        {
-            case 0: // Move
-                owner.ChangeState<MoveTargetState>();
-                break;
-            case 1: // Action
-                owner.ChangeState<CategorySelectionState>();
-                break;
-            case 2: // Wait
-                owner.ChangeState<SelectUnitState>();
-                break;
-        }
     }
 
     /** Si l'unité a déjà bougé et qu'on annule, retour case départ **/
@@ -44,7 +27,6 @@ public class CommandSelectionState : BaseAbilityMenuState
         if (turn.hasUnitMoved)
         {
             turn.UndoMove();
-            abilityMenuPanel.SetLocked(0, false);
             //On se déplace à la position
             Point p = owner.currentTile.pos;
             SelectTile(p);

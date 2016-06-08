@@ -16,15 +16,12 @@ public class AttackPanel : SidePanel
 
     void Start()
     {
-        ShowStats();
-
-
     }
     
 	public void ShowStats ()
 	{
 
-		var myObject= GameObject.Find("BattleController").GetComponent<BattleController>().currentUnit;
+		var myObject= GameObject.Find("BattleController").GetComponent<BattleController>().currentTile.contentTile;
         if (!myObject) return;
         nameLabel.text = myObject.GetComponent<CreatureDescriptor>().Name.value;
 

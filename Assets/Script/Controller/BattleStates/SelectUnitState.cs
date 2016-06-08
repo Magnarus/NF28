@@ -31,7 +31,7 @@ public class SelectUnitState : BattleState
         {
             index++;
             owner.turn.Change(c);
-            owner.ChangeState<CommandSelectionState>();
+            owner.ChangeState<MoveTargetState>();
         }
     }
 

@@ -14,7 +14,6 @@ public class BattleController : StateMachine
     public List<Creature> creaturesJ1; // Créatures du joueur 1
     public List<Creature> creaturesJ2; // Créatures du joueur 2
 
-    public AbilityMenuPanel abilityMenuPanelController;
     public Turn turn = new Turn();
 
     public IEnumerator round;
