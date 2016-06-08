@@ -32,8 +32,8 @@ public class Equipment : MonoBehaviour {
         i["statsModifiers"] = descriptor.Join(toMod,
             x => x.Key,
             y => y.Key,
-            (x, y) => x.Value.ApplyEffect(z => z + y.Value.value)
-        );
+            (x, y) => y.Value.ApplyEffect(z => z + x.Value.value)
+        ).ToList();
 
         //i["Enchant"] = effectList.applyEffect(Enchantment, this.gameObject);
     }
