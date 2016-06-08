@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class affichageMenuUI : MonoBehaviour {
+public class affichageMenuUI : MonoBehaviour
+{
 
     GameObject left;
     GameObject right;
-
-
     // Use this for initialization
     void Start()
     {
