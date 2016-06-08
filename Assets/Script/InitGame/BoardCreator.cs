@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic; // = Dictionnary
 using UnityEditor; // = Asset database
@@ -210,3 +211,4 @@ public class BoardCreator : MonoBehaviour {
     }
 
 }
+#endif
