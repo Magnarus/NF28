@@ -34,7 +34,7 @@ public class AbilityMenuPanel : MonoBehaviour
         entry.transform.SetParent(panel.transform, false);
         entry.transform.localScale = Vector3.one;
         entry.gameObject.SetActive(true);
-        entry.Reset();
+      //  entry.Reset();
         return entry;
         
     }
@@ -120,17 +120,11 @@ public class AbilityMenuPanel : MonoBehaviour
         RectTransform rectTransform = panel.GetComponent<RectTransform>();
         //rectTransform.localPosition = new Vector(0, 20, 0);
         rectTransform.anchoredPosition = new Vector2(0, 20);
-        Debug.Log(rectTransform.gameObject);
-
-
-        Debug.Log(rectTransform.anchoredPosition);
-
         Clear();
         titleLabel.text = title;
         for (int i = 0; i < options.Count; ++i)
         {
             AbilityMenu entry = Dequeue();
-            
             entry.Title = options[i];
             menuEntries.Add(entry);
         }

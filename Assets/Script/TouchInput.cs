@@ -8,20 +8,43 @@ public class TouchInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        foreach(Touch touch in Input.touches)
-        {
-            Debug.Log("one touch !");
-            Ray ray = GetComponent<Camera>().ScreenPointToRay(touch.position);
-            RaycastHit hit;
-
-            if(Physics.Raycast(ray,out hit, touchInputMask))
+    #if UNITY_EDITOR
+            if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))
             {
-                GameObject recipient = hit.transform.gameObject;
-                if(touch.phase == TouchPhase.Ended)
+                Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                Debug.Log(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, touchInputMask))
                 {
-                    recipient.SendMessage("OnTouch", hit.point, SendMessageOptions.DontRequireReceiver);
+                    GameObject recipient = hit.transform.gameObject;
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        Debug.Log("MouseButtonUp");
+                        recipient.SendMessage("OnTouch", hit.point, SendMessageOptions.DontRequireReceiver);
+                    }
+                    if(Input.GetMouseButtonDown(0)) {
+                        Debug.Log("MouseButtonDown");
+                        recipient.SendMessage("OnTouch", hit.point, SendMessageOptions.DontRequireReceiver);
+                    }
+
                 }
             }
-        }
+
+    /*   foreach(Touch touch in Input.touches)
+       {
+           Debug.Log("one touch !");
+           Ray ray = GetComponent<Camera>().ScreenPointToRay(touch.position);
+           RaycastHit hit;
+
+           if(Physics.Raycast(ray,out hit, touchInputMask))
+           {
+               GameObject recipient = hit.transform.gameObject;
+               if(touch.phase == TouchPhase.Ended)
+               {
+                   recipient.SendMessage("OnTouch", hit.point, SendMessageOptions.DontRequireReceiver);
+               }
+           }
+       }*/
+       #endif
     }
 }

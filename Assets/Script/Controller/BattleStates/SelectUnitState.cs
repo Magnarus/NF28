@@ -45,7 +45,5 @@ public class SelectUnitState : BattleState
             index = 0;
             turn.Clear();
         } 
-        Debug.Log("turn is over : " + turn.isTurnOver());
-        Debug.Log("Current player is : " + currentPlayer);
     }
 }

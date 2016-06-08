@@ -9,6 +9,8 @@ public class PhysicTile : MonoBehaviour {
     public int height; // Hauteur du cube
 
     public GameObject contentTile; // Personnage de la case / Autre si on ajoute des coffres
+    public GameObject highlightTile;
+    public GameObject instanceHightlighTile;
     //Helpers avant passage au descriptor
     public TerrainDescriptor descriptor
     {

@@ -45,6 +45,12 @@ public class Board : MonoBehaviour
 
             PhysicTile t = instance.GetComponent<PhysicTile>();
             t.Load(data.tiles[i].pos);
+            GameObject newHightlight = Instantiate(t.highlightTile) as GameObject;
+            newHightlight.SetActive(false);
+            newHightlight.transform.localPosition = new Vector3(t.pos.x, (t.height * PhysicTile.stepHeight / 2f) +0.31f, t.pos.y);
+
+            t.instanceHightlighTile = newHightlight;
+
             tiles.Add(t.pos, t);
         }
     }
@@ -141,7 +147,8 @@ public class Board : MonoBehaviour
     public void SelectedColor(List<PhysicTile> tiles)
     {
         for (int i = tiles.Count - 1; i >= 0; --i)
-            tiles[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
+            //tiles[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
+            tiles[i].instanceHightlighTile.SetActive(true);
     }
 
     /**
@@ -158,7 +165,8 @@ public class Board : MonoBehaviour
                 case "boue": c = tilePrefabBoue.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
                 default: c = tilePrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
             }
-            tiles[i].GetComponent<Renderer>().material.SetColor("_Color", c);
+            // tiles[i].GetComponent<Renderer>().material.SetColor("_Color", c);
+            tiles[i].instanceHightlighTile.SetActive(false);
         }
     }
 }

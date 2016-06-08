@@ -14,9 +14,9 @@ public class AbilityMenu : MonoBehaviour
     }
 
     [SerializeField]   Image bullet; // Image de la case 
-    [SerializeField]   Sprite normalSprite; // Dans son état normal
-    [SerializeField]   Sprite selectedSprite; // Sélectionnée
-    [SerializeField]   Sprite disabledSprite; // Indisponible
+                                     /* [SerializeField]   Sprite normalSprite; // Dans son état normal
+                                      [SerializeField]   Sprite selectedSprite; // Sélectionnée
+                                      [SerializeField]   Sprite disabledSprite; // Indisponible*/
     [SerializeField]   Text label; // Texte
     Outline outline;
 
@@ -30,7 +30,7 @@ public class AbilityMenu : MonoBehaviour
     }
 
     /** Modifie l'affichage d'une entrée du menu des capacités en fonction de l'état (Sélectionnée/Non Sélectionnée/Désactivée/) **/
-    States State
+    /*States State
     {
         get { return state; }
         set
@@ -59,7 +59,7 @@ public class AbilityMenu : MonoBehaviour
             }
         }
     }
-    States state;
+    States state;*/
 
     /** Déclenché par Unity **/
     void Awake()
@@ -68,12 +68,12 @@ public class AbilityMenu : MonoBehaviour
     }
 
     /** Réinitialise l'état **/
-    public void Reset()
+    /*public void Reset()
     {
         State = States.None;
     }
-
-    void OnTouch()
+    */
+    public void OnTouch()
     {
         switch(Title)
         {
@@ -86,6 +86,7 @@ public class AbilityMenu : MonoBehaviour
             case "Attendre":
                 Debug.Log("wait start ! ");
                 break;
+            default: Debug.Log("Why not"); break;
         }
     }
     /** **/
