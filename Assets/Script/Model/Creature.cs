@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Descriptors;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CreatureDescriptor))]
 
@@ -12,6 +13,7 @@ public class Creature : MonoBehaviour
     public PhysicTile tile { get; protected set; }
     public Directions dir;
     public string type = "foot";
+    public Sprite Icone;
 
     public void Place(PhysicTile target)
     {

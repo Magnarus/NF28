@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Descriptors;
 
+
 public class AttackPanel : SidePanel 
 {
     //différenciation groupe du hero ?
@@ -22,11 +23,14 @@ public class AttackPanel : SidePanel
     
 	public void ShowStats ()
 	{
-		
-            nameLabel.text =gameObject.GetComponent<CreatureDescriptor>().Name.value;
-			hpLabel.text= string.Format("HP : {0}/{1}", gameObject.GetComponent<CreatureDescriptor>().HP.CurrentValue,gameObject.GetComponent<CreatureDescriptor>().HP);
-			mpLabel.text = string.Format("Mana : {0}/{1}", gameObject.GetComponent<CreatureDescriptor>().Mana.CurrentValue,gameObject.GetComponent<CreatureDescriptor>().Mana);
-			lvLabel.text = string.Format("LV. {0}", gameObject.GetComponent<CreatureDescriptor>().Level);
+
+		var myObject= GameObject.Find("BattleController").GetComponent<BattleController>().currentUnit;
+        if (!myObject) return;
+        nameLabel.text = myObject.GetComponent<CreatureDescriptor>().Name.value;
+
+        hpLabel.text = string.Format("HP : {0}/{1}", myObject.GetComponent<CreatureDescriptor>().HP.CurrentValue, myObject.GetComponent<CreatureDescriptor>().HP.value);
+        mpLabel.text = string.Format("Mana : {0}/{1}", myObject.GetComponent<CreatureDescriptor>().MP.CurrentValue, myObject.GetComponent<CreatureDescriptor>().MP.value);
+        lvLabel.text = string.Format("LV. {0}", myObject.GetComponent<CreatureDescriptor>().Level.value);
 
       
 	}
@@ -36,4 +40,6 @@ public class AttackPanel : SidePanel
     }
 
 
+
+    public string my { get; set; }
 }

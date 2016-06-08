@@ -6,14 +6,23 @@ using Descriptors;
 public class LoadIcone : MonoBehaviour {
 
 	// Use this for initialization
-    [SerializeField] Image icone;
+    private Image icone;
+
+
+    void Update()
+    {
+        refreshIcone();
+
+
+    }
 
     public void refreshIcone()
     {
-        
-            //blueBacker.SetActive(isAlly);
-            //redBacker.SetActive(!isAlly);
-            icone = gameObject.GetComponent<CreatureDescriptor>().icone;
+        icone= GameObject.Find("Guerrier").GetComponent<Image>();
+        var myObject = GameObject.Find("BattleController").GetComponent<BattleController>().currentUnit;
+        if (!myObject) return;
+        icone.sprite = myObject.GetComponent<Creature>().Icone;
+
           
         
     }
