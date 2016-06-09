@@ -19,8 +19,8 @@ public class InitBattleState : BattleState
         board.LoadBoardFromData(levelData);
         Point p = new Point((int)levelData.tiles[0].pos.x, (int)levelData.tiles[0].pos.z);
         SelectTile(p);
-        SpawnTestUnitsV2(creatureJ1, "first"); //Ajout d'une unité pour test
-        //SpawnTestUnitsV2(creatureJ2, "last");
+        SpawnTestUnits(creatureJ1, "first"); //Ajout d'une unité pour test
+        SpawnTestUnits(creatureJ2, "last");
         owner.teamSize = creatureJ1.Count;
         yield return null;
         owner.ChangeState<SelectUnitState>(); 
