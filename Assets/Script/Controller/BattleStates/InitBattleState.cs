@@ -19,8 +19,8 @@ public class InitBattleState : BattleState
         board.LoadBoardFromData(levelData);
         Point p = new Point((int)levelData.tiles[0].pos.x, (int)levelData.tiles[0].pos.z);
         SelectTile(p);
-        SpawnTestUnits(creatureJ1, "first"); //Ajout d'une unité pour test
-        SpawnTestUnits(creatureJ2, "last");
+        SpawnTestUnitsV2(creatureJ1, "first"); //Ajout d'une unité pour test
+        //SpawnTestUnitsV2(creatureJ2, "last");
         owner.teamSize = creatureJ1.Count;
         yield return null;
         owner.ChangeState<SelectUnitState>(); 
@@ -42,10 +42,37 @@ public class InitBattleState : BattleState
             } 
             else
             {
-                p = new Point((int)levelData.tiles[levelData.tiles.Count-1].pos.x, (int)levelData.tiles[i].pos.z);
+                p = new Point((int)levelData.tiles[levelData.tiles.Count-1].pos.x+1, (int)levelData.tiles[i].pos.z);
 
             }    
             
+            Creature unit = instance.GetComponent<Creature>();
+            LoadDefaultStats(unit.gameObject, unit.classCreature);
+            unit.Place(board.tiles[p]);
+            unit.Match();
+            creatureJoueur.Add(unit);
+
+        }
+    }
+
+    void SpawnTestUnitsV2(List<Creature> creatureJoueur, string position)
+    {
+        Point p;
+        for (int i = 0; i < 1; ++i)
+        {
+            GameObject instance = getObject(teamComp[i]);
+
+            if (position == "first")
+            {
+                p = new Point((int)levelData.tiles[i].pos.x, (int)levelData.tiles[i].pos.z);
+
+            }
+            else
+            {
+                p = new Point((int)levelData.tiles[levelData.tiles.Count - 1].pos.x, (int)levelData.tiles[i].pos.z);
+
+            }
+
             Creature unit = instance.GetComponent<Creature>();
             LoadDefaultStats(unit.gameObject, unit.classCreature);
             unit.Place(board.tiles[p]);

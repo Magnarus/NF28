@@ -48,12 +48,16 @@ public class Board : MonoBehaviour
 
             PhysicTile t = instance.GetComponent<PhysicTile>();
             t.Load(data.tiles[i].pos);
-            GameObject newHightlight = Instantiate(t.highlightTile) as GameObject;
-            newHightlight.SetActive(false);
-            newHightlight.transform.localPosition = new Vector3(t.pos.x, (t.height * PhysicTile.stepHeight / 2f) +0.31f, t.pos.y);
 
-            t.instanceHightlighTile = newHightlight;
-
+            foreach (Transform child in t.gameObject.transform)
+            { 
+                if (child.name == "Highlight")
+                {
+                    t.instanceHightlighTile = child.gameObject;
+                    break;
+                }
+            }
+            t.instanceHightlighTile.SetActive(false);
             tiles.Add(t.pos, t);
         }
     }
