@@ -91,10 +91,11 @@ public class Turn
         CreatureDescriptor statsEnnemy = currentEnnemy.GetComponent<CreatureDescriptor>();
         Animator anim = currentCreature.GetComponent<Animator>();
 
-        if (currentCreature.type == "warrior" || currentCreature.type == "hero")
+        if (currentCreature.classCreature == "warrior" || currentCreature.classCreature == "hero")
         {
+            Debug.Log("Tititoto");
             anim.SetTrigger("AttackM");
-        } else if(currentCreature.type == "archer")
+        } else if(currentCreature.classCreature == "archer")
         {
             anim.SetTrigger("AttackR");
         }
