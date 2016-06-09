@@ -58,6 +58,7 @@ public class Turn
                 return false;
             } 
         }
+        Debug.Log("Finito");
         return turnCreature.Count == owner.teamSize;
     }
 

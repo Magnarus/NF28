@@ -29,6 +29,7 @@ public class AttackPanel : SidePanel
         mpLabel.text = string.Format("Mana : {0}/{1}", myObject.GetComponent<CreatureDescriptor>().MP.CurrentValue, myObject.GetComponent<CreatureDescriptor>().MP.value);
         lvLabel.text = string.Format("LV. {0}", myObject.GetComponent<CreatureDescriptor>().Level.value);
 	}
+
     void Update()
     {
         ShowStats();

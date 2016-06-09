@@ -107,6 +107,7 @@ public class Board : MonoBehaviour
                 if (addTile(t, next))
                 {
                     if (type == "foot") { // On prend en considération les problèmes de terrains
+                        Debug.Log(t.descriptor.WalkPenality.value);
                         next.distance = t.distance + t.descriptor.WalkPenality.value;
                     }
                     else 

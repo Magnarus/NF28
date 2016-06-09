@@ -37,7 +37,9 @@ public class CategorySelectionState : BattleState
     void OnClick(string buttonName) {
         switch(buttonName) {
             case "Moove": owner.ChangeState<MoveTargetState>(); break;
-            case "Stay": turn.currentCreature.hasFinished = true; owner.ChangeState<SelectUnitState>(); break;
+            case "Stay":    
+                    turn.currentCreature.hasFinished = true;
+                    owner.ChangeState<SelectUnitState>(); break;
             case "Attack":
                 turn.ability = turn.currentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
                 owner.ChangeState<AttackState>();

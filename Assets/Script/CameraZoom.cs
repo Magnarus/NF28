@@ -25,7 +25,7 @@ public class CameraZoom : MonoBehaviour {
             if (e.info == 2) finalRatio = 1 - ratio;
             else finalRatio = 1 + ratio;
             GetComponent<Camera>().orthographicSize *= finalRatio;
-            Debug.Log(GetComponent<Camera>().orthographicSize);
+            //Debug.Log(GetComponent<Camera>().orthographicSize);
         }
     }
 
