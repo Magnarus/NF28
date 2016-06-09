@@ -35,7 +35,7 @@ public class VictoryConditionAgent : MonoBehaviour {
     private bool heroDead() {
         
         foreach(Creature c in listJ1) {
-            if(c.type == "hero") {
+            if(c.classCreature == "hero") {
                 if(c.GetComponent<CreatureDescriptor>().HP.value == 0) {
                     return true;
                 } else {
@@ -46,7 +46,7 @@ public class VictoryConditionAgent : MonoBehaviour {
 
         foreach (Creature c in listJ2)
         {
-            if (c.type == "hero")
+            if (c.classCreature == "hero")
             {
                 if (c.GetComponent<CreatureDescriptor>().HP.value == 0)
                 {
