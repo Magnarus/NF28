@@ -14,7 +14,11 @@ public class Creature : MonoBehaviour
     public string type = "foot";
     public string classCreature = "warrior";
     public Sprite Icone;
+
+    public bool hasFinished = false;
     public bool hasMoved = false;
+
+
     public CreatureDescriptor stats
     {
 	get

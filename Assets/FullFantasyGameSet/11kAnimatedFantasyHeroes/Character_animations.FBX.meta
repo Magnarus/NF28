@@ -298,7 +298,99 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events: []
-      transformMask: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: CATRigLLegPlatform
+        weight: 1
+      - path: CATRigPelvis
+        weight: 1
+      - path: CATRigPelvis/CATRigLLeg1
+        weight: 1
+      - path: CATRigPelvis/CATRigLLeg1/CATRigLLeg2
+        weight: 1
+      - path: CATRigPelvis/CATRigLLeg1/CATRigLLeg2/CATRigLLegAnkle
+        weight: 1
+      - path: CATRigPelvis/CATRigLLeg1/CATRigLLeg2/CATRigLLegAnkle/CATRigLLegDigit11
+        weight: 1
+      - path: CATRigPelvis/CATRigLLeg1/CATRigLLeg2/CATRigLLegAnkle/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: CATRigPelvis/CATRigRLeg1
+        weight: 1
+      - path: CATRigPelvis/CATRigRLeg1/CATRigRLeg2
+        weight: 1
+      - path: CATRigPelvis/CATRigRLeg1/CATRigRLeg2/CATRigRLegAnkle
+        weight: 1
+      - path: CATRigPelvis/CATRigRLeg1/CATRigRLeg2/CATRigRLegAnkle/CATRigRLegDigit11
+        weight: 1
+      - path: CATRigPelvis/CATRigRLeg1/CATRigRLeg2/CATRigRLegAnkle/CATRigRLegDigit11/CATRigRLegDigit12
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2/CATRigLArmPalm
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2/CATRigLArmPalm/CATRigPalmBone001
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2/CATRigLArmPalm/CATRigPalmBone001/CATRigPalmBone001Bone001
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2/CATRigLArmPalm/CATRigPalmBone002
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2/CATRigLArmPalm/CATRigPalmBone002/CATRigPalmBone002Bone001
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2/CATRigLArmPalm/ShieldBow_Slot
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/CATRigLArm2/LBracers_slot
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigLArmCollarbone/CATRigLArm1/LShoulders_slot
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2/CATRigRArmPalm
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2/CATRigRArmPalm/CATRigPalmBone001
+          1
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2/CATRigRArmPalm/CATRigPalmBone001
+          1/CATRigPalmBone001Bone001 1
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2/CATRigRArmPalm/CATRigPalmBone002
+          1
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2/CATRigRArmPalm/CATRigPalmBone002
+          1/CATRigPalmBone002Bone001 1
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2/CATRigRArmPalm/WeaponSlot
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/CATRigRArm2/RBracers_slot
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigRArmCollarbone/CATRigRArm1/RShoulders_slot
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine/CATRigCATRigHead
+        weight: 1
+      - path: CATRigPelvis/CATRigSpine1/CATRigSpine2/CATRigSpine3/CATRigSpine4/CATRigSpine/CATRigCATRigHead/Head_slot
+        weight: 1
+      - path: CATRigRLegPlatform
+        weight: 1
+      - path: Character001
+        weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0

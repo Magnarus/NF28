@@ -5,9 +5,6 @@ using System;
 
 public class FootMovement : Movement
 {
-    public int jumpHash = Animator.StringToHash("Base Layer.Jump");
-    public int walkHash = Animator.StringToHash("Base Layer.RunFront");
-    public int idleHash = Animator.StringToHash("Base Layer.Idle");
     Animator anim;
 
 

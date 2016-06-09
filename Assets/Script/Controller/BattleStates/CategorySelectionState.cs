@@ -1,36 +1,48 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
-public class CategorySelectionState : BaseAbilityMenuState
+public class CategorySelectionState : BattleState
 {
-    protected override void LoadMenu()
-    {
-        if (menuOptions == null)
-        {
-            menuTitle = "Action";
-            menuOptions = new List<string>(1);
-            menuOptions.Add("Attack");
+
+    GameObject canvasBtn;
+    public override void Enter() {
+        if(!canvasBtn) { 
+            GameObject canvas = GameObject.Find("Left");
+            foreach (Transform child in canvas.transform) {
+                
+                if(child.name == "Action") {
+                    
+                    canvasBtn =  child.gameObject;
+                    break;
+                }
+            }
         }
-
+        foreach (Transform child in canvasBtn.transform)
+        {
+            string btnName = child.name;
+            Button b = child.gameObject.GetComponent<Button>();
+            if(turn.currentCreature.hasMoved && child.name == "Moove") {
+                b.enabled = false;
+            } else {
+                b.enabled = true;
+                b.onClick.AddListener(delegate { OnClick(btnName); });
+            }
+                
+            
+        }
     }
 
-    protected override void Confirm()
-    {
-    }
+    void OnClick(string buttonName) {
+        switch(buttonName) {
+            case "Moove": owner.ChangeState<MoveTargetState>(); break;
+            case "Stay": turn.currentCreature.hasFinished = true; owner.ChangeState<SelectUnitState>(); break;
+            case "Attack":
+                turn.ability = turn.currentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
+                owner.ChangeState<AttackState>();
+                break;
+        } 
 
-    protected override void Cancel()
-    {
-        owner.ChangeState<CommandSelectionState>();
-    }
-
-    void Attack()
-    {
-        turn.hasUnitActed = true;
-        owner.ChangeState<CommandSelectionState>();
-    }
-
-    void SetCategory(int index)
-    {
     }
 }

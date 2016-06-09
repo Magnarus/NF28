@@ -6,5 +6,5 @@ using System.Collections.Generic;
 public class SkillSet
 {
 	public string name;
-	public List<Ability> skills = new List<Ability>();
+	public List<string> skills = new List<string>();
 }

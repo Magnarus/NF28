@@ -6,11 +6,22 @@ public class SelectUnitState : BattleState
     int index = 0;
     public string currentPlayer = "J1";
     List<Creature> currentPlayerList;
+    
 
     public override void Enter()
     {
         base.Enter();
         if(index != 0)    switchPlayerIfNecessary();
+        if (!canvas) {
+            GameObject parent = GameObject.Find("Canvas");
+            foreach(Transform child in parent.transform) {
+                  if(child.name == "Left") {
+                    canvas = child.gameObject;
+                    break;
+                }
+            }
+        }
+        canvas.SetActive(false);
     }
     protected override void OnMove(object sender, InfoEventArgs<Point> e)
     {
@@ -27,11 +38,12 @@ public class SelectUnitState : BattleState
         {
             c = content.GetComponent<Creature>();
         }
-        if (c != null && currentPlayerList.Contains(c) && !c.hasMoved)
+        if (c != null && currentPlayerList.Contains(c) && !c.hasFinished)
         {
             index++;
             owner.turn.Change(c);
-            owner.ChangeState<MoveTargetState>();
+            canvas.SetActive(true);
+            owner.ChangeState<CategorySelectionState>();
         }
     }
 

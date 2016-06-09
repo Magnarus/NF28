@@ -16,7 +16,6 @@ public static class TransformAnimationExtensions
 	
 	public static Tweener MoveTo (this Transform t, Vector3 position, float duration, Func<float, float, float, float> equation)
 	{
-        Debug.Log(t);
 		TransformPositionTweener tweener = t.gameObject.AddComponent<TransformPositionTweener> ();
 		tweener.startValue = t.position;
 		tweener.endValue = position;

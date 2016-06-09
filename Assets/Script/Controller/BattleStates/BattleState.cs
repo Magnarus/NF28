@@ -14,6 +14,8 @@ public abstract class BattleState : State
     public List<Creature> creatureJ1 { get { return owner.creaturesJ1; } }
     public List<Creature> creatureJ2 { get { return owner.creaturesJ2; } }
 
+
+    protected GameObject canvas;
     // Référence vers le propriétaire de ce état de bataille 
     // Awake est trigger par Unity
     protected virtual void Awake()

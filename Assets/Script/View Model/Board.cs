@@ -14,12 +14,15 @@ public class Board : MonoBehaviour
     GameObject tilePrefabWater; // Prefab d'une case 'eau'
     [SerializeField]
     GameObject tilePrefabBoue; // Prefab d'une case 'boue'
+
+    
+
     public Dictionary<Point, PhysicTile> tiles = new Dictionary<Point, PhysicTile>(); // Liste de toutes les cases du board
 
 
     // Tableau qui correspond aux directions pour la méthode toEuler de ExtensionsDirection = permet la rotation des personnages
     // également utile pour le pathfinding puisque pour une case X données on a 4 cases adjacentes
-    Point[] dirs = new Point[4] {  new Point(0, 1),   new Point(0, -1),    new Point(1, 0),    new Point(-1, 0) };
+    Point[] dirs = new Point[4] {  new Point(0, 1),      new Point(1, 0), new Point(0, -1), new Point(-1, 0) };
 
     // Parcours l'asset LevelData et crée un board
     public void LoadBoardFromData(LevelData data)
@@ -63,13 +66,15 @@ public class Board : MonoBehaviour
      * */
     public List<PhysicTile> Search(PhysicTile start, string type, Func<PhysicTile, PhysicTile, bool> addTile)
     {
+        Debug.Log(start.pos);
         // Liste des cases sur laquelle on va pouvoir se déplacer
         List<PhysicTile> retValue = new List<PhysicTile>();
-        retValue.Add(start);
+        //retValue.Add(start);
 
         // Nettoyage du board
         ClearBoardPathData();
-        //
+
+        // Deux piles l'une pour les cases en train d'être analysés et une autre pour ceux qui vont être analysés
         Queue<PhysicTile> toCheck = new Queue<PhysicTile>();
         Queue<PhysicTile> check = new Queue<PhysicTile>();
 
@@ -80,6 +85,7 @@ public class Board : MonoBehaviour
         // Parcours et vérification de toutes les cases tant qu'on a plus de cases à évaluer
         while (check.Count > 0)
         {
+            
             PhysicTile t = check.Dequeue();
             
             for (int i = 0; i < 4; ++i)
@@ -87,30 +93,35 @@ public class Board : MonoBehaviour
                 PhysicTile next = null;
                 if (tiles.ContainsKey(t.pos + dirs[i]) ) // Il a une case qui existe dans cette zone
                 {
-                    next = tiles[t.pos + dirs[i]];
+                      next = tiles[t.pos + dirs[i]];
                 }
-
                 // On vérifie que cette case existe/qu'on ajoute le chemin le plus opti
                 if (next == null || next.distance <= t.distance + 1)
                     continue;
 
+
                 // On ajoute la case au pathfinding
                 if (addTile(t, next))
                 {
+                    Debug.Log("Next à ajouter" + next.pos + " t " + t.pos);
                     if (type == "foot") { // On prend en considération les problèmes de terrains
                         next.distance = t.distance + t.descriptor.WalkPenality.value;
-                    } else //TODO: appliquer les modifier pour cheval/volant (volant: difficile de voler par temps froid, portance toussa et cheval + marai = fossile)
+                    }
+                    else 
                     {
-                        next.distance = t.distance + 1; break;
+                        next.distance = t.distance + 1;
                     }  
                     next.prev = t;
                     toCheck.Enqueue(next);
                     // Elle a passée toutes les conditions = on peut ajouter à la liste des cases OK
                     retValue.Add(next);
+                    Debug.Log("retCount" + retValue.Count);
                 }
 
                 if (check.Count == 0)
+                {
                     SwapReference(ref check, ref toCheck);
+                }
             }
         }
 
@@ -145,10 +156,10 @@ public class Board : MonoBehaviour
      *  Un peu de couleur pour mettre en avant les cases sélectionnables
      * */
     public void SelectedColor(List<PhysicTile> tiles)
-    {
-        for (int i = tiles.Count - 1; i >= 0; --i)
-            //tiles[i].GetComponent<Renderer>().material.SetColor("_Color", new Color(0, 1, 1, 1));
+    { 
+        for (int i = tiles.Count - 1; i >= 0; --i) {
             tiles[i].instanceHightlighTile.SetActive(true);
+        }
     }
 
     /**
@@ -156,16 +167,8 @@ public class Board : MonoBehaviour
      * */
     public void NotSelectedColor(List<PhysicTile> tiles)
     {
-        Color c = new Color();
         for (int i = tiles.Count - 1; i >= 0; --i)
         {
-            switch (tiles[i].type)
-            {
-                case "water": c = tilePrefabWater.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
-                case "boue": c = tilePrefabBoue.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
-                default: c = tilePrefab.GetComponent<Renderer>().sharedMaterial.GetColor("_Color"); break;
-            }
-            // tiles[i].GetComponent<Renderer>().material.SetColor("_Color", c);
             tiles[i].instanceHightlighTile.SetActive(false);
         }
     }

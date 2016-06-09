@@ -20,7 +20,7 @@ public class affichageMenuUI : MonoBehaviour
     void Update()
     {
         var myObject = GameObject.Find("BattleController").GetComponent<BattleController>().currentTile.contentTile;
-        left.SetActive(myObject);
+        //left.SetActive(myObject);
         right.SetActive(myObject);
     }
 }
