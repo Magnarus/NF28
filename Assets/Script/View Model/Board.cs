@@ -65,8 +65,7 @@ public class Board : MonoBehaviour
      * addTile : fonctionne qui détermine la possibilité d'emprunter un chemin
      * */
     public List<PhysicTile> Search(PhysicTile start, string type, Func<PhysicTile, PhysicTile, bool> addTile)
-    {
-        Debug.Log(start.pos);
+    { 
         // Liste des cases sur laquelle on va pouvoir se déplacer
         List<PhysicTile> retValue = new List<PhysicTile>();
         //retValue.Add(start);
@@ -103,7 +102,6 @@ public class Board : MonoBehaviour
                 // On ajoute la case au pathfinding
                 if (addTile(t, next))
                 {
-                    Debug.Log("Next à ajouter" + next.pos + " t " + t.pos);
                     if (type == "foot") { // On prend en considération les problèmes de terrains
                         next.distance = t.distance + t.descriptor.WalkPenality.value;
                     }
@@ -115,7 +113,6 @@ public class Board : MonoBehaviour
                     toCheck.Enqueue(next);
                     // Elle a passée toutes les conditions = on peut ajouter à la liste des cases OK
                     retValue.Add(next);
-                    Debug.Log("retCount" + retValue.Count);
                 }
 
                 if (check.Count == 0)

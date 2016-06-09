@@ -6,6 +6,8 @@ using Game;
 
 public class InitBattleState : BattleState
 {
+    private string[] teamComp = new string[] {  "warrior",  "archer", "hero", "archer", "warrior" };
+
     public override void Enter()
     {
         base.Enter();
@@ -21,26 +23,29 @@ public class InitBattleState : BattleState
         SpawnTestUnits(creatureJ2, "last");
         owner.teamSize = creatureJ1.Count;
         yield return null;
-        owner.round = owner.gameObject.AddComponent<TurnOrderController>().Round();
         owner.ChangeState<SelectUnitState>(); 
 
     }
 
+    /**  Génération d'un certain nombre d'unités sur le terrain **/
     void SpawnTestUnits(List<Creature> creatureJoueur, string position)
     {
         Point p;
-        for (int i = 0; i < 2; ++i)
+        for (int i = 0; i < teamComp.Length; ++i)
         {
-            GameObject instance = Instantiate(owner.heroPrefab) as GameObject;
+            GameObject instance = getObject(teamComp[i]);
+
             if(position == "first")
             {
                 p = new Point((int)levelData.tiles[i].pos.x, (int)levelData.tiles[i].pos.z);
-            } else
+
+            } 
+            else
             {
-                p = new Point((int)levelData.tiles[levelData.tiles.Count - 1].pos.x, (int)levelData.tiles[i].pos.z);
+                p = new Point((int)levelData.tiles[levelData.tiles.Count-1].pos.x, (int)levelData.tiles[i].pos.z);
+
             }    
             
-
             Creature unit = instance.GetComponent<Creature>();
             LoadDefaultStats(unit.gameObject, unit.classCreature);
             unit.Place(board.tiles[p]);
@@ -50,6 +55,7 @@ public class InitBattleState : BattleState
         }
     }
 
+    /** Associe à l'unité son type de déplacement **/
     public void LoadDefaultStats(GameObject c, string type)
     {
         // Différents types de déplacement;
@@ -63,18 +69,22 @@ public class InitBattleState : BattleState
             case "mage": stats = DefaultValues.mageStats; deplacementType = 0; break;
             default: stats = DefaultValues.archerStats; deplacementType = 0; break;
         }
-        CreatureDescriptor d = c.GetComponent<CreatureDescriptor>();
-        d.Level.value = (int)stats[0];
-        d.HP.value = stats[1];
-        d.MP.value = stats[2];
-        d.Strength.value = stats[3];
-        d.Armor.value = stats[4];
-        d.Luck.value = stats[5];
-
 
         Movement m = c.AddComponent(components[deplacementType]) as Movement;
         m.range = (int) stats[6];
         m.jumpHeight = (int) stats[7];
+    }
+
+    /** Instantie un GameObject en fonction du type d'unité souhaité **/
+    public GameObject getObject(string unitType) {
+        GameObject instance = null;
+
+        switch(unitType) {
+            case "hero": instance = Instantiate(owner.heroPrefab); break;
+            case "archer": instance = Instantiate(owner.archerPrefab); break;
+            case "warrior":instance = Instantiate(owner.warriorPrefab); break;
+        }
+        return instance;
     }
        
 }

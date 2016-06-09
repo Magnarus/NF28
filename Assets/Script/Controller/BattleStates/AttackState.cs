@@ -28,6 +28,7 @@ public class AttackState : BattleState
             SelectTile(e.info + pos);
     }
 
+    /** Appelé à la selection d'un tile pour attaque, on vérifie si on peut y faire quelque chose **/
     protected override void OnFire(object sender, InfoEventArgs<int> e)
     {
 
@@ -54,6 +55,7 @@ public class AttackState : BattleState
 
     }
 
+    /** Implémentation de l'attaque si la saisie est correcte **/
     private void doAttack(Creature currentCreature, Creature currentEnnemy)
     {
         CreatureDescriptor statsCreature = currentCreature.GetComponent<CreatureDescriptor>();
@@ -69,18 +71,7 @@ public class AttackState : BattleState
        // anim.Play("Idle");
     }
 
-    void ChangeDirection(Point p)
-    {
-        Directions dir = p.GetDirection();
-        if (turn.currentCreature.dir != dir)
-        {
-            board.NotSelectedColor(tiles);
-            turn.currentCreature.dir = dir;
-            turn.currentCreature.Match();
-            SelectTiles();
-        }
-    }
-
+    /** Active l'overlay de sélection de la cible **/
     void SelectTiles()
     {
         tiles = ar.GetTilesInRange(board);

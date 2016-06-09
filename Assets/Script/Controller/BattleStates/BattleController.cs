@@ -18,7 +18,11 @@ public class BattleController : StateMachine
 
     public IEnumerator round;
 
-    public GameObject heroPrefab; // Quand il y aura des rois
+    public GameObject heroPrefab; // Héros (= Roi)
+    public GameObject warriorPrefab; // Guerrier
+    public GameObject archerPrefab; // Archer
+
+
     public PhysicTile currentTile // Case actuelle
     {
         get { return board.tiles[pos]; }
