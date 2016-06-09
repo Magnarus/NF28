@@ -21,6 +21,7 @@ public class BattleController : StateMachine
     public GameObject heroPrefab; // Héros (= Roi)
     public GameObject warriorPrefab; // Guerrier
     public GameObject archerPrefab; // Archer
+    public GameObject canvasRight; 
 
 
     public PhysicTile currentTile // Case actuelle

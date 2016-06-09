@@ -38,39 +38,14 @@ public class AttackState : BattleState
         if (content != null)
         {
             currentEnnemy = content.GetComponent<Creature>();
-            if (currentEnnemy != null && turn.getPlayer(currentEnnemy) != turn.getCurrentTeam())
-            {
-                Directions dir = (turn.currentCreature.tile).GetDirection((currentEnnemy.tile));
-                if (dir != turn.currentCreature.dir) {
-                    turn.currentCreature.dir = dir;
-                    turn.currentCreature.Match();
-                }
-                // Si c'est un ennemi do it
-                doAttack(turn.currentCreature, currentEnnemy);
-                turn.currentCreature.hasFinished = true;
-                owner.ChangeState<SelectUnitState>();
-            }
+            turn.ManageBattle(currentEnnemy);
+            
         }
         
 
     }
 
-    /** Implémentation de l'attaque si la saisie est correcte **/
-    private void doAttack(Creature currentCreature, Creature currentEnnemy)
-    {
-        CreatureDescriptor statsCreature = currentCreature.GetComponent<CreatureDescriptor>();
-        CreatureDescriptor statsEnnemy = currentEnnemy.GetComponent<CreatureDescriptor>();
-       // Animator anim = currentCreature.GetComponent<Animator>();
-
-        if (currentCreature.type == "warrior" || currentCreature.type == "hero") 
-        {
-           // anim.Play("AttackMelee2");
-        }
-        float newLife = statsEnnemy.HP.CurrentValue - (20 + statsCreature.Strength.value - statsEnnemy.Armor.value);
-        statsEnnemy.HP.CurrentValue = (newLife < 0.0)? 0 : newLife;
-       // anim.Play("Idle");
-    }
-
+   
     /** Active l'overlay de sélection de la cible **/
     void SelectTiles()
     {

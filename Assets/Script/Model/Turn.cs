@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Descriptors;
 
 public class Turn
 {
@@ -82,4 +83,38 @@ public class Turn
         if (owner.creaturesJ2.Contains(c)) return "J2";
         return "J1";
     }
+
+    /** Implémentation de l'attaque si la saisie est correcte **/
+    private void doAttack(Creature currentCreature, Creature currentEnnemy)
+    {
+        CreatureDescriptor statsCreature = currentCreature.GetComponent<CreatureDescriptor>();
+        CreatureDescriptor statsEnnemy = currentEnnemy.GetComponent<CreatureDescriptor>();
+        // Animator anim = currentCreature.GetComponent<Animator>();
+
+        if (currentCreature.type == "warrior" || currentCreature.type == "hero")
+        {
+            // anim.Play("AttackMelee2");
+        }
+        float newLife = statsEnnemy.HP.CurrentValue - (20 + statsCreature.Strength.value - statsEnnemy.Armor.value);
+        statsEnnemy.HP.CurrentValue = (newLife < 0.0) ? 0 : newLife;
+        // anim.Play("Idle");
+    }
+
+    public void ManageBattle(Creature ennemy) {
+        if (ennemy != null && getPlayer(ennemy) != getCurrentTeam())
+        {
+            Directions dir = (currentCreature.tile).GetDirection((ennemy.tile));
+            if (dir != currentCreature.dir)
+            {
+                currentCreature.dir = dir;
+                currentCreature.Match();
+            }
+            // Si c'est un ennemi do it
+            doAttack(currentCreature, ennemy);
+            currentCreature.hasFinished = true;
+            owner.ChangeState<SelectUnitState>();
+        }
+    }
+
+
 }

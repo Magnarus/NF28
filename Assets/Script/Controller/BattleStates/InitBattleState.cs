@@ -6,7 +6,7 @@ using Game;
 
 public class InitBattleState : BattleState
 {
-    private string[] teamComp = new string[] {  "warrior",  "archer", "hero", "archer", "warrior" };
+    private string[] teamComp = new string[] {  "warrior",  "archer", "hero" };//, "archer", "warrior"
 
     public override void Enter()
     {
