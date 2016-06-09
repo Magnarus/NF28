@@ -6,14 +6,14 @@ public class CameraZoom : MonoBehaviour {
 
 	public void Start()
     {
-        Debug.Log("AddListeners CameraZoom");
+        //Debug.Log("AddListeners CameraZoom");
         InputController.fireEvent += OnFire;
     }
 
 
     protected void Exit()
     {
-        Debug.Log("RemoveListeners CameraZoom");
+        //Debug.Log("RemoveListeners CameraZoom");
         InputController.fireEvent -= OnFire;
     }
 

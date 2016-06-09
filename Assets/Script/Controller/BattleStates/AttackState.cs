@@ -62,7 +62,7 @@ public class AttackState : BattleState
         CreatureDescriptor statsEnnemy = currentEnnemy.GetComponent<CreatureDescriptor>();
        // Animator anim = currentCreature.GetComponent<Animator>();
 
-        if (currentCreature.type == "warrior" || currentCreature.type == "archer") 
+        if (currentCreature.type == "warrior" || currentCreature.type == "hero") 
         {
            // anim.Play("AttackMelee2");
         }
