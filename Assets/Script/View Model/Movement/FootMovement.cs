@@ -61,23 +61,23 @@ public class FootMovement : Movement
 
                 
         }
-        anim.Play("Idle");
         yield return null;
     }
 
     /** Déplacement en marchant **/
     IEnumerator Walk(PhysicTile target)
     {
-        anim.Play("RunFront");
+        anim.SetBool("IsWalking", true);
         Tweener tweener = transform.MoveTo(target.center, 0.5f, EasingEquations.Linear);
         while (tweener != null)
             yield return null;
+        anim.SetBool("IsWalking", false);
     }
 
     /** Déplacement en sautant **/
     IEnumerator Jump(PhysicTile to)
     {
-        anim.Play("Jump");
+        anim.SetTrigger("Jump");
         Tweener tweener = transform.MoveTo(to.center, 0.5f, EasingEquations.Linear);
         while (tweener != null)
             yield return null;

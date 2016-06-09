@@ -89,15 +89,18 @@ public class Turn
     {
         CreatureDescriptor statsCreature = currentCreature.GetComponent<CreatureDescriptor>();
         CreatureDescriptor statsEnnemy = currentEnnemy.GetComponent<CreatureDescriptor>();
-        // Animator anim = currentCreature.GetComponent<Animator>();
+        Animator anim = currentCreature.GetComponent<Animator>();
 
         if (currentCreature.type == "warrior" || currentCreature.type == "hero")
         {
-            // anim.Play("AttackMelee2");
+            anim.SetTrigger("AttackM");
+        } else if(currentCreature.type == "archer")
+        {
+            anim.SetTrigger("AttackR");
         }
         float newLife = statsEnnemy.HP.CurrentValue - (20 + statsCreature.Strength.value - statsEnnemy.Armor.value);
         statsEnnemy.HP.CurrentValue = (newLife < 0.0) ? 0 : newLife;
-        // anim.Play("Idle");
+
     }
 
     public void ManageBattle(Creature ennemy) {
