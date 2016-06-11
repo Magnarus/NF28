@@ -25,16 +25,20 @@ public class Turn
     // Change la créature qui doit prendre son tour et réinitilise les champs de gestion du tour
     public void Change(Creature current)
     {
-        if (!turnCreature.Contains(current))
-        {
-            turnCreature.Add(current);
-            currentCreature = current;
-            hasUnitMoved = false;
-            hasUnitActed = false;
-            startTile = currentCreature.tile;
-            startDir = currentCreature.dir;
+		currentCreature = current;
+		if (!turnCreature.Contains (current)) {
+			turnCreature.Add (current);
+
+			hasUnitMoved = false;
+			hasUnitActed = false;
+
             
-        }
+		} else {
+			hasUnitMoved = current.hasMoved;
+			hasUnitActed = current.hasFinished;
+		}
+		startTile = currentCreature.tile;
+		startDir = currentCreature.dir;
        
     }
 

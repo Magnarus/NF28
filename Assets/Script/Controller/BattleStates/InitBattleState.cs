@@ -17,13 +17,14 @@ public class InitBattleState : BattleState
     IEnumerator Init()
     {
         board.LoadBoardFromData(levelData);
-        Point p = new Point((int)levelData.tiles[0].pos.x, (int)levelData.tiles[0].pos.z);
-        SelectTile(p);
+		//Point p = new Point((int)levelData.tiles[0].pos.x, (int)levelData.tiles[0].pos.z);
+		//SelectTile(p);
         SpawnTestUnits(creatureJ1, "first"); //Ajout d'une unité pour test
         SpawnTestUnits(creatureJ2, "last");
         owner.teamSize = creatureJ1.Count;
         yield return null;
-        owner.ChangeState<SelectUnitState>(); 
+		//owner.ChangeState<SelectUnitState>();
+		this.AddObserver(OnMatchReady, MatchController.MatchReady);
 
     }
 
@@ -113,5 +114,18 @@ public class InitBattleState : BattleState
         }
         return instance;
     }
+
+	void OnMatchReady (object sender, object args)
+	{
+		Point p;
+		if (owner.matchController.hostPlayer.isLocalPlayer) {
+			p = new Point ((int)levelData.tiles [0].pos.x, (int)levelData.tiles [0].pos.z);
+		} else {
+			p = new Point ((int)levelData.tiles [levelData.tiles.Count-1].pos.x + 1, (int)levelData.tiles [0].pos.z);
+		}
+		SelectTile (p);
+			//owner.matchController.clientPlayer.CmdCoinToss();
+		owner.ChangeState<SelectUnitState>();
+	}
        
 }

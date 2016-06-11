@@ -10,6 +10,7 @@ public class SelectUnitState : BattleState
 
     public override void Enter()
     {
+		this.AddObserver (OnPlayerSwitched, PlayerController.ChangePlayer);
         base.Enter();
         if(index != 0)    switchPlayerIfNecessary();
         if (!canvas) {
@@ -30,21 +31,24 @@ public class SelectUnitState : BattleState
 
     protected override void OnFire(object sender, InfoEventArgs<int> e)
     {
-        GameObject content = owner.currentTile.contentTile;
-        currentPlayerList = (currentPlayer == "J1") ? creatureJ1 : creatureJ2;
-        Creature c = null;
+		if(owner.matchController.localPlayer.playerID == currentPlayer) {
+			GameObject content = owner.currentTile.contentTile;
+			currentPlayerList = (currentPlayer == "J1") ? creatureJ1 : creatureJ2;
+			Creature c = null;
 
-        if (content != null)
-        {
-            c = content.GetComponent<Creature>();
-        }
-        if (c != null && currentPlayerList.Contains(c) && !c.hasFinished)
-        {
-            index++;
-            owner.turn.Change(c);
-            canvas.SetActive(true);
-            owner.ChangeState<CategorySelectionState>();
-        }
+			if (content != null)
+			{
+				c = content.GetComponent<Creature>();
+			}
+			if (c != null && currentPlayerList.Contains(c) && !c.hasFinished)
+			{
+				index++;
+				owner.turn.Change(c);
+				canvas.SetActive(true);
+				owner.ChangeState<CategorySelectionState>();
+			}
+		}
+        
     }
 
 
@@ -54,8 +58,13 @@ public class SelectUnitState : BattleState
         if(turn.isTurnOver())
         {
             currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
+			owner.matchController.localPlayer.CmdChangeCurrentPlayer ();
             index = 0;
             turn.Clear();
         } 
     }
+
+	public void OnPlayerSwitched(object sender, object args) {
+		currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
+	}
 }

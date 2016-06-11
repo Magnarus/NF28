@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.UI;
 
 public class BattleController : StateMachine
 {
@@ -23,6 +24,11 @@ public class BattleController : StateMachine
     public GameObject archerPrefab; // Archer
     public GameObject canvasRight; 
 
+	public Text localPlayerLabel;
+	public Text remotePlayerLabel;
+	public Text gameStateLabel;
+	public MatchController matchController;
+
 
     public PhysicTile currentTile // Case actuelle
     {
@@ -31,7 +37,33 @@ public class BattleController : StateMachine
 
     void Start()
     {
+		this.AddObserver (OnPlayerStartedLocal, PlayerController.StartedLocal);
+		this.AddObserver (OnPlayerStarted, PlayerController.Started);
+	
         turn.owner = this;
         ChangeState<InitBattleState>();
     }
+
+	void OnEnable ()
+	{
+		this.AddObserver(OnCoinToss, PlayerController.CoinToss);
+	}
+
+	void OnDisable ()
+	{
+		this.RemoveObserver(OnCoinToss, PlayerController.CoinToss);
+	}
+
+	void OnPlayerStartedLocal(object sender, object args) {
+		tileSelectionIndicator = ((PlayerController)sender).gameObject.transform;
+	}
+		
+	void OnPlayerStarted(object sender, object args) {
+		tileSelectionIndicator = ((PlayerController)sender).gameObject.transform;
+	}
+
+	void OnCoinToss (object sender, object args)
+	{
+		bool coinToss = (bool)args;
+	}
 }
