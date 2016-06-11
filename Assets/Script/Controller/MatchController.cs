@@ -68,9 +68,9 @@ public class MatchController : MonoBehaviour {
 		}
 	 
 		hostPlayer = (localPlayer.isServer) ? localPlayer : remotePlayer;
-		hostPlayer.playerID = (localPlayer.isServer) ? "J1" : "J2";
 		clientPlayer = (localPlayer.isServer) ? remotePlayer : localPlayer;
-		clientPlayer.playerID = (localPlayer.isServer) ? "J1" : "J2";
+		localPlayer.playerID = (localPlayer.isServer) ? "J1" : "J2";
+		remotePlayer.playerID = (localPlayer.isServer) ? "J2" : "J1";
 	 
 		this.PostNotification(MatchReady);
 	}

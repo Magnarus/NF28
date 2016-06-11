@@ -24,6 +24,12 @@ public class SelectUnitState : BattleState
         }
         canvas.SetActive(false);
     }
+
+	public override void Exit() {
+		this.RemoveObserver (OnPlayerSwitched, PlayerController.ChangePlayer);
+		base.Exit ();
+	}
+
     protected override void OnMove(object sender, InfoEventArgs<Point> e)
     {
         SelectTile(e.info + pos);
@@ -65,6 +71,9 @@ public class SelectUnitState : BattleState
     }
 
 	public void OnPlayerSwitched(object sender, object args) {
-		currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
+		PlayerController s = (PlayerController)sender;
+		Debug.Log (s.playerID + " " + owner.matchController.localPlayer.playerID);
+		if(s.playerID != owner.matchController.localPlayer.playerID)
+			currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
 	}
 }

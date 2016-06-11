@@ -121,10 +121,10 @@ public class InitBattleState : BattleState
 		if (owner.matchController.hostPlayer.isLocalPlayer) {
 			p = new Point ((int)levelData.tiles [0].pos.x, (int)levelData.tiles [0].pos.z);
 		} else {
+			owner.matchController.hostPlayer.gameObject.SetActive (false);
 			p = new Point ((int)levelData.tiles [levelData.tiles.Count-1].pos.x + 1, (int)levelData.tiles [0].pos.z);
 		}
 		SelectTile (p);
-			//owner.matchController.clientPlayer.CmdCoinToss();
 		owner.ChangeState<SelectUnitState>();
 	}
        

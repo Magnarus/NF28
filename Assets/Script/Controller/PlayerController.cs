@@ -30,18 +30,6 @@ public class PlayerController : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdCoinToss ()
-	{
-		RpcCoinToss(Random.value < 0.5);
-	}
-
-	[ClientRpc]
-	void RpcCoinToss (bool coinToss)
-	{
-		this.PostNotification(CoinToss, coinToss);
-	}
-
-	[Command]
 	public void CmdChangeCurrentPlayer() {
 		RpcChangeCurrentPlayer ();
 	}
