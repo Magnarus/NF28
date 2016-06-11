@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
+using Descriptors;
 
 public class BattleController : StateMachine
 {
@@ -38,7 +39,9 @@ public class BattleController : StateMachine
     void Start()
     {
 		this.AddObserver (OnPlayerStartedLocal, PlayerController.StartedLocal);
+		this.AddObserver (OnSyncDamage, PlayerController.LifeChanged);
 		this.AddObserver (OnPlayerStarted, PlayerController.Started);
+		this.AddObserver (OnSyncPosition, PlayerController.PositionChanged);
 	
         turn.owner = this;
         ChangeState<InitBattleState>();
@@ -51,6 +54,7 @@ public class BattleController : StateMachine
 
 	void OnDisable ()
 	{
+		
 		this.RemoveObserver(OnCoinToss, PlayerController.CoinToss);
 	}
 
@@ -66,4 +70,40 @@ public class BattleController : StateMachine
 	{
 		bool coinToss = (bool)args;
 	}
+
+	void OnSyncDamage(object sender, object args) {
+		string[] data = (string[]) args;
+		Point p = new Point (int.Parse(data [0]), int.Parse(data [1]));
+		Creature current = board.tiles [p].contentTile.GetComponent<Creature>();
+		if (current != null) {
+			current.GetComponent<CreatureDescriptor> ().HP.CurrentValue = float.Parse(data [2]);
+		}
+	}
+
+
+	void OnSyncPosition(object sender, object args) {
+		PlayerController s = (PlayerController)sender;
+		Debug.Log (s.playerID + " " + matchController.localPlayer.playerID);
+		if (s.playerID != matchController.localPlayer.playerID) {
+			Point[] positions = (Point[])args;
+			int size = positions.Length;
+			PhysicTile current = board.tiles [positions [0]];
+
+			for (int i = 1; i < size; i++) {
+				board.tiles [positions [i]].prev = current;
+				current = board.tiles [positions [i]];
+			}
+			Debug.Log ("dernière position" + board.tiles [positions [size - 1]].pos);
+			Creature creature = board.tiles[positions[size-1]].contentTile.GetComponent<Creature> ();
+			launchCoroutine (creature, board.tiles [positions [0]]);
+		}
+	}
+
+	void launchCoroutine(Creature c, PhysicTile tile) {
+		Debug.Log ("Je suis lààààààààà");
+		Movement m = c.GetComponent<Movement>();
+		StartCoroutine(m.Traverse(tile));
+		c.Match ();
+	}
+
 }

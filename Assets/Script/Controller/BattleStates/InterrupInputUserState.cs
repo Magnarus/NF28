@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class InterruptUserInputState : BattleState
 {
@@ -29,6 +30,17 @@ public class InterruptUserInputState : BattleState
         Movement m = turn.currentCreature.GetComponent<Movement>();
         yield return StartCoroutine(m.Traverse(owner.currentTile));
         turn.currentCreature.Match();
+		owner.matchController.localPlayer.CmdSyncPosition (getChemin(owner.currentTile));
         owner.ChangeState<SelectUnitState>();
     }
+
+	Point[] getChemin(PhysicTile tile) {
+		List<Point> myPoints = new List<Point> ();
+		while (tile.prev != null) {
+			myPoints.Add(tile.pos);
+			tile = tile.prev;
+		}
+		myPoints.Add (tile.pos);
+		return myPoints.ToArray();
+	}
 }

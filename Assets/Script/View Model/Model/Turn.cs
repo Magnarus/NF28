@@ -63,7 +63,6 @@ public class Turn
                 return false;
             } 
         }
-        Debug.Log("Finito");
         return turnCreature.Count == owner.teamSize;
     }
 
@@ -105,6 +104,11 @@ public class Turn
         }
         float newLife = statsEnnemy.HP.CurrentValue - (20 + statsCreature.Strength.value - statsEnnemy.Armor.value);
         statsEnnemy.HP.CurrentValue = (newLife < 0.0) ? 0 : newLife;
+		owner.matchController.localPlayer.CmdSyncDamage (new string[] {
+																currentEnnemy.tile.pos.x.ToString(),
+																currentEnnemy.tile.pos.y.ToString(), 
+																newLife.ToString()
+														 });
 
     }
 
@@ -120,7 +124,7 @@ public class Turn
             // Si c'est un ennemi do it
             doAttack(currentCreature, ennemy);
             currentCreature.hasFinished = true;
-            owner.ChangeState<SelectUnitState>();
+			owner.ChangeState<VictoryConditionAgent>();
         }
     }
 

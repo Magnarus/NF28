@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Descriptors;
 
-public class VictoryConditionAgent : MonoBehaviour {
+public class VictoryConditionAgent : BattleState {
     BattleController owner;
     List<Creature> listJ1;
     List<Creature> listJ2;
+
+
+	void Enter() {
+		base.Enter ();
+		checkGameState ();
+	}
 
     // Use this for initialization
     void Start () {
