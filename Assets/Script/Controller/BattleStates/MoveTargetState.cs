@@ -30,7 +30,7 @@ public class MoveTargetState : BattleState
     {
         if (e.info == 0)
         {
-            if (tiles.Contains(owner.currentTile))
+			if (tiles.Contains(owner.currentTile) && validByGUI())
             {
                 owner.turn.currentCreature.hasMoved = true;
                 owner.ChangeState<InterruptUserInputState>();
@@ -41,4 +41,10 @@ public class MoveTargetState : BattleState
             owner.ChangeState<SelectUnitState>();
         }
     }
+
+
+	private bool validByGUI() {
+		//Rect windowValidation = new Rect
+			return true;
+	}
 }

@@ -56,7 +56,7 @@ public class MyNetworkManager : NetworkManager
 		if(conn.connectionId > 0)
 		{
 			Debug.Log("Stop Host Broadcast...");
-			discovery.StopBroadcast();
+			//discovery.StopBroadcast();
 		}
 	}
 

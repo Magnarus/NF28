@@ -37,7 +37,6 @@ public class BattleController : StateMachine
 
     void Start()
     {
-		this.AddObserver (OnMatchLaunched, MatchController.MatchReady);
 		this.AddObserver (OnPlayerStartedLocal, PlayerController.StartedLocal);
 		this.AddObserver (OnSyncDamage, PlayerController.LifeChanged);
 		this.AddObserver (OnPlayerStarted, PlayerController.Started);
@@ -61,12 +60,7 @@ public class BattleController : StateMachine
 	}
 
 
-	void OnMatchLaunched(object sender, object args) {
-		Debug.Log ("Match is launched!");
-	}
-
 	void OnPlayerStartedLocal(object sender, object args) {
-		Debug.Log ("Player local start!");
 		tileSelectionIndicator = ((PlayerController)sender).gameObject.transform;
 	}
 		
