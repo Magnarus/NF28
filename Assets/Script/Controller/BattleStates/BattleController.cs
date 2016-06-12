@@ -50,6 +50,7 @@ public class BattleController : StateMachine
 
 	void OnDisable ()
 	{
+		
 	}
 
 	void OnLevelWasLoaded(int level) {
