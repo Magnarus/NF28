@@ -32,6 +32,7 @@ public class VictoryConditionAgent : BattleState {
             owner.ChangeState<SelectUnitState>(); // On reprend le jeu
         }   
         else {
+			Debug.Log ("Return");
             owner.ChangeState<ResumeState>();
         }
 

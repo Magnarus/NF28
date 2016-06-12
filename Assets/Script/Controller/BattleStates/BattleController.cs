@@ -83,26 +83,28 @@ public class BattleController : StateMachine
 
 	void OnSyncPosition(object sender, object args) {
 		PlayerController s = (PlayerController)sender;
-		Debug.Log (s.playerID + " " + matchController.localPlayer.playerID);
+		Point[] positions = (Point[])args;
 		if (s.playerID != matchController.localPlayer.playerID) {
-			Point[] positions = (Point[])args;
+			
 			int size = positions.Length;
 			PhysicTile current = board.tiles [positions [0]];
 
 			for (int i = 1; i < size; i++) {
-				board.tiles [positions [i]].prev = current;
+				current.prev = board.tiles [positions [i]];
 				current = board.tiles [positions [i]];
 			}
-			Debug.Log ("dernière position" + board.tiles [positions [size - 1]].pos);
 			Creature creature = board.tiles[positions[size-1]].contentTile.GetComponent<Creature> ();
-			launchCoroutine (creature, board.tiles [positions [0]]);
+			launchCoroutine (creature, positions);
 		}
 	}
 
-	void launchCoroutine(Creature c, PhysicTile tile) {
-		Debug.Log ("Je suis lààààààààà");
+	void launchCoroutine(Creature c, Point[] points) {
 		Movement m = c.GetComponent<Movement>();
-		StartCoroutine(m.Traverse(tile));
+		int size = points.Length;
+		for (int i = size-2; i >= 0; i--) {
+			StartCoroutine(m.Traverse(board.tiles[points[i]]));
+
+		}
 		c.Match ();
 	}
 
