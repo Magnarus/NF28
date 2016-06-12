@@ -4,26 +4,14 @@ using System.Collections.Generic;
 using Descriptors;
 
 public class VictoryConditionAgent : BattleState {
-    BattleController owner;
     List<Creature> listJ1;
     List<Creature> listJ2;
 
 
-	void Enter() {
+	public override void Enter() {
 		base.Enter ();
 		checkGameState ();
 	}
-
-    // Use this for initialization
-    void Start () {
-        owner = GetComponent<BattleController>();
-	}
-
-    void Awake()
-    {
-        owner = GetComponent<BattleController>();
-    }
-
 
     public void checkGameState() {
         listJ1 = owner.creaturesJ1;
@@ -32,7 +20,6 @@ public class VictoryConditionAgent : BattleState {
             owner.ChangeState<SelectUnitState>(); // On reprend le jeu
         }   
         else {
-			Debug.Log ("Return");
             owner.ChangeState<ResumeState>();
         }
 
@@ -43,11 +30,9 @@ public class VictoryConditionAgent : BattleState {
         
         foreach(Creature c in listJ1) {
             if(c.classCreature == "hero") {
-                if(c.GetComponent<CreatureDescriptor>().HP.value == 0) {
+                if(c.GetComponent<CreatureDescriptor>().HP.CurrentValue == 0) {
                     return true;
-                } else {
-                    break;
-                }
+                } 
             }
         }
 
@@ -55,15 +40,11 @@ public class VictoryConditionAgent : BattleState {
         {
             if (c.classCreature == "hero")
             {
-                if (c.GetComponent<CreatureDescriptor>().HP.value == 0)
+				if (c.GetComponent<CreatureDescriptor>().HP.CurrentValue == 0)
                 {
                     return true;
                 }
-                else
-                {
-                    break;
-                }
-            }
+             }
         }
 
         return false;

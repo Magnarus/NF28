@@ -28,11 +28,10 @@ public class Turn
 		currentCreature = current;
 		if (!turnCreature.Contains (current)) {
 			turnCreature.Add (current);
-
+			current.hasMoved = false;
+			current.hasFinished = false;
 			hasUnitMoved = false;
-			hasUnitActed = false;
-
-            
+			hasUnitActed = false;            
 		} else {
 			hasUnitMoved = current.hasMoved;
 			hasUnitActed = current.hasFinished;
@@ -63,7 +62,7 @@ public class Turn
                 return false;
             } 
         }
-        return turnCreature.Count == owner.teamSize;
+		return turnCreature.Count == (getCurrentTeam() == "J1"? owner.creaturesJ1.Count : owner.creaturesJ2.Count);
     }
 
     public void Clear()
@@ -88,7 +87,7 @@ public class Turn
     }
 
     /** Implémentation de l'attaque si la saisie est correcte **/
-    private void doAttack(Creature currentCreature, Creature currentEnnemy)
+    private float doAttack(Creature currentCreature, Creature currentEnnemy)
     {
         CreatureDescriptor statsCreature = currentCreature.GetComponent<CreatureDescriptor>();
         CreatureDescriptor statsEnnemy = currentEnnemy.GetComponent<CreatureDescriptor>();
@@ -96,19 +95,21 @@ public class Turn
 
         if (currentCreature.classCreature == "warrior" || currentCreature.classCreature == "hero")
         {
-            Debug.Log("Tititoto");
             anim.SetTrigger("AttackM");
         } else if(currentCreature.classCreature == "archer")
         {
             anim.SetTrigger("AttackR");
         }
         float newLife = statsEnnemy.HP.CurrentValue - (20 + statsCreature.Strength.value - statsEnnemy.Armor.value);
-        statsEnnemy.HP.CurrentValue = (newLife < 0.0) ? 0 : newLife;
+		newLife = (newLife > 0) ? newLife : 0;
+		Debug.Log ("Life : " + newLife);
+		statsEnnemy.HP.CurrentValue = newLife;
 		owner.matchController.localPlayer.CmdSyncDamage (new string[] {
 																currentEnnemy.tile.pos.x.ToString(),
 																currentEnnemy.tile.pos.y.ToString(), 
 																newLife.ToString()
 														 });
+		return newLife;
 
     }
 
@@ -122,11 +123,24 @@ public class Turn
                 currentCreature.Match();
             }
             // Si c'est un ennemi do it
-            doAttack(currentCreature, ennemy);
+            float newLife = doAttack(currentCreature, ennemy);
             currentCreature.hasFinished = true;
-			owner.ChangeState<VictoryConditionAgent>();
+			if(newLife <= 0) {
+				killCreature (ennemy);
+				owner.ChangeState<VictoryConditionAgent>();
+			} else  owner.ChangeState<SelectUnitState>();
         }
     }
+
+	private void killCreature(Creature c) {
+		List<Creature> creatureList;
+		if (getCurrentTeam () == "J1") {
+			creatureList = owner.creaturesJ1;
+		} else creatureList = owner.creaturesJ2;
+		c.gameObject.GetComponent<Animator> ().SetTrigger ("Die");
+		creatureList.Remove (c);
+		GameObject.Destroy(c.gameObject, 5.0f);
+	}
 
 
 }

@@ -45,13 +45,13 @@ public class SelectUnitState : BattleState
 			if (content != null)
 			{
 				c = content.GetComponent<Creature>();
-			}
-			if (c != null && currentPlayerList.Contains(c) && !c.hasFinished)
-			{
-				index++;
-				owner.turn.Change(c);
-				canvas.SetActive(true);
-				owner.ChangeState<CategorySelectionState>();
+				if (c != null && currentPlayerList.Contains(c) && !c.hasFinished)
+				{
+					index++;
+					owner.turn.Change(c);
+					canvas.SetActive(true);
+					owner.ChangeState<CategorySelectionState>();
+				}
 			}
 		}
         
@@ -63,17 +63,20 @@ public class SelectUnitState : BattleState
     {
         if(turn.isTurnOver())
         {
+			index = 0;
+			turn.Clear();
             currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
 			owner.matchController.localPlayer.CmdChangeCurrentPlayer ();
-            index = 0;
-            turn.Clear();
         } 
     }
 
 	public void OnPlayerSwitched(object sender, object args) {
 		PlayerController s = (PlayerController)sender;
-		Debug.Log (s.playerID + " " + owner.matchController.localPlayer.playerID);
-		if(s.playerID != owner.matchController.localPlayer.playerID)
+		if (s.playerID != owner.matchController.localPlayer.playerID) {
 			currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
+			turn.currentCreature.hasMoved = false;
+			turn.currentCreature.hasFinished = false;
+		}
+
 	}
 }

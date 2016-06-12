@@ -49,13 +49,10 @@ public class BattleController : StateMachine
 
 	void OnEnable ()
 	{
-		this.AddObserver(OnCoinToss, PlayerController.CoinToss);
 	}
 
 	void OnDisable ()
 	{
-		
-		this.RemoveObserver(OnCoinToss, PlayerController.CoinToss);
 	}
 
 	void OnPlayerStartedLocal(object sender, object args) {
@@ -65,11 +62,7 @@ public class BattleController : StateMachine
 	void OnPlayerStarted(object sender, object args) {
 		tileSelectionIndicator = ((PlayerController)sender).gameObject.transform;
 	}
-
-	void OnCoinToss (object sender, object args)
-	{
-		bool coinToss = (bool)args;
-	}
+		
 
 	void OnSyncDamage(object sender, object args) {
 		string[] data = (string[]) args;
