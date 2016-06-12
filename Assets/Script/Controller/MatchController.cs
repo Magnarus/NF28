@@ -14,6 +14,10 @@ public class MatchController : MonoBehaviour {
 	public PlayerController clientPlayer;
 	public List<PlayerController> players = new List<PlayerController>();
 
+	void Start() {
+		DontDestroyOnLoad (this.gameObject);
+	}
+
 	void OnEnable ()
 	{
 		this.AddObserver(OnPlayerStarted, PlayerController.Started);
@@ -29,11 +33,13 @@ public class MatchController : MonoBehaviour {
 	}
 
 	void OnPlayerStarted(object sender, object args) {
+		//Debug.Log ("Called");
 		players.Add ((PlayerController)sender);
 		Configure ();
 	}
 
 	void OnPlayerStartedLocal(object sender, object args) {
+		//Debug.Log ("Called 2");
 		localPlayer = (PlayerController)sender;
 		Configure ();
 	}

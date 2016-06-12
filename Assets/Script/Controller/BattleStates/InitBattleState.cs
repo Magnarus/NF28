@@ -17,13 +17,10 @@ public class InitBattleState : BattleState
     IEnumerator Init()
     {
         board.LoadBoardFromData(levelData);
-		//Point p = new Point((int)levelData.tiles[0].pos.x, (int)levelData.tiles[0].pos.z);
-		//SelectTile(p);
         SpawnTestUnits(creatureJ1, "first"); //Ajout d'une unité pour test
         SpawnTestUnits(creatureJ2, "last");
         owner.teamSize = creatureJ1.Count;
         yield return null;
-		//owner.ChangeState<SelectUnitState>();
 		this.AddObserver(OnMatchReady, MatchController.MatchReady);
 
     }

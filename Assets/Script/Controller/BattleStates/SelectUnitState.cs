@@ -74,8 +74,10 @@ public class SelectUnitState : BattleState
 		PlayerController s = (PlayerController)sender;
 		if (s.playerID != owner.matchController.localPlayer.playerID) {
 			currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
-			turn.currentCreature.hasMoved = false;
-			turn.currentCreature.hasFinished = false;
+			if (turn.currentCreature != null) {
+				turn.currentCreature.hasMoved = false;
+				turn.currentCreature.hasFinished = false;
+			}
 		}
 
 	}

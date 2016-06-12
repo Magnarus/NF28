@@ -30,7 +30,6 @@ public class BattleController : StateMachine
 	public Text gameStateLabel;
 	public MatchController matchController;
 
-
     public PhysicTile currentTile // Case actuelle
     {
         get { return board.tiles[pos]; }
@@ -38,13 +37,12 @@ public class BattleController : StateMachine
 
     void Start()
     {
+		this.AddObserver (OnMatchLaunched, MatchController.MatchReady);
 		this.AddObserver (OnPlayerStartedLocal, PlayerController.StartedLocal);
 		this.AddObserver (OnSyncDamage, PlayerController.LifeChanged);
 		this.AddObserver (OnPlayerStarted, PlayerController.Started);
-		this.AddObserver (OnSyncPosition, PlayerController.PositionChanged);
-	
-        turn.owner = this;
-        ChangeState<InitBattleState>();
+		this.AddObserver (OnSyncPosition, PlayerController.PositionChanged);	
+		DontDestroyOnLoad (this.gameObject);
     }
 
 	void OnEnable ()
@@ -55,7 +53,20 @@ public class BattleController : StateMachine
 	{
 	}
 
+	void OnLevelWasLoaded(int level) {
+		if (level == 1) {
+			turn.owner = this;
+			ChangeState<InitBattleState> ();	
+		}
+	}
+
+
+	void OnMatchLaunched(object sender, object args) {
+		Debug.Log ("Match is launched!");
+	}
+
 	void OnPlayerStartedLocal(object sender, object args) {
+		Debug.Log ("Player local start!");
 		tileSelectionIndicator = ((PlayerController)sender).gameObject.transform;
 	}
 		

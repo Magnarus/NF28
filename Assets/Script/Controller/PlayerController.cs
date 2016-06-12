@@ -17,12 +17,14 @@ public class PlayerController : NetworkBehaviour {
 	public override void OnStartClient ()
 	{
 		base.OnStartClient ();
+		DontDestroyOnLoad (this.gameObject);
 		this.PostNotification(Started);
 	}
 
 	public override void OnStartLocalPlayer ()
 	{
 		base.OnStartLocalPlayer ();
+		DontDestroyOnLoad (this.gameObject);
 		this.PostNotification(StartedLocal);
 	}
 

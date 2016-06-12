@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 /**
  * Classe qui est capable de générer un board ( = Des cubes dans la scène unity) à partir d'un objet LevelData
@@ -22,13 +23,14 @@ public class Board : MonoBehaviour
 
     // Tableau qui correspond aux directions pour la méthode toEuler de ExtensionsDirection = permet la rotation des personnages
     // également utile pour le pathfinding puisque pour une case X données on a 4 cases adjacentes
-    Point[] dirs = new Point[4] {  new Point(0, 1),      new Point(1, 0), new Point(0, -1), new Point(-1, 0) };
+    Point[] dirs = new Point[4] {  new Point(0, 1),  new Point(1, 0), new Point(0, -1), new Point(-1, 0) };
 
     // Parcours l'asset LevelData et crée un board
     public void LoadBoardFromData(LevelData data)
     {
-        for (int i = 0; i < data.tiles.Count; ++i)
+		for (int i = 0; i < data.tiles.Count; ++i)
         {
+			
             GameObject instance;
 
             if (data.tiles[i].type == "water")
@@ -59,6 +61,8 @@ public class Board : MonoBehaviour
             }
             t.instanceHightlighTile.SetActive(false);
             tiles.Add(t.pos, t);
+			if (i == 0)
+				DontDestroyOnLoad (instance);
         }
     }
 
@@ -174,4 +178,9 @@ public class Board : MonoBehaviour
             tiles[i].instanceHightlighTile.SetActive(false);
         }
     }
+
+
+	void Start() {
+		DontDestroyOnLoad (this.gameObject);
+	}
 }
