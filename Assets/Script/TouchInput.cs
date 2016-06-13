@@ -14,9 +14,9 @@ public class TouchInput : MonoBehaviour {
 		#if UNITY_EDITOR
 
 		if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0)) {
-			Debug.Log("layer" + touchInputMask.value);
+			//Debug.Log("layer" + touchInputMask.value);
 			Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-			Debug.Log(Input.mousePosition);
+			//Debug.Log(Input.mousePosition);
 			RaycastHit hit;
 			int value = ~(1 << 8);
 			if (Physics.Raycast(ray, out hit, touchInputMask.value))
@@ -24,8 +24,8 @@ public class TouchInput : MonoBehaviour {
 				GameObject recipient = hit.transform.gameObject;
 				if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))
 				{
-					Debug.Log ("Touch mouse!");
-					Debug.Log(recipient.ToString());
+					//Debug.Log ("Touch mouse!");
+					//Debug.Log(recipient.ToString());
 					recipient.SendMessage("OnTouch", hit.point, SendMessageOptions.RequireReceiver);
 				}
 			}

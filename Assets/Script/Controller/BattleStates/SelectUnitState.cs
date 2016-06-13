@@ -43,7 +43,8 @@ public class SelectUnitState : BattleState
 
 	//Public duplicate of OnFire.
 	public void characterClicked() {
-		if(owner.matchController.localPlayer.playerID == currentPlayer) {
+		if((owner.gameType == "JcJ" &&  owner.matchController.localPlayer.playerID == currentPlayer) 
+			|| (owner.gameType == "IA") ) {
 			GameObject content = owner.currentTile.contentTile;
 			currentPlayerList = (currentPlayer == "J1") ? creatureJ1 : creatureJ2;
 			Creature c = null;
@@ -71,7 +72,13 @@ public class SelectUnitState : BattleState
 			index = 0;
 			turn.Clear();
             currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
+
 			if(owner.gameType == "JcJ") owner.matchController.localPlayer.CmdChangeCurrentPlayer ();
+
+			if (owner.gameType == "IA" && currentPlayer == "J2") {
+				MessageInfo messageInfo = new MessageInfo ("REQUEST");
+				DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("BeginTurn", messageInfo, SendMessageOptions.DontRequireReceiver);
+			}
         } 
     }
 

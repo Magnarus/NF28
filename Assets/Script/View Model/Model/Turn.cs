@@ -130,7 +130,7 @@ public class Turn
 			if(newLife <= 0) {
 				Debug.Log ("On a un mort!");
 				killCreature (ennemy);
-				owner.ChangeState<VictoryConditionAgent>();
+				//owner.ChangeState<VictoryConditionAgent>();
 			} else  owner.ChangeState<SelectUnitState>();
         }
     }

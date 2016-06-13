@@ -10,10 +10,8 @@ public class CategorySelectionState : BattleState
     public override void Enter() {
         if(!canvasBtn) { 
             GameObject canvas = GameObject.Find("Left");
-            foreach (Transform child in canvas.transform) {
-                
+            foreach (Transform child in canvas.transform) {               
                 if(child.name == "Action") {
-                    
                     canvasBtn =  child.gameObject;
                     break;
                 }
@@ -27,6 +25,7 @@ public class CategorySelectionState : BattleState
                 b.enabled = false;
             } else {
                 b.enabled = true;
+				Debug.Log ("J'ai add le fucking listener");
                 b.onClick.AddListener(delegate { OnClick(btnName); });
             }
                 

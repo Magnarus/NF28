@@ -33,6 +33,7 @@ public class BattleController : StateMachine
 
 	public string gameType = "JcJ";
 
+
     public PhysicTile currentTile // Case actuelle
     {
         get { return board.tiles[pos]; }
@@ -73,9 +74,11 @@ public class BattleController : StateMachine
 
 	void OnLevelWasLoaded(int level) {
 		if (level == 1) {
+			gameType = "JcJ";
 			turn.owner = this;
 			ChangeState<InitBattleState> ();
 		} else if(level == 4) {
+			gameType = "IA";
 			Debug.Log ("MyLittleSelector" + GameObject.Find ("TileSelector").transform);
 			tileSelectionIndicator = GameObject.Find ("TileSelector").transform;
 			turn.owner = this;
