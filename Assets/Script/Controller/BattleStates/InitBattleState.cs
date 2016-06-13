@@ -21,7 +21,14 @@ public class InitBattleState : BattleState
         SpawnTestUnits(creatureJ2, "last");
         owner.teamSize = creatureJ1.Count;
         yield return null;
-		this.AddObserver(OnMatchReady, MatchController.MatchReady);
+		if (owner.gameType == "JcJ") {
+			this.AddObserver (OnMatchReady, MatchController.MatchReady);
+		} else {
+			Point p;
+			p = new Point ((int)levelData.tiles [0].pos.x, (int)levelData.tiles [0].pos.z);
+			SelectTile (p);
+			owner.ChangeState<SelectUnitState> ();
+		}
 
     }
 

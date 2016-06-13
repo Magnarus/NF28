@@ -81,4 +81,11 @@ public class MatchController : MonoBehaviour {
 		this.PostNotification(MatchReady);
 	}
 
+	void OnLevelWasLoaded(int level) {
+		if (level != 1) {
+			Destroy (this.gameObject);
+		}
+	}
+
+
 }

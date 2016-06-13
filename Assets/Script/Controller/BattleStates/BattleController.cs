@@ -31,6 +31,8 @@ public class BattleController : StateMachine
 	public Text gameStateLabel;
 	public MatchController matchController;
 
+	public string gameType = "JcJ";
+
     public PhysicTile currentTile // Case actuelle
     {
         get { return board.tiles[pos]; }
@@ -67,19 +69,19 @@ public class BattleController : StateMachine
 				break;
 			} 
 		}
-		Debug.Log (tileSelectionIndicator.gameObject.GetComponent<PlayerController> ().playerID);
-		if ("J1" == tileSelectionIndicator.gameObject.GetComponent<PlayerController>().playerID) {
-			top.SetActive (true);
-		} else {
-			top.SetActive (false);
-		}	
 	}
 
 	void OnLevelWasLoaded(int level) {
 		if (level == 1) {
 			turn.owner = this;
 			ChangeState<InitBattleState> ();
+		} else if(level == 4) {
+			Debug.Log ("MyLittleSelector" + GameObject.Find ("TileSelector").transform);
+			tileSelectionIndicator = GameObject.Find ("TileSelector").transform;
+			turn.owner = this;
+			ChangeState<InitBattleState> ();
 		}
+		Debug.Log (level);
 	}
 
 

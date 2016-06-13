@@ -25,7 +25,7 @@ public class InterruptUserInputState : BattleState
 
     IEnumerator Sequence()
     {
-		owner.matchController.localPlayer.CmdSyncPosition (getChemin(owner.currentTile));
+		if(owner.gameType == "JcJ") owner.matchController.localPlayer.CmdSyncPosition (getChemin(owner.currentTile));
         turn.hasUnitMoved = true;
         Movement m = turn.currentCreature.GetComponent<Movement>();
         yield return StartCoroutine(m.Traverse(owner.currentTile));

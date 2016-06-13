@@ -20,8 +20,7 @@ public class VictoryConditionAgent : BattleState {
 		winner = annihilation ();
 		winner = heroDead ();
 		if (winner != "") {        
-			Debug.Log ("Ouiiiii!!" + winner);
-			owner.matchController.localPlayer.CmdSyncVictory (winner);
+			if(owner.gameType == "JcJ") owner.matchController.localPlayer.CmdSyncVictory (winner);
         }   
         else {
 			owner.ChangeState<SelectUnitState>(); // On reprend le jeu

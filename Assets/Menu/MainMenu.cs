@@ -11,13 +11,16 @@ public class MainMenu : MonoBehaviour {
     public Button Exit;
 
     
-    
+	[SerializeField] private Button btn = null;
+
+
     // Use this for initialization
 	void Start () {
         Menu = Menu.GetComponent<Canvas>();
         Play = Play.GetComponent<Button>();
-        Exit = Exit.GetComponent<Button>();
-	
+		Exit = Exit.GetComponent<Button>();
+//		Debug.Log ("Start");
+		btn.onClick.AddListener (() => { StartSinglePlayer(); });	
 	}
 	
 	// Update is called once per frame
@@ -30,5 +33,9 @@ public class MainMenu : MonoBehaviour {
 
         Application.Quit();
     }
-		
+
+
+	public void StartSinglePlayer() {
+		SceneManager.LoadScene ("IA");
+	}
 }
