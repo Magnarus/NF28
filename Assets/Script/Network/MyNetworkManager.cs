@@ -10,7 +10,7 @@ public class MyNetworkManager : NetworkManager
 
 	void Start()
 	{
-		
+
 	}
 
 	public void StartGame() {
@@ -68,6 +68,5 @@ public class MyNetworkManager : NetworkManager
 	public override void OnStopClient()
 	{
 		discovery.StopBroadcast();
-		Destroy(gameObject);
 	}
 }

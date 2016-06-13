@@ -6,22 +6,23 @@ public class SelectUnitState : BattleState
     int index = 0;
     public string currentPlayer = "J1";
     List<Creature> currentPlayerList;
-    
+	public GameObject canvasTop;
 
     public override void Enter()
     {
 		this.AddObserver (OnPlayerSwitched, PlayerController.ChangePlayer);
         base.Enter();
+		if (!canvas) {
+			GameObject parent = GameObject.Find("Canvas");
+			foreach(Transform child in parent.transform) {
+				if (child.name == "Left") {
+					canvas = child.gameObject;
+					break;
+				} 
+			}
+		}
         if(index != 0)    switchPlayerIfNecessary();
-        if (!canvas) {
-            GameObject parent = GameObject.Find("Canvas");
-            foreach(Transform child in parent.transform) {
-                  if(child.name == "Left") {
-                    canvas = child.gameObject;
-                    break;
-                }
-            }
-        }
+
         canvas.SetActive(false);
     }
 
@@ -101,6 +102,19 @@ public class SelectUnitState : BattleState
 				turn.currentCreature.hasFinished = false;
 			}
 		}
+		GameObject parent = GameObject.Find("Canvas");
+		GameObject top=null;
+		foreach(Transform child in parent.transform) {
+			if (child.name == "Top") {
+				top = child.gameObject;
+				break;
+			} 
+		}
+		if (currentPlayer == owner.matchController.localPlayer.playerID) {
+			top.SetActive (true);
+		} else {
+			top.SetActive (false);
+		}	
 
 	}
 }

@@ -107,7 +107,9 @@ public class Turn
 		owner.matchController.localPlayer.CmdSyncDamage (new string[] {
 																currentEnnemy.tile.pos.x.ToString(),
 																currentEnnemy.tile.pos.y.ToString(), 
-																newLife.ToString()
+																newLife.ToString(),
+																currentCreature.tile.pos.x.ToString(),
+																currentCreature.tile.pos.y.ToString()
 														 });
 		return newLife;
 
@@ -126,6 +128,7 @@ public class Turn
             float newLife = doAttack(currentCreature, ennemy);
             currentCreature.hasFinished = true;
 			if(newLife <= 0) {
+				Debug.Log ("On a un mort!");
 				killCreature (ennemy);
 				owner.ChangeState<VictoryConditionAgent>();
 			} else  owner.ChangeState<SelectUnitState>();
@@ -137,6 +140,7 @@ public class Turn
 		if (getCurrentTeam () == "J1") {
 			creatureList = owner.creaturesJ1;
 		} else creatureList = owner.creaturesJ2;
+		owner.matchController.localPlayer.CmdSyncDeath (c.tile.pos);
 		c.gameObject.GetComponent<Animator> ().SetTrigger ("Die");
 		creatureList.Remove (c);
 		GameObject.Destroy(c.gameObject, 5.0f);

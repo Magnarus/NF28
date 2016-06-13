@@ -55,9 +55,7 @@ public class MoveTargetState : BattleState
         {
 			if (tiles.Contains(owner.currentTile))
             {
-				
 				reponse = true;           
-				Debug.Log ("Réponse " + reponse);
             }
         }
         else

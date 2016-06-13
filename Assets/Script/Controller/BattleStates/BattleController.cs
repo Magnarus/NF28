@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Descriptors;
 
 public class BattleController : StateMachine
@@ -41,7 +42,11 @@ public class BattleController : StateMachine
 		this.AddObserver (OnSyncDamage, PlayerController.LifeChanged);
 		this.AddObserver (OnPlayerStarted, PlayerController.Started);
 		this.AddObserver (OnSyncPosition, PlayerController.PositionChanged);	
+		this.AddObserver (OnCharacterDeath, PlayerController.CharacterDied);	
+		this.AddObserver (OnVictory, PlayerController.Victory);	
+		this.AddObserver (OnMatchReady, MatchController.MatchReady);
 		DontDestroyOnLoad (this.gameObject);
+
     }
 
 	void OnEnable ()
@@ -53,27 +58,61 @@ public class BattleController : StateMachine
 		
 	}
 
+	void OnMatchReady(object sender, object args) {
+		GameObject parent = GameObject.Find("Canvas");
+		GameObject top=null;
+		foreach(Transform child in parent.transform) {
+			if (child.name == "Top") {
+				top = child.gameObject;
+				break;
+			} 
+		}
+		Debug.Log (tileSelectionIndicator.gameObject.GetComponent<PlayerController> ().playerID);
+		if ("J1" == tileSelectionIndicator.gameObject.GetComponent<PlayerController>().playerID) {
+			top.SetActive (true);
+		} else {
+			top.SetActive (false);
+		}	
+	}
+
 	void OnLevelWasLoaded(int level) {
 		if (level == 1) {
 			turn.owner = this;
-			ChangeState<InitBattleState> ();	
+			ChangeState<InitBattleState> ();
 		}
 	}
 
 
 	void OnPlayerStartedLocal(object sender, object args) {
+		cameraRig.follow = ((PlayerController)sender).gameObject.transform;
 		tileSelectionIndicator = ((PlayerController)sender).gameObject.transform;
 	}
 		
 	void OnPlayerStarted(object sender, object args) {
+		cameraRig.follow = ((PlayerController)sender).gameObject.transform;
 		tileSelectionIndicator = ((PlayerController)sender).gameObject.transform;
 	}
 		
 
 	void OnSyncDamage(object sender, object args) {
 		string[] data = (string[]) args;
+
+		// La créature qui subit
 		Point p = new Point (int.Parse(data [0]), int.Parse(data [1]));
 		Creature current = board.tiles [p].contentTile.GetComponent<Creature>();
+
+		// La créature qui a fait les dégats
+		Point p2 = new Point(int.Parse(data [3]), int.Parse(data [4]));
+		Creature currentAttacker = board.tiles [p2].contentTile.GetComponent<Creature>();
+		Animator anim = currentAttacker.GetComponent<Animator> ();
+		if (currentAttacker.classCreature == "warrior" || currentAttacker.classCreature == "hero")
+		{
+			anim.SetTrigger("AttackM");
+		} else if(currentAttacker.classCreature == "archer")
+		{
+			anim.SetTrigger("AttackR");
+		}
+
 		if (current != null) {
 			current.GetComponent<CreatureDescriptor> ().HP.CurrentValue = float.Parse(data [2]);
 		}
@@ -105,6 +144,36 @@ public class BattleController : StateMachine
 
 		}
 		c.Match ();
+	}
+
+	void OnCharacterDeath(object sender, object args) {
+		// La créature qui subit
+		Point p = (Point) args;
+		PlayerController s = (PlayerController)sender;
+		Creature current = board.tiles [p].contentTile.GetComponent<Creature>();
+		if (s.playerID != matchController.localPlayer.playerID) {
+			Animator anim = current.GetComponent<Animator> ();
+			anim.SetTrigger ("Die");
+
+			if (creaturesJ1.Contains (current)) {
+				creaturesJ1.Remove (current);
+			} else {
+				creaturesJ2.Remove (current);
+			}
+
+			GameObject.Destroy(current.gameObject, 5.0f);
+
+		}
+	}
+
+	void OnVictory(object sender, object args) {
+		string winner = (string) args;
+		if (winner == matchController.localPlayer.playerID) {
+			SceneManager.LoadScene ("Victory");
+		} else {
+			SceneManager.LoadScene ("Defeat");
+		}
+
 	}
 
 }

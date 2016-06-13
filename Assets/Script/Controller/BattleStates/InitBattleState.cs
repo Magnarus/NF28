@@ -116,6 +116,7 @@ public class InitBattleState : BattleState
 	{
 		Point p;
 		if (owner.matchController.hostPlayer.isLocalPlayer) {
+			owner.matchController.localPlayer.gameObject.SetActive (false);
 			p = new Point ((int)levelData.tiles [0].pos.x, (int)levelData.tiles [0].pos.z);
 		} else {
 			owner.matchController.hostPlayer.gameObject.SetActive (false);
