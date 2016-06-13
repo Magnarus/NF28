@@ -61,8 +61,6 @@ public class Board : MonoBehaviour
             }
             t.instanceHightlighTile.SetActive(false);
             tiles.Add(t.pos, t);
-			if (i == 0)
-				DontDestroyOnLoad (instance);
         }
     }
 
@@ -178,9 +176,5 @@ public class Board : MonoBehaviour
             tiles[i].instanceHightlighTile.SetActive(false);
         }
     }
-
-
-	void Start() {
-		DontDestroyOnLoad (this.gameObject);
-	}
+		
 }

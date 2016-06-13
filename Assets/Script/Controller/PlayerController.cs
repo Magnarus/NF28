@@ -11,6 +11,8 @@ public class PlayerController : NetworkBehaviour {
 	public const string ChangePlayer = "PlayerController.ChangePlayer";
 	public const string LifeChanged = "PlayerController.LifeChange";
 	public const string PositionChanged = "PlayerController.PositionChange";
+	public const string CharacterDied = "PlayerController.CharacterDeath";
+	public const string Victory = "PlayerController.Victory";
 
 	public string playerID;
 
@@ -26,6 +28,7 @@ public class PlayerController : NetworkBehaviour {
 		base.OnStartLocalPlayer ();
 		DontDestroyOnLoad (this.gameObject);
 		this.PostNotification(StartedLocal);
+
 	}
 
 	void OnDestroy ()
@@ -62,5 +65,29 @@ public class PlayerController : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcSyncPosition(Point[] parcours) {
 		this.PostNotification (PositionChanged, parcours);
+	}
+	[Command] 
+	public void CmdSyncDeath(Point mort) {
+		RpcSyncDeath (mort);
+	}
+
+	[ClientRpc]
+	public void RpcSyncDeath(Point mort) {
+		this.PostNotification (CharacterDied, mort);
+	}
+
+	[Command]
+	public void CmdSyncVictory(string playerV) {
+		RpcSyncVictory (playerV);
+	}
+
+	[ClientRpc]
+	public void RpcSyncVictory(string mort) {
+		this.PostNotification (Victory, mort);
+	}
+
+	public void Disconnect() {
+		if(Network.connections.Length != 0)
+			Network.CloseConnection (Network.connections [Network.connections.Length - 1], true);
 	}
 }

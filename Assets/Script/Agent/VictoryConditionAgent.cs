@@ -16,22 +16,26 @@ public class VictoryConditionAgent : BattleState {
     public void checkGameState() {
         listJ1 = owner.creaturesJ1;
         listJ2 = owner.creaturesJ2;
-        if (!heroDead() && !annihilation()) {
-            owner.ChangeState<SelectUnitState>(); // On reprend le jeu
+		string winner;
+		winner = annihilation ();
+		winner = heroDead ();
+		if (winner != "") {        
+			Debug.Log ("Ouiiiii!!" + winner);
+			owner.matchController.localPlayer.CmdSyncVictory (winner);
         }   
         else {
-            owner.ChangeState<ResumeState>();
+			owner.ChangeState<SelectUnitState>(); // On reprend le jeu
         }
 
     }
 
     /** Check la condition de victoire hero mort **/
-    private bool heroDead() {
+    private string heroDead() {
         
         foreach(Creature c in listJ1) {
             if(c.classCreature == "hero") {
                 if(c.GetComponent<CreatureDescriptor>().HP.CurrentValue == 0) {
-                    return true;
+                    return "J2";
                 } 
             }
         }
@@ -42,17 +46,21 @@ public class VictoryConditionAgent : BattleState {
             {
 				if (c.GetComponent<CreatureDescriptor>().HP.CurrentValue == 0)
                 {
-                    return true;
+                    return "J1";
                 }
              }
         }
 
-        return false;
+        return "";
     }
 
-    private bool annihilation() 
+    private string annihilation() 
     {
-        return listJ1.Count == 0 || listJ2.Count == 0;
+		if (listJ1.Count == 0)
+			return "J2";
+		else if( listJ2.Count == 0) return "J1";
+
+		return "";
     }
 
 
