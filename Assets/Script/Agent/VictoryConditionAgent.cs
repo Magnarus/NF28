@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Descriptors;
 
-public class VictoryConditionAgent : BattleState {
+public class VictoryConditionAgent : Agent{
     List<Creature> listJ1;
     List<Creature> listJ2;
+	BattleController owner;
 
 
-	public override void Enter() {
-		base.Enter ();
+	public void Start() {
+		owner = GameObject.Find ("BattleController").GetComponent<BattleController> ();
 		checkGameState ();
 	}
 
@@ -63,5 +64,14 @@ public class VictoryConditionAgent : BattleState {
 		return "";
     }
 
+
+	public override void onRequest(Agent sender){
+		Debug.Log ("onRequest VictoryCond");
+	}
+
+
+	public override void onInform(Agent sender){
+		Debug.Log ("onInform VictoryCond");
+	}
 
 }

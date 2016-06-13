@@ -31,6 +31,9 @@ public class BattleController : StateMachine
 	public Text gameStateLabel;
 	public MatchController matchController;
 
+	public string gameMode { get; set;}
+
+
     public PhysicTile currentTile // Case actuelle
     {
         get { return board.tiles[pos]; }

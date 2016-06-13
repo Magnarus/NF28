@@ -89,6 +89,10 @@ public class SelectUnitState : BattleState
 			index = 0;
 			turn.Clear();
             currentPlayer = (currentPlayer == "J1") ? "J2" : "J1";
+			if (owner.gameMode == "IA" && currentPlayer == "J2") {
+				MessageInfo messageInfo = new MessageInfo ("REQUEST");
+				DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("BeginTurn", messageInfo, SendMessageOptions.DontRequireReceiver);
+			}
 			owner.matchController.localPlayer.CmdChangeCurrentPlayer ();
         } 
     }
