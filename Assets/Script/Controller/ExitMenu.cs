@@ -14,21 +14,15 @@ public class ExitMenu : MonoBehaviour {
 	}
 	
 	public void ExitGame() {
-		/*
-
-		if (!bc.matchController.localPlayer.gameObject) {
-			Destroy (bc.matchController.localPlayer.gameObject);
-			Destroy (bc.matchController.remotePlayer.gameObject);
-		}
-		Destroy (GameObject.Find("BattleController"));
-		Destroy (GameObject.Find("Match Controller"));
-		Destroy (GameObject.Find("DiscoveryManager"));*/
 		BattleController bc = GameObject.Find ("BattleController").GetComponent<BattleController> ();
 		MyNetworkManager m = GameObject.Find ("NetworkManager").GetComponent<MyNetworkManager> ();
-		if(m.discovery != null) m.StopClient ();
-		if(bc.matchController.clientPlayer != null)		bc.matchController.clientPlayer.Disconnect ();
-		if(bc.matchController.hostPlayer != null)	 bc.matchController.hostPlayer.Disconnect ();
-
+		if (bc.matchController.localPlayer.isServer) {
+			Debug.Log ("Je suis l'host et je suis déco!");
+			MyNetworkManager.singleton.StopHost ();
+		} else {
+			MyNetworkManager.singleton.StopClient ();
+		}
+		Debug.Log ("Client connected : " + m.IsClientConnected() + " network actif : " + m.isNetworkActive);
 
 		GameObject[] allGO  = UnityEngine.Object.FindObjectsOfType<GameObject>();
 		foreach (GameObject g in allGO) {

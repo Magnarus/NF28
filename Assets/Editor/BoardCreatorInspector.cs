@@ -21,19 +21,19 @@ public class BoardCreatorInspector : Editor {
     {
         DrawDefaultInspector();
 
-        if (GUILayout.Button("Clear"))
+        if (GUILayout.Button("Réinitialiser"))
             current.Clear();
-        if (GUILayout.Button("Grow"))
+        if (GUILayout.Button("Créer herbe"))
             current.Grow();
-        if (GUILayout.Button("GrowWater"))
+        if (GUILayout.Button("Créer eau"))
             current.GrowWater();
-        if (GUILayout.Button("GrowBoue"))
+        if (GUILayout.Button("Créer boue"))
             current.GrowBoue();
-        if (GUILayout.Button("Shrink"))
+        if (GUILayout.Button("Diminuer"))
             current.Shrink();
-        if (GUILayout.Button("Grow Area"))
+        if (GUILayout.Button("Générer zone"))
             current.GrowArea();
-        if (GUILayout.Button("Shrink Area"))
+        if (GUILayout.Button("Diminuer zone"))
             current.ShrinkArea();
         if (GUILayout.Button("Save"))
             current.Save();

@@ -16,6 +16,7 @@ public class MyNetworkManager : NetworkManager
 	public void StartGame() {
 		if (discovery.discoveredGames.Count == 0) {
 			// Create a host
+			Debug.Log("Je serais l'host");
 			StartGameHost();
 		} else {
 			// Create a client
@@ -44,9 +45,9 @@ public class MyNetworkManager : NetworkManager
 	{
 		discovery.StopBroadcast();
 		Debug.Log("Start Host Broadcast....");
-		SceneManager.LoadScene (1);
 		discovery.broadcastData = networkPort.ToString();
 		discovery.StartAsServer();
+		SceneManager.LoadScene (1);
 
 	}
 
@@ -56,7 +57,7 @@ public class MyNetworkManager : NetworkManager
 		if(conn.connectionId > 0)
 		{
 			Debug.Log("Stop Host Broadcast...");
-			//discovery.StopBroadcast();
+			discovery.StopBroadcast();
 		}
 	}
 
@@ -68,5 +69,6 @@ public class MyNetworkManager : NetworkManager
 	public override void OnStopClient()
 	{
 		discovery.StopBroadcast();
+		Destroy(gameObject);
 	}
 }
