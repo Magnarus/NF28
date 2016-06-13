@@ -4,8 +4,9 @@ using System.Collections;
 public class TouchInput : MonoBehaviour {
 
     public LayerMask touchInputMask;
-	public float perspectiveZoomSpeed = 0.5f;        // The rate of change of the field of view in perspective mode.
-	public float orthoZoomSpeed = 0.5f;        // The rate of change of the orthographic size in orthographic mode.
+	public float perspectiveZoomSpeed = 0.2f;        // The rate of change of the field of view in perspective mode.
+	public float orthoZoomSpeed = 0.2f;        // The rate of change of the orthographic size in orthographic mode.
+	private Vector2 startPoint;
 
 	// Update is called once per frame
 	void Update () {
@@ -36,39 +37,10 @@ public class TouchInput : MonoBehaviour {
 			// If there are two touches on the device...
 			if (Input.touchCount == 2)
 			{
-				// Store both touches.
-				Touch touchZero = Input.GetTouch(0);
-				Touch touchOne = Input.GetTouch(1);
-
-				// Find the position in the previous frame of each touch.
-				Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-				Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-				// Find the magnitude of the vector (the distance) between the touches in each frame.
-				float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-				float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
-
-				// Find the difference in the distances between each frame.
-				float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-
-				// If the camera is orthographic...
-				Camera camera = GetComponent<Camera>();
-				if (camera.orthographic)
-				{
-					// ... change the orthographic size based on the change in distance between the touches.
-					camera.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
-
-					// Make sure the orthographic size never drops below zero.
-					camera.orthographicSize = Mathf.Max(camera.orthographicSize, 0.1f);
-				}
-				else
-				{
-					// Otherwise change the field of view based on the change in distance between the touches.
-					camera.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
-
-					// Clamp the field of view to make sure it's between 0 and 180.
-					camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, 0.1f, 179.9f);
-				}
+				HandleZoom ();
+			}
+			if (Input.touchCount == 1) {
+				//HandleSwipe ();
 			}
 			
 			foreach (Touch touch in Input.touches) {
@@ -87,22 +59,60 @@ public class TouchInput : MonoBehaviour {
 				}
 			}
 		}
-            
-
-    /*   foreach(Touch touch in Input.touches)
-       {
-           Debug.Log("one touch !");
-           Ray ray = GetComponent<Camera>().ScreenPointToRay(touch.position);
-           RaycastHit hit;
-
-           if(Physics.Raycast(ray,out hit, touchInputMask))
-           {
-               GameObject recipient = hit.transform.gameObject;
-               if(touch.phase == TouchPhase.Ended)
-               {
-                   recipient.SendMessage("OnTouch", hit.point, SendMessageOptions.DontRequireReceiver);
-               }
-           }
-		*/
     }
+
+	private void HandleZoom() {
+
+		// Store both touches.
+		Touch touchZero = Input.GetTouch(0);
+		Touch touchOne = Input.GetTouch(1);
+
+		// Find the position in the previous frame of each touch.
+		Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+		Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+		// Find the magnitude of the vector (the distance) between the touches in each frame.
+		float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+		float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+		// Find the difference in the distances between each frame.
+		float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+		// If the camera is orthographic...
+		Camera camera = GetComponent<Camera>();
+		if (camera.orthographic)
+		{
+			// ... change the orthographic size based on the change in distance between the touches.
+			camera.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
+
+			// Make sure the orthographic size never drops below zero.
+			camera.orthographicSize = Mathf.Max(camera.orthographicSize, 0.1f);
+		}
+		else
+		{
+			// Otherwise change the field of view based on the change in distance between the touches.
+			camera.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
+
+			// Clamp the field of view to make sure it's between 0 and 180.
+			camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, 0.1f, 179.9f);
+		}
+	}
+
+	private void HandleSwipe() {
+		Touch currentTouch = Input.GetTouch(0);
+
+		if (currentTouch.phase == TouchPhase.Began) {
+			this.startPoint = currentTouch.position;
+		}
+
+		if (currentTouch.phase == TouchPhase.Moved) {
+			Vector2 delta = currentTouch.position - this.startPoint;
+
+			Camera.main.transform.Translate(
+				-delta.x,
+				-delta.y,
+				0
+			);
+		}
+	}
 }
