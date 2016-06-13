@@ -67,6 +67,13 @@ public class PhysicTile : MonoBehaviour {
         Load(new Point((int)v.x, (int)v.z), (int)v.y);
     }
 
-
+	public void OnTouch() {
+		BattleController controller = GameObject.Find ("BattleController").GetComponent<BattleController> ();
+		controller.tileSelectionIndicator.localPosition = center;
+		controller.pos = pos;
+		if (controller.CurrentState.GetType () == typeof(MoveTargetState)) {
+			((MoveTargetState)controller.CurrentState).MoveCharacter ();
+		}
+	}
 
 }

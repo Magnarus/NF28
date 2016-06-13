@@ -28,6 +28,10 @@ public class AttackState : BattleState
             SelectTile(e.info + pos);
     }
 
+	public void Move(Point p) {
+		SelectTile (p + pos);
+	}
+
     /** Appelé à la selection d'un tile pour attaque, on vérifie si on peut y faire quelque chose **/
     protected override void OnFire(object sender, InfoEventArgs<int> e)
     {
@@ -41,9 +45,20 @@ public class AttackState : BattleState
             turn.ManageBattle(currentEnnemy);
             
         }
-        
-
     }
+
+	//public duplicate of OnFire
+	public void Attack() {
+		GameObject content = owner.currentTile.contentTile;
+		currentEnnemy = null;
+
+		if (content != null)
+		{
+			currentEnnemy = content.GetComponent<Creature>();
+			turn.ManageBattle(currentEnnemy);
+
+		}
+	}
 
    
     /** Active l'overlay de sélection de la cible **/

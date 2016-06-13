@@ -50,6 +50,7 @@ public class MoveTargetState : BattleState
 
     protected override void OnFire(object sender, InfoEventArgs<int> e)
     {
+		
         if (e.info == 0)
         {
 			if (tiles.Contains(owner.currentTile))
@@ -65,7 +66,12 @@ public class MoveTargetState : BattleState
         }
     }
 
-
-
-
+	//public duplicate of OnFire
+	public void MoveCharacter() {
+		if (tiles.Contains(owner.currentTile))
+		{
+			reponse = true;           
+			Debug.Log ("Réponse " + reponse);
+		}
+	}
 }

@@ -37,6 +37,29 @@ public class SelectUnitState : BattleState
 
     protected override void OnFire(object sender, InfoEventArgs<int> e)
     {
+		/*
+		if(owner.matchController.localPlayer.playerID == currentPlayer) {
+			GameObject content = owner.currentTile.contentTile;
+			currentPlayerList = (currentPlayer == "J1") ? creatureJ1 : creatureJ2;
+			Creature c = null;
+
+			if (content != null)
+			{
+				c = content.GetComponent<Creature>();
+				if (c != null && currentPlayerList.Contains(c) && !c.hasFinished)
+				{
+					index++;
+					owner.turn.Change(c);
+					canvas.SetActive(true);
+					owner.ChangeState<CategorySelectionState>();
+				}
+			}
+		}*/
+        
+    }
+
+	//Public duplicate of OnFire.
+	public void characterClicked() {
 		if(owner.matchController.localPlayer.playerID == currentPlayer) {
 			GameObject content = owner.currentTile.contentTile;
 			currentPlayerList = (currentPlayer == "J1") ? creatureJ1 : creatureJ2;
@@ -54,8 +77,7 @@ public class SelectUnitState : BattleState
 				}
 			}
 		}
-        
-    }
+	}
 
 
     // Switch entre player avant mieux peut être
