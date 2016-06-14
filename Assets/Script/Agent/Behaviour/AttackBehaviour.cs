@@ -15,7 +15,7 @@ public class AttackBehaviour : AgentBehaviour {
 
 	public override bool Run() {
 		Movement m = ((AgentCreature)myAgent).CurrentCreature.gameObject.GetComponent<Movement> ();
-		List<PhysicTile> tiles = m.GetTilesInRange
+		List<PhysicTile> tiles = m.GetTilesInRange (myAgent.controller.board);
 		return true;
 	}
 
