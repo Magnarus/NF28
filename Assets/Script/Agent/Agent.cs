@@ -17,16 +17,16 @@ public abstract class Agent : MonoBehaviour {
 	public void receiveMessage(MessageInfo messageInfo){
 		switch (messageInfo.getPerformatif()) {
 		case "REQUEST":
-			onRequest (messageInfo.getSender ());
+			onRequest (messageInfo.getSender (), messageInfo.getData());
 			break;
 		case "INFORM":
-			onInform (messageInfo.getSender ());
+			onInform (messageInfo.getSender (), messageInfo.getData());
 			break;
 			
 		}
 	}
 
-	public abstract void onRequest(Agent sender);
-	public abstract void onInform(Agent sender);
+	public abstract void onRequest(Agent sender, object data);
+	public abstract void onInform(Agent sender, object data);
 
 }

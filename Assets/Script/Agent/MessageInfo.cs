@@ -4,9 +4,14 @@ using System.Collections;
 public class MessageInfo : MonoBehaviour {
 	string performatif;
 	Agent sender;
-
-	public MessageInfo(string perf){
+	object data;
+	string conversationID;
+		
+	public MessageInfo(string perf, Agent send = null, object data = null, string conversationID = null) {
 		performatif = perf;
+		sender = send;
+		this.data = data;
+		this.conversationID = conversationID;
 	}
 
 	public string getPerformatif(){
@@ -19,6 +24,10 @@ public class MessageInfo : MonoBehaviour {
 
 	public Agent getSender(){
 		return this.sender;
+	}
+
+	public object getData() {
+		return data;
 	}
 
 	// Use this for initialization

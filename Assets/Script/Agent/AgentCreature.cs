@@ -23,12 +23,12 @@ public class AgentCreature : Agent {
 	
 	}
 
-	public override void onRequest(Agent sender){
+	public override void onRequest(Agent sender, object data){
 		Debug.Log ("onRequest AgentCreature");
 	}
 
 
-	public override void onInform(Agent sender){
+	public override void onInform(Agent sender, object data){
 		Debug.Log ("onInform AgentCreature");
 	}
 

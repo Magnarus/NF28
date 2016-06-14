@@ -64,12 +64,12 @@ public class VictoryConditionAgent : Agent{
     }
 
 
-	public override void onRequest(Agent sender){
+	public override void onRequest(Agent sender, object data){
 		Debug.Log ("onRequest VictoryCond");
 	}
 
 
-	public override void onInform(Agent sender){
+	public override void onInform(Agent sender, object data){
 		Debug.Log ("onInform VictoryCond");
 	}
 
