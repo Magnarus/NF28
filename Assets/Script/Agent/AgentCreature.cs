@@ -14,6 +14,14 @@ public class AgentCreature : Agent {
 		}
 	}
 
+	private Creature mCurrentCreature;
+
+	public Creature CurrentCreature {
+		get {
+			return mCurrentCreature;
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 	}

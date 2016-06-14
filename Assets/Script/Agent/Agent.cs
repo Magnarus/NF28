@@ -3,10 +3,12 @@ using System.Collections;
 
 public abstract class Agent : MonoBehaviour {
 
+	public BattleController controller;
 	private string name;
 	// Use this for initialization
 
 	void Start () {
+		controller = GameObject.Find ("BattleController").GetComponent<BattleController> ();
 	}
 	
 	// Update is called once per frame

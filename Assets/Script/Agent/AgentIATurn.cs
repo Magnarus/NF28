@@ -5,12 +5,12 @@ using Descriptors;
 
 public class AgentIATurn : Agent {
 
-	private BattleController controller;
+
 	private List<Creature> creaturesIA;
 	private List<CreatureAction> actions = new List<CreatureAction>();
 	// Use this for initialization
 	void Start () {
-		controller = GameObject.Find ("BattleController").GetComponent<BattleController> ();
+
 	}
 	
 	// Update is called once per frame
