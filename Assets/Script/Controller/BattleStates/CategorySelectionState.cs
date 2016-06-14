@@ -25,7 +25,7 @@ public class CategorySelectionState : BattleState
                 b.enabled = false;
             } else {
                 b.enabled = true;
-				Debug.Log ("J'ai add le fucking listener");
+				//Debug.Log ("J'ai add le fucking listener");
                 b.onClick.AddListener(delegate { OnClick(btnName); });
             }
                 
