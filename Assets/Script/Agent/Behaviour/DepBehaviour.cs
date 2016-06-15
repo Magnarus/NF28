@@ -4,27 +4,27 @@ public class DepBehaviour : AgentBehaviour
 {
 	public DepBehaviour ()
 	{
-		Movement mov = ((AgentCreature)MParent).CurrentCreature.gameObject.GetComponent<Movement> ();
+		Movement mov = ((AgentCreature)Parent).CurrentCreature.gameObject.GetComponent<Movement> ();
 		List<PhysicTile> tile = mov.GetTilesInRange();
 	}
 
 	public override bool Run ()
 	{
 		TileInfoList infoList = new TileInfoList ();
-		List<Creature> opponentCreature = MParent.controller.creaturesJ1;
+		List<Creature> opponentCreature = Parent.controller.creaturesJ1;
 		Movement mov;
 		List<PhysicTile> creatureTileRange;
 		foreach(Creature c in opponentCreature) {
 			mov = c.gameObject.GetComponent<Movement> ();
-			creatureTileRange = mov.GetTilesInRange (MParent.controller.board);
+			creatureTileRange = mov.GetTilesInRange (Parent.controller.board);
 			//TODO add attack tile range
 			foreach (PhysicTile tile in creatureTileRange) {
 				infoList.addTile (tile, c);
 			}
 		}
-		Creature current = ((AgentCreature)MParent).CurrentCreature;
+		Creature current = ((AgentCreature)Parent).CurrentCreature;
 		mov = current.gameObject.GetComponent<Movement> ();
-		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(MParent.controller.board);
+		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
 		PhysicTile saferTile = getSafestTile (infoList, currentCreatureMovTileRange);
 		CreatureAction action = new CreatureAction (ActionType.DEP, current, saferTile);
 		//TODO send it to agent

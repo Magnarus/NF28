@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class AgentCreature : Agent {
+public class AgentCreature : Agent {
 
 	private AgentBehaviour attackBehaviour;
 
-	private AgentCreature mInstanceCreator;
+	private static AgentCreature mInstanceCreator;
 
 	public static AgentCreature Instance
 	{
