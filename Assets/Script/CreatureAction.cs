@@ -36,4 +36,12 @@ public class CreatureAction {
 			mActor = value;
 		}
 	}
+
+	public CreatureAction(ActionType type, Creature actor,  PhysicTile dest = null, Creature target = null, float damage = 0) {
+		mType = type;
+		mActor = actor;
+		mDestination = dest;
+		mTarget = target;
+		mDamage = damage;
+	}
 }

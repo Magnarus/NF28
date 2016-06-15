@@ -5,6 +5,7 @@ public class AgentCreature : Agent {
 
 	private static AgentCreature mInstanceCreator;
 
+
 	public static AgentCreature Instance
 	{
 		get
