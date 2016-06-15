@@ -182,7 +182,7 @@ public class Board : MonoBehaviour
 		// Calcul de la range des cases extrêmes
 		List<PhysicTile> returnedList = new List<PhysicTile>(tiles);
 		RangeInfoList range = new RangeInfoList ();
-
+		Debug.Log (agent.CurrentCreature.classCreature);
 		int xMax = -1; 
 		int xMin = 9999;
 		// Récupération des tiles extrêmes
@@ -190,12 +190,10 @@ public class Board : MonoBehaviour
 			RangeInfo currentR = range.GetRangeInfo (t.pos.x);
 			if (currentR == null) {
 				range.AddRangeInfo (t.pos.x, t.pos.y, t.pos.y);
-
 			} else {
 				if (currentR.MinY > t.pos.y) { 
 					// C'est le plus éloigné sur la ligne à gauche
 					currentR.MinY = t.pos.y;
-
 				} else if (currentR.MaxY < t.pos.y) {
 					currentR.MaxY = t.pos.y;
 				}
@@ -214,21 +212,21 @@ public class Board : MonoBehaviour
 		// On récupère la portée pour chaque extrême
 		List<PhysicTile> tmpMax;
 		List<PhysicTile> tmpMin; 
-		foreach (RangeInfo r in range.List) {
-			tmpMax = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MaxY)]);
-			tmpMin = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MinY)]);
+
+		/*foreach (RangeInfo r in range.List) {
+			//tmpMax = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MaxY)]);
+			//tmpMin = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MinY)]);
 			foreach (PhysicTile t in tmpMax) {
 				if (!returnedList.Contains (t)) {
 					returnedList.Add (t);
 				}
-			}
-			foreach (PhysicTile t in tmpMin) {
+			/*	foreach (PhysicTile t in tmpMin) {
 				if (!returnedList.Contains (t)) {
 					returnedList.Add (t);
 				}
 			}
-		}
-
+		
+*/
 		// Tout le haut 
 		RangeInfo max = range.GetRangeInfo (xMax);
 		for (int j = max.MinY; j < max.MaxY; j++) {
@@ -248,7 +246,6 @@ public class Board : MonoBehaviour
 					returnedList.Add (t);
 			}
 		}
-
 
 		return returnedList;
 	}

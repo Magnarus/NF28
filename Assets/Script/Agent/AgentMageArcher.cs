@@ -50,7 +50,7 @@ public class AgentMageArcher : AgentCreature {
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
-			StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
+			//action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:

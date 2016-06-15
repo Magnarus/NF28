@@ -52,7 +52,7 @@ public class AgentWarrior : AgentCreature {
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
-			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
+			StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:
