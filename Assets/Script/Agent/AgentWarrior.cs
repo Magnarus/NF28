@@ -24,20 +24,55 @@ public class AgentWarrior : AgentCreature {
 	
 	}
 
-	public void choseAction(MessageInfo info){
-		CreatureAction action;
-		if (mAgentWarrior.AttackBehaviour.finish ()) {//On se bat !
-			action = new CreatureAction (ActionType.ATK, null, null, 0, null);
-		} else if (mAgentWarrior.DepBehaviour.finish ()) {//On se déplace
-			action = new CreatureAction (ActionType.DEP, null, null, 0, null);
-		} else {//On reste sur place
-			action = new CreatureAction (ActionType.STAY, null, null, 0, null);
-		}		
+	private void SendMessage(MessageInfo info){
+		CreatureAction action = choseAction (info);
+		MessageInfo infoIATurn = new MessageInfo ("INFORM", this, action);
+		mAgentWarrior.gameObject.SendMessage("MessageReceive",infoIATurn, SendMessageOptions.DontRequireReceiver);
+	}
 
+
+	public CreatureAction choseAction(MessageInfo info){
+		CreatureAction action = mAgentWarrior.AttackBehaviour.Run ();
+		if (action == null) {
+			action = mAgentWarrior.DepBehaviour.Run ();
+			if (action == null) {
+				action = mAgentWarrior.StayBehaviour.Run();
+			}
+		} 
+		return action;
 	}
 
 
 	public void doAction(MessageInfo info){
+		CreatureAction action = info.getData () as CreatureAction;
+		string typeAction = action.GetType ().ToString();
+		if (typeAction.Equals (ActionType.ATK)) {
+			if (action.Target == null) {
+				action = choseAction (info);
+			}
+		}else if (typeAction.Equals (ActionType.DEP)) {
+			if (action.Destination.contentTile!=null) { // récupérer si la tile est disponible 
+				action = choseAction (info);
+			}
+		}
+		executeAction (action);
+	}
+
+	public void executeAction(CreatureAction action){
+		switch (action.Type) {
+		case ActionType.ATK:
+			controller.turn.doAttack (action.Actor, action.Target);
+			mAgentWarrior.CurrentCreature.hasFinished = true;
+			break;
+		case ActionType.DEP:
+			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
+			mAgentWarrior.CurrentCreature.hasFinished = true;
+			break;
+		case ActionType.STAY:
+			break;
+		default:
+			break;
+		}
 	}
 
 	public override void onRequest(Agent sender, object data){

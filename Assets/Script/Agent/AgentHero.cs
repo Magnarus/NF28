@@ -24,32 +24,66 @@ public class AgentHero : AgentCreature {
 	
 	}
 
-	public void choseAction(MessageInfo info){
-		CreatureAction action;
-		if (mAgentHero.DepBehaviour.finish ()) {//On se bat !
-
-		} else if (mAgentHero.AttackBehaviour.finish ()) {//On se déplace
-
-		} else {//On reste sur place
-
-		}		
-
+	private void SendMessage(MessageInfo info){
+		CreatureAction action = choseAction (info);
+		MessageInfo infoIATurn = new MessageInfo ("INFORM", this, action);
+		mAgentHero.gameObject.SendMessage("MessageReceive",infoIATurn, SendMessageOptions.DontRequireReceiver);
 	}
 
+	public CreatureAction choseAction(MessageInfo info){
+		CreatureAction action = mAgentHero.DepBehaviour.Run ();
+		if (action == null) {
+			action = mAgentHero.AttackBehaviour.Run ();
+			if (action == null) {
+			action = mAgentHero.StayBehaviour.Run();
+			}
+		} 
+		return action;
+	}
 
 	public void doAction(MessageInfo info){
+		CreatureAction action = info.getData () as CreatureAction;
+		string typeAction = action.GetType ().ToString();
+		if (typeAction.Equals (ActionType.ATK)) {
+			if (action.Target == null) {
+				action = choseAction (info);
+			}
+		}else if (typeAction.Equals (ActionType.DEP)) {
+			if (action.Destination.contentTile!=null) {
+				action = choseAction (info);
+			}
+		}
+		executeAction (action);
 	}
 
+	public void executeAction(CreatureAction action){
+		switch (action.Type) {
+		case ActionType.ATK:
+			controller.turn.doAttack (action.Actor, action.Target);
+			mAgentHero.CurrentCreature.hasFinished = true;
+			break;
+		case ActionType.DEP:
+			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
+			mAgentHero.CurrentCreature.hasFinished = true;
+			break;
+		case ActionType.STAY:
+			break;
+		default:
+			break;
+		}
+
+
+	}
 
 	public override void onRequest(Agent sender, object data){
 		Debug.Log ("onRequest AgentHero");
 		MessageInfo info = data as MessageInfo;
 		if(info.getConversationId().Equals("choseAction")){
-			//choseAction(info);
+			choseAction(info);
 		}
 		else
 		{
-			//doAction(info);
+			doAction(info);
 		}
 	}
 
