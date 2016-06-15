@@ -104,7 +104,7 @@ public class AttackBehaviour : AgentBehaviour {
 		Point last = p [p.Count - 1];
 		for (int i = p.Count-2 ; i >= 0; i--) {
 			Parent.controller.board.tiles[last].prev = Parent.controller.board.tiles[p[i]];
-			last = Parent.controller.board.tiles[p[i]];
+			last = Parent.controller.board.tiles[p[i]].pos;
 		}
 	}
 
