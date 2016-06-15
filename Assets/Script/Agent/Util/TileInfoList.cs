@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 /**
  * Classe utilitaire de manipulation pour le DepBehaviour
@@ -25,11 +26,18 @@ public class TileInfoList
 
 	public TileInfo getTileInfo(PhysicTile tile) {
 		foreach (TileInfo ti in infos) {
-			if (ti.Tile == tile) {
+			if (ti.Tile.pos == tile.pos) {
 				return ti;
 			}
 		}
 		return null;
+	}
+
+	public void debug() {
+		Debug.Log ("Count : " + infos.Count);
+		foreach(TileInfo i in infos) {
+			Debug.Log("tile : pos(x, y) : " + i.Tile.pos);
+		}
 	}
 }
 
