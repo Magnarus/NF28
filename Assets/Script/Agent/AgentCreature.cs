@@ -4,7 +4,14 @@ using System.Collections.Generic;
 
 public class AgentCreature : Agent {
 
-	private AgentBehaviour attackBehaviour;
+	protected override void OnStart ()
+	{
+		base.OnStart ();
+		depBehaviour = new DepBehaviour (this);
+		stayBehaviour = new StayBehaviour (this);
+	}
+
+	protected AttackBehaviour attackBehaviour;
 
 	private List<Point> chemin;
 	public List<Point> Chemin {
@@ -13,18 +20,7 @@ public class AgentCreature : Agent {
 		}
 	}
 
-	private static AgentCreature mInstanceCreator;
-
-	public static AgentCreature Instance
-	{
-		get
-		{
-			if (mInstanceCreator == null) mInstanceCreator = new AgentCreature();
-			return mInstanceCreator;
-		}
-	}
-
-	public AgentBehaviour AttackBehaviour {
+	public AttackBehaviour AttackBehaviour {
 		get {
 			return attackBehaviour;
 		}
@@ -33,9 +29,9 @@ public class AgentCreature : Agent {
 		}
 	}
 
-	private AgentBehaviour depBehaviour;
+	protected DepBehaviour depBehaviour;
 
-	public AgentBehaviour DepBehaviour {
+	public DepBehaviour DepBehaviour {
 		get {
 			return depBehaviour;
 		}
@@ -44,9 +40,9 @@ public class AgentCreature : Agent {
 		}
 	}
 
-	private AgentBehaviour stayBehaviour;
+	private StayBehaviour stayBehaviour;
 
-	public AgentBehaviour StayBehaviour {
+	public StayBehaviour StayBehaviour {
 		get {
 			return stayBehaviour;
 		}

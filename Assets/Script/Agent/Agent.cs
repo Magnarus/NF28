@@ -8,9 +8,12 @@ public abstract class Agent : MonoBehaviour {
 	// Use this for initialization
 
 	void Start () {
+		OnStart();
+	}
+
+	protected virtual void OnStart() {
 		controller = GameObject.Find ("BattleController").GetComponent<BattleController> ();
 	}
-	
 	// Update is called once per frame
 	void Update () {
 	

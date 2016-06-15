@@ -30,10 +30,10 @@ public class DictionaryAgent : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		dictionary.Add("warriorAgent",AgentWarrior.Instance);
-		dictionary.Add("archerAgent",AgentMageArcher.Instance);
-		dictionary.Add("mageAgent",AgentMageArcher.Instance);
-		dictionary.Add("heroAgent",AgentHero.Instance);
+		dictionary.Add("warriorAgent", new AgentWarrior());
+		dictionary.Add("archerAgent",new AgentMageArcher());
+		dictionary.Add("mageAgent",new AgentMageArcher());
+		dictionary.Add("heroAgent",new AgentHero());
 	}
 	
 	// Update is called once per frame

@@ -3,25 +3,9 @@ using System.Collections;
 
 public class AgentWarrior : AgentCreature {
 
-	private static AgentWarrior mAgentWarrior;
-
-	public static AgentWarrior Instance
-	{
-		get
-		{
-			if (mAgentWarrior == null) mAgentWarrior = new AgentWarrior();
-			return mAgentWarrior;
-		}
-	}
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	protected override void OnStart() {
+		base.OnStart ();
+		attackBehaviour = new WarriorAttackBehaviour (this); 
 	}
 
 	private void SendMessage(MessageInfo info){
@@ -32,11 +16,11 @@ public class AgentWarrior : AgentCreature {
 
 
 	public CreatureAction choseAction(MessageInfo info){
-		CreatureAction action = mAgentWarrior.AttackBehaviour.Run ();
+		CreatureAction action = AttackBehaviour.Run ();
 		if (action == null) {
-			action = mAgentWarrior.DepBehaviour.Run ();
+			action = DepBehaviour.Run ();
 			if (action == null) {
-				action = mAgentWarrior.StayBehaviour.Run();
+				action = StayBehaviour.Run();
 			}
 		} 
 		return action;
@@ -62,11 +46,11 @@ public class AgentWarrior : AgentCreature {
 		switch (action.Type) {
 		case ActionType.ATK:
 			controller.turn.doAttack (action.Actor, action.Target);
-			mAgentWarrior.CurrentCreature.hasFinished = true;
+			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
-			mAgentWarrior.CurrentCreature.hasFinished = true;
+			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:
 			break;

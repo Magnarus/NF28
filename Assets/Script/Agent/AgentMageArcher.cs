@@ -3,26 +3,9 @@ using System.Collections;
 
 public class AgentMageArcher : AgentCreature {
 
-
-	private static AgentMageArcher mAgentMageArcher;
-
-	public static AgentMageArcher Instance
-	{
-		get
-		{
-			if (mAgentMageArcher == null) mAgentMageArcher = new AgentMageArcher();
-			return mAgentMageArcher;
-		}
-	}
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	protected override void OnStart() {
+		base.OnStart ();
+		attackBehaviour = new ArcherAttackBehaviour (this);
 	}
 
 	private void SendMessage(MessageInfo info){
@@ -32,11 +15,11 @@ public class AgentMageArcher : AgentCreature {
 	}
 
 	public CreatureAction choseAction(MessageInfo info){
-		CreatureAction action = mAgentMageArcher.DepBehaviour.Run ();
+		CreatureAction action = DepBehaviour.Run ();
 		if (action == null) {
-			action = mAgentMageArcher.AttackBehaviour.Run ();
+			action = AttackBehaviour.Run ();
 			if (action == null) {
-				action = mAgentMageArcher.StayBehaviour.Run();
+				action = StayBehaviour.Run();
 			}
 		} 
 		return action;
@@ -61,11 +44,11 @@ public class AgentMageArcher : AgentCreature {
 		switch (action.Type) {
 		case ActionType.ATK:
 			controller.turn.doAttack (action.Actor, action.Target);
-			mAgentMageArcher.CurrentCreature.hasFinished = true;
+			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
-			mAgentMageArcher.CurrentCreature.hasFinished = true;
+			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:
 			break;

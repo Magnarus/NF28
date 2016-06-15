@@ -2,17 +2,10 @@
 using System.Collections;
 
 public class StayBehaviour : AgentBehaviour {
-
-	// Use this for initialization
-	void Start () {
 	
+	public StayBehaviour(Agent agent) {
+		Parent = agent;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 
 	public override CreatureAction Run(){
 		((AgentCreature)Parent).CurrentCreature.hasMoved = true;

@@ -2,26 +2,10 @@
 using System.Collections;
 
 public class AgentHero : AgentCreature {
-
-	private static AgentHero mAgentHero;
-
-	public static AgentHero Instance
-	{
-		get
-		{
-			if (mAgentHero == null) mAgentHero = new AgentHero();
-			return mAgentHero;
-		}
-	}
-
-	// Use this for initialization
-	void Start () {
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	protected override void OnStart() {
+		base.OnStart ();
+		attackBehaviour = new HeroAttackBehaviour (this);
 	}
 
 	private void SendMessage(MessageInfo info){
@@ -31,11 +15,11 @@ public class AgentHero : AgentCreature {
 	}
 
 	public CreatureAction choseAction(MessageInfo info){
-		CreatureAction action = mAgentHero.DepBehaviour.Run ();
+		CreatureAction action = DepBehaviour.Run ();
 		if (action == null) {
-			action = mAgentHero.AttackBehaviour.Run ();
+			action = AttackBehaviour.Run ();
 			if (action == null) {
-			action = mAgentHero.StayBehaviour.Run();
+			action = StayBehaviour.Run();
 			}
 		} 
 		return action;
@@ -60,11 +44,11 @@ public class AgentHero : AgentCreature {
 		switch (action.Type) {
 		case ActionType.ATK:
 			controller.turn.doAttack (action.Actor, action.Target);
-			mAgentHero.CurrentCreature.hasFinished = true;
+			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
-			mAgentHero.CurrentCreature.hasFinished = true;
+			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:
 			break;

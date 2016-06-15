@@ -7,8 +7,9 @@ public class DepBehaviour : AgentBehaviour
 {
 	List<Creature> opponentCreatures = new List<Creature>();
 	Creature current;
-	public DepBehaviour ()
+	public DepBehaviour (Agent agent)
 	{
+		Parent = agent;
 	}
 
 	public override CreatureAction Run ()
