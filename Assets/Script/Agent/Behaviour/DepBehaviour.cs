@@ -6,7 +6,6 @@ public class DepBehaviour : AgentBehaviour
 {
 	public DepBehaviour ()
 	{
-
 	}
 
 	public override CreatureAction Run ()

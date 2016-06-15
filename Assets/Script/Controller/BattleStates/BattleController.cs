@@ -84,7 +84,6 @@ public class BattleController : StateMachine
 			turn.owner = this;
 			ChangeState<InitBattleState> ();
 		}
-		Debug.Log (level);
 	}
 
 
