@@ -74,9 +74,8 @@ public class DepBehaviour : AgentBehaviour
 				Creature weakest = getWeakest (opponentCreatures);
 				return getClosestTile (weakest.tile, tiles);
 			}
-
-			return safest.Tile;
 		}
+		return safest.Tile;
 	}
 
 	/**
@@ -139,4 +138,3 @@ public class DepBehaviour : AgentBehaviour
 		return closest;
 	}
 }
-
