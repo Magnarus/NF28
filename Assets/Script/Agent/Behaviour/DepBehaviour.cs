@@ -27,6 +27,9 @@ public class DepBehaviour : AgentBehaviour
 			}
 		}
 
+		if (infoList.getTileInfo (current.tile) == null)
+			return null;
+
 		//get currentCreature tile range and search safest case to be
 		mov = current.gameObject.GetComponent<Movement> ();
 		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
