@@ -15,7 +15,7 @@ public class DepBehaviour : AgentBehaviour
 
 	public override CreatureAction Run ()
 	{
-		//get all ennemy tile range
+		//On récupère la portée de tous les ennemis
 		TileInfoList infoList = new TileInfoList ();
 		opponentCreatures = Parent.controller.creaturesJ1;
 		Movement mov;
@@ -30,14 +30,19 @@ public class DepBehaviour : AgentBehaviour
 				infoList.addTile (current, tile, c);
 			}
 		}
-
-		if (infoList.getTileInfo (current.tile) == null)
-			return null;
-
-		//get currentCreature tile range and search safest case to be
+			
+		//Récupère la zone de déplacement de la creature actuelle.
 		mov = current.gameObject.GetComponent<Movement> ();
 		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
+
+		//On enlève la case sur laquelle est déjà la créature pour le test de déplacement.
+		currentCreatureMovTileRange.Remove (current.tile);
 		PhysicTile safestTile = getSafestTile (infoList, currentCreatureMovTileRange);
+
+		//Pas besoin de faire d'action de fuite : on reste sur place.
+		if (safestTile == current.tile)
+			return null;
+		
 		CreatureAction action = new CreatureAction (ActionType.DEP, current, safestTile);
 		SavePath (current.tile, safestTile);
 		return action;
@@ -71,11 +76,17 @@ public class DepBehaviour : AgentBehaviour
 			cpt++;
 		}
 
+		TileInfo creatureTileInfo = infoList.getTileInfo(current.tile);
 		//Si il y a des cases sans dégâts, on prend la plus proche de l'ennemi le plus vulnérable
 		if (availableTiles.Count > 0) {
 			Creature weakest = getWeakest (opponentCreatures);
 			return getClosestTile (weakest.tile, tiles);
+		} 
+		// Sinon si la case sur laquelle est le perso est safe ou équivalente à la moins dangereuse
+		else if (creatureTileInfo == null || creatureTileInfo.Damages <= safest.Damages) {
+			return current.tile;
 		}
+		//Sinon, ben on prend le moins dangereux de ce qui reste.
 		return safest.Tile;
 	}
 
