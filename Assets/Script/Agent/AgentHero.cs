@@ -41,16 +41,19 @@ public class AgentHero : AgentCreature {
 	}
 
 	public void executeAction(CreatureAction action){
+		int sizeChemin = depBehaviour.Chemin.Count;
 		switch (action.Type) {
 		case ActionType.ATK:
 			attackBehaviour.RecreatePath ();
-			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
+			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
+			CurrentCreature.Match();
 			controller.turn.doAttack (action.Actor, action.Target);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
-			//action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
+			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
+			CurrentCreature.Match ();
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:

@@ -47,10 +47,10 @@ public abstract class AgentBehaviour {
 
 	public void RecreatePath() {
 		List<Point> p = chemin;
-		Point last = p [p.Count - 1];
+		Point first = p [p.Count - 1];
 		for (int i = p.Count-2 ; i >= 0; i--) {
-			Parent.controller.board.tiles[last].prev = Parent.controller.board.tiles[p[i]];
-			last = Parent.controller.board.tiles[p[i]].pos;
+			Parent.controller.board.tiles [p [i]].prev = Parent.controller.board.tiles [first];
+			first = Parent.controller.board.tiles[p[i]].pos;
 		}
 	}
 }

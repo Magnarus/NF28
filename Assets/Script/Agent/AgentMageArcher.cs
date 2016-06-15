@@ -41,17 +41,20 @@ public class AgentMageArcher : AgentCreature {
 	}
 
 	public void executeAction(CreatureAction action){
+		int sizeChemin = depBehaviour.Chemin.Count;
 		switch (action.Type) {
 		case ActionType.ATK:
 			attackBehaviour.RecreatePath ();
-			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
+			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
+			CurrentCreature.Match ();
 			controller.turn.doAttack (action.Actor, action.Target);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
-			//action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
-			CurrentCreature.hasFinished = true;
+			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
+			CurrentCreature.Match ();
+
 			break;
 		case ActionType.STAY:
 			break;

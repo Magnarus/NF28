@@ -182,7 +182,6 @@ public class Board : MonoBehaviour
 		// Calcul de la range des cases extrêmes
 		List<PhysicTile> returnedList = new List<PhysicTile>(tiles);
 		RangeInfoList range = new RangeInfoList ();
-		Debug.Log (agent.CurrentCreature.classCreature);
 		int xMax = -1; 
 		int xMin = 9999;
 		// Récupération des tiles extrêmes
