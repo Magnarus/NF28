@@ -16,6 +16,12 @@ public class AbilityRangeCalculator : MonoBehaviour
         return  board.Search(unit.tile, "range", ExpandSearch);
     }
 
+	/** Portée des tiles à partir d'une autre tile (pour IA) **/
+	public List<PhysicTile> GetTilesInRange(Board board, PhysicTile start)
+	{
+		return  board.Search(start, "range", ExpandSearch);
+	}
+
     /** Critère de validité **/
     bool ExpandSearch(PhysicTile from, PhysicTile to)
     {

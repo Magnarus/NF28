@@ -4,7 +4,7 @@ using System.Collections;
 public abstract class AgentBehaviour {
 
 	private Agent mParent;
-	public Agent MParent {
+	public Agent Parent {
 		get { return mParent; }
 		set { mParent = value; }
 	}

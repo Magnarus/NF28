@@ -32,6 +32,7 @@ public class AgentCreature : Agent {
 	}
 
 	public override void onRequest(Agent sender, object data){
+		mCurrentCreature = (Creature) data;
 		Debug.Log ("onRequest AgentCreature");
 	}
 
