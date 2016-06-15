@@ -13,10 +13,11 @@ public class StayBehaviour : AgentBehaviour {
 	
 	}
 
-	public override bool Run(){
+
+	public override CreatureAction Run(){
 		((AgentCreature)Parent).CurrentCreature.hasMoved = true;
 		((AgentCreature)Parent).CurrentCreature.hasFinished = true;
-		return true;
+		return new CreatureAction(ActionType.STAY, ((AgentCreature)Parent).CurrentCreature);
 	}
 
 	public override bool finish (){

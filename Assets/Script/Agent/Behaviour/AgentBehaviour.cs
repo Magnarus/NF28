@@ -9,7 +9,7 @@ public abstract class AgentBehaviour {
 		set { mParent = value; }
 	}
 
-	public abstract bool Run();
+	public abstract CreatureAction Run();
 
 	public virtual bool finish() {
 		return true;

@@ -1,33 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 public class DepBehaviour : AgentBehaviour
 {
 	public DepBehaviour ()
 	{
-		Movement mov = ((AgentCreature)Parent).CurrentCreature.gameObject.GetComponent<Movement> ();
-		List<PhysicTile> tile = mov.GetTilesInRange();
 	}
 
-	public override bool Run ()
+	public override CreatureAction Run ()
 	{
+		//get all ennemy tile range
 		TileInfoList infoList = new TileInfoList ();
 		List<Creature> opponentCreature = Parent.controller.creaturesJ1;
 		Movement mov;
 		List<PhysicTile> creatureTileRange;
+		Creature current = ((AgentCreature)Parent).CurrentCreature;
 		foreach(Creature c in opponentCreature) {
 			mov = c.gameObject.GetComponent<Movement> ();
 			creatureTileRange = mov.GetTilesInRange (Parent.controller.board);
-			//TODO add attack tile range
-			foreach (PhysicTile tile in creatureTileRange) {
-				infoList.addTile (tile, c);
+			GameObject ability = ((AgentCreature)Parent).CurrentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
+			List<PhysicTile> totalRange = Parent.controller.board.GetMaxRange (Parent, creatureTileRange);
+			foreach (PhysicTile tile in totalRange) {
+				infoList.addTile (current, tile, c);
 			}
 		}
-		Creature current = ((AgentCreature)Parent).CurrentCreature;
+
+		//get currentCreature tile range and search safest case to be
 		mov = current.gameObject.GetComponent<Movement> ();
 		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
-		PhysicTile saferTile = getSafestTile (infoList, currentCreatureMovTileRange);
-		CreatureAction action = new CreatureAction (ActionType.DEP, current, saferTile);
-		//TODO send it to agent
+		PhysicTile safestTile = getSafestTile (infoList, currentCreatureMovTileRange);
+		CreatureAction action = new CreatureAction (ActionType.DEP, current, safestTile);
+		return action;
 	}
 
 	/*
