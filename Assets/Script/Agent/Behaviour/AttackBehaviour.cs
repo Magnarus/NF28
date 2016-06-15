@@ -29,9 +29,19 @@ public class AttackBehaviour : AgentBehaviour {
 
 		List<PhysicTile> maxRangeTiles = Parent.controller.board.GetMaxRange(Parent, tiles);
 
-		return null;
+		return tiles;
 	}
 
 
+	public List<PhysicTile> GetEnnemyInRange(List<PhysicTile> tiles) {
+		List<PhysicTile> ennemies = new List<PhysicTile> ();
+
+		foreach (PhysicTile t in tiles) {
+			if (t.contentTile != null) {
+				ennemies.Add (t);
+			}
+		}
+		return ennemies;
+	}
 		
 }
