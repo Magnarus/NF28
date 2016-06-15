@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AgentCreature : Agent {
 
 	private AgentBehaviour attackBehaviour;
+
+	private List<Point> chemin;
+	public List<Point> Chemin {
+		get {
+			return chemin;
+		}
+	}
 
 	private static AgentCreature mInstanceCreator;
 
