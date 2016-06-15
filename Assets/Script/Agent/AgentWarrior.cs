@@ -29,6 +29,7 @@ public class AgentWarrior : AgentCreature {
 	public void doAction(MessageInfo info){
 		CreatureAction action = info.getData () as CreatureAction;
 		ActionType typeAction = action.Type;
+		Debug.Log ("Appel du doAction du warrior avec " + typeAction);
 		if (typeAction.Equals (ActionType.ATK)) {
 			if (action.Target == null) {
 				action = choseAction (info);
@@ -51,7 +52,7 @@ public class AgentWarrior : AgentCreature {
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
-			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
+			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:

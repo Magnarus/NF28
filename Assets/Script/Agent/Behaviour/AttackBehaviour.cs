@@ -67,7 +67,6 @@ public class AttackBehaviour : AgentBehaviour {
 
 
 	public List<PhysicTile> GetEnnemyInRange(List<PhysicTile> tiles) {
-		Debug.Log ("Je suis appelé");
 		List<PhysicTile> ennemies = new List<PhysicTile> ();
 		List<Creature> ennemiesJ1 = Parent.controller.creaturesJ1;
 

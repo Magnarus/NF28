@@ -22,7 +22,7 @@ public class AgentIATurn : Agent {
 			Agent agent = getCreatureAgent (c.classCreature);
 			MessageInfo info = new MessageInfo ("REQUEST", this, c, "choseAction");
 			agent.gameObject.SendMessage("receiveMessage", info, SendMessageOptions.DontRequireReceiver);
-			}
+		}
 	}
 
 	public override void onInform (Agent sender, object data) {
@@ -38,6 +38,7 @@ public class AgentIATurn : Agent {
 			sortedActions.AddRange(tmpAction);
 			sortedActions.AddRange(getNotAttackAction(actions));
 			foreach(CreatureAction action in sortedActions) {
+				Debug.Log (action.Type);
 				Agent agent = getCreatureAgent (action.Actor.classCreature);
 				MessageInfo info = new MessageInfo ("REQUEST", this, action, "doAction");
 				agent.gameObject.SendMessage ("receiveMessage", info, SendMessageOptions.DontRequireReceiver);

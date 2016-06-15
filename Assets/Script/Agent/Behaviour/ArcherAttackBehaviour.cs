@@ -16,9 +16,17 @@ public class ArcherAttackBehaviour : AttackBehaviour {
 		GameObject ability = current.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
 		AbilityRangeCalculator abilityRange = ability.GetComponent<AbilityRangeCalculator>();
 		int i = current.tile.pos.x + abilityRange.horizontal;
-		int minI = current.tile.pos.x;
+
+		int minI;
+		if(current.tile.pos.x > t.pos.x)
+			minI = current.tile.pos.x;
+		else {
+			minI = t.pos.x;
+		}
+
 		int maxJ = current.tile.pos.y + abilityRange.horizontal;
 		int minJ = current.tile.pos.y - abilityRange.horizontal;
+
 		int currentX, currentY;
 		int j; 
 
@@ -31,6 +39,7 @@ public class ArcherAttackBehaviour : AttackBehaviour {
 				if (Parent.controller.board.tiles.ContainsKey (new Point(i, j))) {
 					toTest = Parent.controller.board.tiles [new Point(i, j)];
 					if (TargetMovement.Contains (toTest) && toTest.contentTile == null) {
+						Debug.Log (toTest.pos);
 						destination = toTest; break;
 					}
 				}				

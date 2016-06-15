@@ -58,7 +58,6 @@ public class FootMovement : Movement
             {
                 yield return StartCoroutine(Jump(to));
             }
-
                 
         }
         yield return null;

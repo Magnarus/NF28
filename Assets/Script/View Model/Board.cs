@@ -108,6 +108,7 @@ public class Board : MonoBehaviour
                 // On ajoute la case au pathfinding
                 if (addTile(t, next))
                 {
+
                     if (type == "foot") { // On prend en considération les problèmes de terrains
                        // Debug.Log(t.descriptor.WalkPenality.value);
                         next.distance = t.distance + t.descriptor.WalkPenality.value;
@@ -180,22 +181,23 @@ public class Board : MonoBehaviour
 	public List<PhysicTile> GetMaxRange(AgentCreature agent, List<PhysicTile> tiles) {
 		// Calcul de la range des cases extrêmes
 		List<PhysicTile> returnedList = new List<PhysicTile>(tiles);
-		Hashtable table = new Hashtable();
+		RangeInfoList range = new RangeInfoList ();
 
 		int xMax = -1; 
 		int xMin = 9999;
 		// Récupération des tiles extrêmes
 		foreach(PhysicTile t in tiles) {
-			if (!table.ContainsKey (t.pos.x)) {
-				table.Add (t.pos.x, new List<PhysicTile> () { t, t });
+			RangeInfo currentR = range.GetRangeInfo (t.pos.x);
+			if (currentR == null) {
+				range.AddRangeInfo (t.pos.x, t.pos.y, t.pos.y);
 
 			} else {
-				if (((List<PhysicTile>)table[t.pos.x])[0].pos.y > t.pos.y) { 
+				if (currentR.MinY > t.pos.y) { 
 					// C'est le plus éloigné sur la ligne à gauche
-					((List<PhysicTile>)table[t.pos.x])[0] = t;
+					currentR.MinY = t.pos.y;
 
-				} else if (((List<PhysicTile>)table[t.pos.x])[1].pos.y <= t.pos.y) {
-					((List<PhysicTile>)table[t.pos.x])[1] = t;
+				} else if (currentR.MaxY < t.pos.y) {
+					currentR.MaxY = t.pos.y;
 				}
 			}
 			if (xMin > t.pos.x)
@@ -203,43 +205,51 @@ public class Board : MonoBehaviour
 			if (xMax < t.pos.x)
 				xMax = t.pos.x;
 		}
+
 		// On récupère la portée de l'unité
 		GameObject ability = agent.CurrentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
 		AbilityRangeCalculator abilityRange = ability.GetComponent<AbilityRangeCalculator>();
-		// Calcul de leurs portées
-		foreach (int i in table.Keys) {
-			List<PhysicTile> tmp = abilityRange.GetTilesInRange (this, ((List<PhysicTile>)table[i])[0]);
-			List<PhysicTile> tmpBis = (abilityRange.GetTilesInRange (this, ((List<PhysicTile>)table [i]) [0]));
-			tmp.AddRange (tmpBis);
-			foreach (PhysicTile t in tmp) {
-				if (!returnedList.Contains(t)) {
+
+
+		// On récupère la portée pour chaque extrême
+		List<PhysicTile> tmpMax;
+		List<PhysicTile> tmpMin; 
+		foreach (RangeInfo r in range) {
+			tmpMax = abilityRange.GetTilesInRange (this, tiles[new Point(r.PosX, r.MaxY)]);
+			tmpMin = abilityRange.GetTilesInRange (this, tiles[new Point(r.PosX, r.MinY)]);
+			foreach (PhysicTile t in tmpMax) {
+				if (!returnedList.Contains (t)) {
 					returnedList.Add (t);
-				}			
-			}	
+				}
+			}
+			foreach (PhysicTile t in tmpMin) {
+				if (!returnedList.Contains (t)) {
+					returnedList.Add (t);
+				}
+			}
 		}
 
-		// Et on ajoute les tiles max et min
-		int yMin = ((List<PhysicTile>)table[xMin])[0].pos.y;
-		int yMax = ((List<PhysicTile>)table [xMin]) [1].pos.y;
-		for (int i = yMin; i < yMax; i++) {
-			List<PhysicTile> tmp = abilityRange.GetTilesInRange (this, this.tiles[new Point(xMin, i)]);
-			foreach (PhysicTile t in tmp) {
-				if (!returnedList.Contains(t)) {
+		// Tout le haut 
+		RangeInfo max = range.GetRangeInfo (xMax);
+		for (int j = max.MinY; j < max.MaxY; j++) {
+			tmpMax =  abilityRange.GetTilesInRange (this, tiles[new Point(max.PosX, j)]);
+			foreach (PhysicTile t in tmpMax) {
+				if (!returnedList.Contains (t))
 					returnedList.Add (t);
-				}			
-			}	
+			}
 		}
-		// Et on ajoute les tiles max et min
-		yMin = ((List<PhysicTile>)table[xMax])[0].pos.y;
-		yMax = ((List<PhysicTile>)table [xMax]) [1].pos.y;
-		for (int i = yMin; i < yMax; i++) {
-			List<PhysicTile> tmp = abilityRange.GetTilesInRange (this, this.tiles[new Point(xMax, i)]);
-			foreach (PhysicTile t in tmp) {
-				if (!returnedList.Contains(t)) {
+
+		// Tout le bas
+		RangeInfo min = range.GetRangeInfo (xMin);
+		for (int j = min.MinY; j < min.MaxY; j++) {
+			tmpMax =  abilityRange.GetTilesInRange (this, tiles[new Point(min.PosX, j)]);
+			foreach (PhysicTile t in tmpMax) {
+				if (!returnedList.Contains (t))
 					returnedList.Add (t);
-				}			
-			}	
+			}
 		}
+
+
 		return returnedList;
 	}
 
