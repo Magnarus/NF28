@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Descriptors;
 /*
  * Classe utilitaire du DepBehaviour
  * Contient pour une case atteignable par un ennemi
@@ -25,20 +25,22 @@ public class TileInfo
 		set { damages = value; }
 	}
 
-	public TileInfo(PhysicTile tile, Creature c) {
+	public TileInfo(Creature current, PhysicTile tile, Creature c) {
 		this.tile = tile;
-		opponents.Add (c);
+		opponents.Add (current, c);
 	}
 
-	public void addOpponent(Creature c) {
+	public void addOpponent(Creature current, Creature c) {
 		if (!opponents.Contains (c)) {
 			opponents.Add (c);
-			updateDamage ();
+			updateDamage (current, c);
 		}
 	}
 
-	private void updateDamage() {
-		//TODO update damages.
+	private void updateDamage(Creature current, Creature newC) {
+		CreatureDescriptor statsCreature = current.GetComponent<CreatureDescriptor>();
+		CreatureDescriptor statsEnnemy = newC.GetComponent<CreatureDescriptor>();
+		damages += (20 + statsCreature.Strength.value - statsEnnemy.Armor.value);
 	}
 
 }

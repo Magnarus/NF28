@@ -11,8 +11,8 @@ public class AttackBehaviour : AgentBehaviour {
 
 
 
-	public override bool Run() {
-		return true;
+	public override CreatureAction Run() {
+		return null;
 	}
 
 
