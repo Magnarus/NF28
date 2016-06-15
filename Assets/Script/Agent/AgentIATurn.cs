@@ -24,7 +24,7 @@ public class AgentIATurn : Agent {
 		creaturesIA = controller.creaturesJ2;
 		foreach (Creature c in creaturesIA) {
 			Agent agent = getCreatureAgent (c.classCreature);
-			MessageInfo info = new MessageInfo ("REQUEST", this, null, "choseAction");
+			MessageInfo info = new MessageInfo ("REQUEST", this, c, "choseAction");
 			agent.gameObject.SendMessage("MessageReceive",info, SendMessageOptions.DontRequireReceiver);
 			}
 	}
