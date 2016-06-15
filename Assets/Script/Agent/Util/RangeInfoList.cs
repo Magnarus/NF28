@@ -6,6 +6,12 @@ public class RangeInfoList  {
 
 	private List<RangeInfo> list = new List<RangeInfo>();
 
+	public List<RangeInfo> List {
+		get {
+			return list;
+		}
+	}
+
 	public RangeInfoList() { }
 
 	public RangeInfo GetRangeInfo(int posX) {

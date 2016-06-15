@@ -214,9 +214,9 @@ public class Board : MonoBehaviour
 		// On récupère la portée pour chaque extrême
 		List<PhysicTile> tmpMax;
 		List<PhysicTile> tmpMin; 
-		foreach (RangeInfo r in range) {
-			tmpMax = abilityRange.GetTilesInRange (this, tiles[new Point(r.PosX, r.MaxY)]);
-			tmpMin = abilityRange.GetTilesInRange (this, tiles[new Point(r.PosX, r.MinY)]);
+		foreach (RangeInfo r in range.List) {
+			tmpMax = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MaxY)]);
+			tmpMin = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MinY)]);
 			foreach (PhysicTile t in tmpMax) {
 				if (!returnedList.Contains (t)) {
 					returnedList.Add (t);
@@ -232,7 +232,7 @@ public class Board : MonoBehaviour
 		// Tout le haut 
 		RangeInfo max = range.GetRangeInfo (xMax);
 		for (int j = max.MinY; j < max.MaxY; j++) {
-			tmpMax =  abilityRange.GetTilesInRange (this, tiles[new Point(max.PosX, j)]);
+			tmpMax =  abilityRange.GetTilesInRange (this, this.tiles[new Point(max.PosX, j)]);
 			foreach (PhysicTile t in tmpMax) {
 				if (!returnedList.Contains (t))
 					returnedList.Add (t);
@@ -242,7 +242,7 @@ public class Board : MonoBehaviour
 		// Tout le bas
 		RangeInfo min = range.GetRangeInfo (xMin);
 		for (int j = min.MinY; j < min.MaxY; j++) {
-			tmpMax =  abilityRange.GetTilesInRange (this, tiles[new Point(min.PosX, j)]);
+			tmpMax =  abilityRange.GetTilesInRange (this, this.tiles[new Point(min.PosX, j)]);
 			foreach (PhysicTile t in tmpMax) {
 				if (!returnedList.Contains (t))
 					returnedList.Add (t);
