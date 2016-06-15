@@ -30,6 +30,10 @@ public class MessageInfo : MonoBehaviour {
 		return data;
 	}
 
+	public string getConversationId(){
+		return conversationID;
+	}
+
 	// Use this for initialization
 	void Start () {
 	

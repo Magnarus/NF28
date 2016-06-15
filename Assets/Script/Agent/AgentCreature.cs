@@ -1,16 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AgentCreature : Agent {
+public abstract class AgentCreature : Agent {
 
-	private static AgentCreature mInstanceCreator;
+	private AgentBehaviour attackBehaviour;
 
-	public static AgentCreature Instance
-	{
-		get
-		{
-			if (mInstanceCreator == null) mInstanceCreator = new AgentCreature();
-			return mInstanceCreator;
+	public AgentBehaviour AttackBehaviour {
+		get {
+			return attackBehaviour;
+		}
+		set {
+			attackBehaviour = value;
+		}
+	}
+
+	private AgentBehaviour depBehaviour;
+
+	public AgentBehaviour DepBehaviour {
+		get {
+			return depBehaviour;
+		}
+		set {
+			depBehaviour = value;
+		}
+	}
+
+	private AgentBehaviour stayBehaviour;
+
+	public AgentBehaviour StayBehaviour {
+		get {
+			return stayBehaviour;
+		}
+		set {
+			stayBehaviour = value;
 		}
 	}
 
@@ -29,15 +51,6 @@ public class AgentCreature : Agent {
 	// Update is called once per frame
 	void Update () {
 	
-	}
-
-	public override void onRequest(Agent sender, object data){
-		Debug.Log ("onRequest AgentCreature");
-	}
-
-
-	public override void onInform(Agent sender, object data){
-		Debug.Log ("onInform AgentCreature");
 	}
 
 }
