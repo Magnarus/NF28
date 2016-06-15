@@ -27,7 +27,7 @@ public class AttackBehaviour : AgentBehaviour {
 		// Listes des cases sur lesquelles elle peut se déplacer
 		List<PhysicTile> tiles = m.GetTilesInRange (Parent.controller.board);
 
-		List<PhysicTile> maxRangeTiles = Parent.controller.board.GetMaxRange(Parent, tiles);
+		List<PhysicTile> maxRangeTiles = Parent.controller.board.GetMaxRange((AgentCreature)Parent, tiles);
 
 		return tiles;
 	}
