@@ -28,7 +28,7 @@ public class AgentMageArcher : AgentCreature {
 	private void SendMessage(MessageInfo info){
 		CreatureAction action = choseAction (info);
 		MessageInfo infoIATurn = new MessageInfo ("INFORM", this, action);
-		mAgentMageArcher.gameObject.SendMessage("MessageReceive",infoIATurn, SendMessageOptions.DontRequireReceiver);
+		DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("MessageReceive",infoIATurn, SendMessageOptions.DontRequireReceiver);
 	}
 
 	public CreatureAction choseAction(MessageInfo info){
