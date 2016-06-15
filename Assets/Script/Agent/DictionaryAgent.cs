@@ -16,6 +16,7 @@ public class DictionaryAgent : MonoBehaviour {
 			return instanceDico;
 		}
 	}
+		
 
 	public static Agent getAgent(string nameAgent){
 		Agent a;
@@ -29,6 +30,10 @@ public class DictionaryAgent : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		dictionary.Add("warriorAgent",AgentWarrior.Instance);
+		dictionary.Add("archerAgent",AgentMageArcher.Instance);
+		dictionary.Add("mageAgent",AgentMageArcher.Instance);
+		dictionary.Add("heroAgent",AgentHero.Instance);
 	}
 	
 	// Update is called once per frame

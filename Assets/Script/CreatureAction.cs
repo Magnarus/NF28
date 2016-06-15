@@ -3,6 +3,15 @@ using System.Collections;
 
 public class CreatureAction {
 
+	public CreatureAction(ActionType _type, Creature _target, PhysicTile _dest, float _damage, Creature _actor){
+		Type = _type;
+		Target = _target;
+		Destination = _dest;
+		Damage = _damage;
+		Actor = _actor;
+	}
+
+
 	private ActionType mType;
 	public ActionType Type {
 		get { return mType; }
