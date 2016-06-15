@@ -15,8 +15,8 @@ public class StayBehaviour : AgentBehaviour {
 	
 	}
 
-	public override bool Run(){
-		return true;
+	public override CreatureAction Run(){
+		return null;
 	}
 
 	public override bool finish (){

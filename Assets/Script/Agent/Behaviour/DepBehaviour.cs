@@ -6,12 +6,12 @@ public class DepBehaviour : AgentBehaviour
 {
 	public DepBehaviour ()
 	{
-		Movement mov = ((AgentCreature)Parent).CurrentCreature.gameObject.GetComponent<Movement> ();
-		List<PhysicTile> tile = mov.GetTilesInRange();
+
 	}
 
 	public override CreatureAction Run ()
 	{
+		//get all ennemy tile range
 		TileInfoList infoList = new TileInfoList ();
 		List<Creature> opponentCreature = Parent.controller.creaturesJ1;
 		Movement mov;
@@ -27,10 +27,11 @@ public class DepBehaviour : AgentBehaviour
 			}
 		}
 
+		//get currentCreature tile range and search safest case to be
 		mov = current.gameObject.GetComponent<Movement> ();
 		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
-		PhysicTile saferTile = getSafestTile (infoList, currentCreatureMovTileRange);
-		CreatureAction action = new CreatureAction (ActionType.DEP, current, saferTile);
+		PhysicTile safestTile = getSafestTile (infoList, currentCreatureMovTileRange);
+		CreatureAction action = new CreatureAction (ActionType.DEP, current, safestTile);
 		return action;
 	}
 
