@@ -187,7 +187,8 @@ public class Board : MonoBehaviour
 		// Récupération des tiles extrêmes
 		foreach(PhysicTile t in tiles) {
 			if (!table.ContainsKey (t.pos.x)) {
-				table.Add (t.pos.x, new List<PhysicTile> ());
+				table.Add (t.pos.x, new List<PhysicTile> () { t, t });
+
 			} else {
 				if (((List<PhysicTile>)table[t.pos.x])[0].pos.y > t.pos.y) { 
 					// C'est le plus éloigné sur la ligne à gauche
@@ -221,7 +222,7 @@ public class Board : MonoBehaviour
 		int yMin = ((List<PhysicTile>)table[xMin])[0].pos.y;
 		int yMax = ((List<PhysicTile>)table [xMin]) [1].pos.y;
 		for (int i = yMin; i < yMax; i++) {
-			List<PhysicTile> tmp = abilityRange.GetTilesInRange (this, ((List<PhysicTile>)table[i])[0]);
+			List<PhysicTile> tmp = abilityRange.GetTilesInRange (this, this.tiles[new Point(xMin, i)]);
 			foreach (PhysicTile t in tmp) {
 				if (!returnedList.Contains(t)) {
 					returnedList.Add (t);
@@ -232,7 +233,7 @@ public class Board : MonoBehaviour
 		yMin = ((List<PhysicTile>)table[xMax])[0].pos.y;
 		yMax = ((List<PhysicTile>)table [xMax]) [1].pos.y;
 		for (int i = yMin; i < yMax; i++) {
-			List<PhysicTile> tmp = abilityRange.GetTilesInRange (this, ((List<PhysicTile>)table[i])[0]);
+			List<PhysicTile> tmp = abilityRange.GetTilesInRange (this, this.tiles[new Point(xMax, i)]);
 			foreach (PhysicTile t in tmp) {
 				if (!returnedList.Contains(t)) {
 					returnedList.Add (t);

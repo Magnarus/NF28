@@ -77,7 +77,7 @@ public class SelectUnitState : BattleState
 
 			if (owner.gameType == "IA" && currentPlayer == "J2") {
 				MessageInfo messageInfo = new MessageInfo ("REQUEST");
-				DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("BeginTurn", messageInfo, SendMessageOptions.DontRequireReceiver);
+				DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("receiveMessage", messageInfo, SendMessageOptions.DontRequireReceiver);
 			}
         } 
     }

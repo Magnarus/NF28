@@ -8,10 +8,7 @@ public class AgentIATurn : Agent {
 
 	private List<Creature> creaturesIA;
 	private List<CreatureAction> actions = new List<CreatureAction>();
-	// Use this for initialization
-	void Start () {
 
-	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -19,31 +16,32 @@ public class AgentIATurn : Agent {
 	}
 
 	public override void onRequest(Agent sender, object data){
-		Debug.Log ("onRequest IATurn");
 		string agentName;
 		creaturesIA = controller.creaturesJ2;
 		foreach (Creature c in creaturesIA) {
 			Agent agent = getCreatureAgent (c.classCreature);
 			MessageInfo info = new MessageInfo ("REQUEST", this, c, "choseAction");
-			agent.gameObject.SendMessage("MessageReceive",info, SendMessageOptions.DontRequireReceiver);
+			agent.gameObject.SendMessage("receiveMessage", info, SendMessageOptions.DontRequireReceiver);
 			}
 	}
 
 	public override void onInform (Agent sender, object data) {
-		actions.Add ((CreatureAction)data);
+		MessageInfo receivedInfo = (MessageInfo)data;
+
+		actions.Add ((CreatureAction)receivedInfo.getData());
 		List<CreatureAction> sortedActions = new List<CreatureAction> ();
 		//Si on a reçu tous les messages 
 		if (actions.Count == creaturesIA.Count) {
 			List<CreatureAction> tmpAction = getKillActionList(actions);
-			sortedActions.AddRange (tmpAction.GetRange (0, tmpAction.Count - 1));
+			sortedActions.AddRange (tmpAction);
 			tmpAction = getDamageActionList (actions);
-			sortedActions.AddRange(tmpAction.GetRange(0, tmpAction.Count -1));
-			sortedActions.AddRange(actions.GetRange(0, actions.Count - 1));
-				foreach(CreatureAction action in sortedActions) {
-					Agent agent = getCreatureAgent (action.Actor.classCreature);
-					MessageInfo info = new MessageInfo ("REQUEST", this, action, "doAction");
-					agent.gameObject.SendMessage ("ReceiveMessage", info, SendMessageOptions.DontRequireReceiver);
-				}
+			sortedActions.AddRange(tmpAction);
+			sortedActions.AddRange(getNotAttackAction(actions));
+			foreach(CreatureAction action in sortedActions) {
+				Agent agent = getCreatureAgent (action.Actor.classCreature);
+				MessageInfo info = new MessageInfo ("REQUEST", this, action, "doAction");
+				agent.gameObject.SendMessage ("receiveMessage", info, SendMessageOptions.DontRequireReceiver);
+			}
 		}
 		controller.ChangeState<SelectUnitState>();
 		Debug.Log ("onInform IATurn");
@@ -52,9 +50,9 @@ public class AgentIATurn : Agent {
 	private List<CreatureAction> getKillActionList(List<CreatureAction> actions) {
 		List<CreatureAction> killAction = new List<CreatureAction> ();
 		foreach (CreatureAction action in actions) {
-			if (action.Target.gameObject.GetComponent<CreatureDescriptor> ().HP.CurrentValue - action.Damage <= 0) {
+			if (action.Target != null && action.Target.gameObject.GetComponent<CreatureDescriptor> ().HP.CurrentValue - action.Damage <= 0) {
 				killAction.Add (action);
-				actions.Remove (action);
+				//actions.Remove (action);
 			}
 		}
 		return killAction;
@@ -71,12 +69,23 @@ public class AgentIATurn : Agent {
 					while (damageActions [cpt].Damage > action.Damage && cpt < damageActions.Count) {
 						cpt++;
 					}
-					damageActions.Insert (cpt, action);
+					if(action.Target != null && action.Target.gameObject.GetComponent<CreatureDescriptor> ().HP.CurrentValue - action.Damage > 0)
+						damageActions.Insert (cpt, action);
 				}
-				actions.Remove (action);
+				//actions.Remove (action);
 			}
 		}
 		return damageActions;
+	}
+
+	private List<CreatureAction> getNotAttackAction(List<CreatureAction> actions) {
+		List<CreatureAction> notAttack = new List<CreatureAction> ();
+		foreach (CreatureAction action in actions) {
+			if (action.Type != ActionType.ATK)
+				notAttack.Add (action);
+		}
+		return notAttack;
+
 	}
 
 	private Agent getCreatureAgent(string creatureClass) {

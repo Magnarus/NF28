@@ -5,16 +5,7 @@ using System.Collections.Generic;
 
 public class AttackBehaviour : AgentBehaviour {
 
-	private List<PhysicTile> targetMovement;
-	public List<PhysicTile> TargetMovement {
-		get {
-			return targetMovement;
-		}
-	}
-
-	public AttackBehaviour(Agent myAgent) {
-		Parent = myAgent;
-	}
+	public AttackBehaviour (Agent myAgent) : base (myAgent) {	}
 
 
 	public override CreatureAction Run() {
@@ -43,16 +34,16 @@ public class AttackBehaviour : AgentBehaviour {
 			}
 		}
 
-		CreatureAction c;
+		CreatureAction c = null;
 		if (targetDeath != null) {
 			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirectionToGo (targetDeath.tile), targetDeath, 500); 
 			SavePath (((AgentCreature)Parent).CurrentCreature.tile, targetDeath.tile);
 		} else if (targetDamages != null) {
 			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirectionToGo (targetDamages.tile), targetDamages, maxDamage); 
+			Debug.Log ("From : " + ((AgentCreature)Parent).CurrentCreature.tile.pos + " to : " + targetDamages.tile.pos);
 			SavePath (((AgentCreature)Parent).CurrentCreature.tile, targetDamages.tile);
-		} else {
-			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature);
-		}
+
+		} 
 
 		return c;
 	}
@@ -76,6 +67,7 @@ public class AttackBehaviour : AgentBehaviour {
 
 
 	public List<PhysicTile> GetEnnemyInRange(List<PhysicTile> tiles) {
+		Debug.Log ("Je suis appelé");
 		List<PhysicTile> ennemies = new List<PhysicTile> ();
 		List<Creature> ennemiesJ1 = Parent.controller.creaturesJ1;
 
@@ -89,23 +81,8 @@ public class AttackBehaviour : AgentBehaviour {
 
 	public virtual PhysicTile GetDirectionToGo(PhysicTile t) { return null; }
 
-	// Parcourir le résultat de la fin au début
-	public void SavePath(PhysicTile from, PhysicTile to) {
-		PhysicTile current = to;
-		((AgentCreature)Parent).Chemin.Clear ();
-		while (current != from) {
-			((AgentCreature)Parent).Chemin.Add(current.pos);
-			current = current.prev;
-		}
-	}
 
-	public void RecreatePath() {
-		List<Point> p = ((AgentCreature)Parent).Chemin;
-		Point last = p [p.Count - 1];
-		for (int i = p.Count-2 ; i >= 0; i--) {
-			Parent.controller.board.tiles[last].prev = Parent.controller.board.tiles[p[i]];
-			last = Parent.controller.board.tiles[p[i]].pos;
-		}
-	}
+
+
 
 }

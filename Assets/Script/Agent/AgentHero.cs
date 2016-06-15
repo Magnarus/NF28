@@ -3,15 +3,14 @@ using System.Collections;
 
 public class AgentHero : AgentCreature {
 	
-	protected override void OnStart() {
-		base.OnStart ();
+	public AgentHero() : base() {
 		attackBehaviour = new HeroAttackBehaviour (this);
 	}
 
 	private void SendMessage(MessageInfo info){
 		CreatureAction action = choseAction (info);
 		MessageInfo infoIATurn = new MessageInfo ("INFORM", this, action);
-		DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("MessageReceive",infoIATurn, SendMessageOptions.DontRequireReceiver);
+		DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("receiveMessage",infoIATurn, SendMessageOptions.DontRequireReceiver);
 	}
 
 	public CreatureAction choseAction(MessageInfo info){
@@ -43,10 +42,13 @@ public class AgentHero : AgentCreature {
 	public void executeAction(CreatureAction action){
 		switch (action.Type) {
 		case ActionType.ATK:
+			attackBehaviour.RecreatePath ();
+			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
 			controller.turn.doAttack (action.Actor, action.Target);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
+			depBehaviour.RecreatePath ();
 			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
 			CurrentCreature.hasFinished = true;
 			break;
@@ -59,11 +61,12 @@ public class AgentHero : AgentCreature {
 
 	}
 
-	public override void onRequest(Agent sender, object data){
+	public override void onRequest(Agent sender, object data) {
 		Debug.Log ("onRequest AgentHero");
 		MessageInfo info = data as MessageInfo;
-		if(info.getConversationId().Equals("choseAction")){
-			choseAction(info);
+		if(info.getConversationId() != null && info.getConversationId().Equals("choseAction")){
+			CurrentCreature = (Creature)info.getData ();
+			SendMessage(info);
 		}
 		else
 		{

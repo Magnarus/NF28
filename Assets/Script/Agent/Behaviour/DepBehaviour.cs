@@ -7,9 +7,10 @@ public class DepBehaviour : AgentBehaviour
 {
 	List<Creature> opponentCreatures = new List<Creature>();
 	Creature current;
-	public DepBehaviour (Agent agent)
+
+	public DepBehaviour (Agent agent) : base (agent)
 	{
-		Parent = agent;
+		
 	}
 
 	public override CreatureAction Run ()
@@ -38,6 +39,7 @@ public class DepBehaviour : AgentBehaviour
 		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
 		PhysicTile safestTile = getSafestTile (infoList, currentCreatureMovTileRange);
 		CreatureAction action = new CreatureAction (ActionType.DEP, current, safestTile);
+		SavePath (current.tile, safestTile);
 		return action;
 	}
 
@@ -54,27 +56,25 @@ public class DepBehaviour : AgentBehaviour
 		if(safest == null) {
 			availableTiles.Add (tiles [0]);
 		}
-		else {
-			int cpt = 1;
-			TileInfo currentTileInfo;
-			while (cpt < tiles.Count) {
-				currentTileInfo = infoList.getTileInfo(tiles[cpt]);
-				//Si la case courante n'est pas une case atteignable par les ennemis
-				if(currentTileInfo == null) {
-					availableTiles.Add(tiles[cpt]);
-				}
-				//Si la case courante fera moins mal que la case la plus sure actuelle
-				if(currentTileInfo.Damages < safest.Damages) {
-					safest = currentTileInfo;
-				}
-				cpt++;
+		int cpt = 1;
+		TileInfo currentTileInfo;
+		while (cpt < tiles.Count) {
+			currentTileInfo = infoList.getTileInfo(tiles[cpt]);
+			//Si la case courante n'est pas une case atteignable par les ennemis
+			if(currentTileInfo == null) {
+				availableTiles.Add(tiles[cpt]);
 			}
+			//Si la case courante fera moins mal que la case la plus sure actuelle
+			else if(safest == null || currentTileInfo.Damages < safest.Damages) {
+				safest = currentTileInfo;
+			}
+			cpt++;
+		}
 
-			//Si il y a des cases sans dégâts, on prend la plus proche de l'ennemi le plus vulnérable
-			if (availableTiles.Count > 0) {
-				Creature weakest = getWeakest (opponentCreatures);
-				return getClosestTile (weakest.tile, tiles);
-			}
+		//Si il y a des cases sans dégâts, on prend la plus proche de l'ennemi le plus vulnérable
+		if (availableTiles.Count > 0) {
+			Creature weakest = getWeakest (opponentCreatures);
+			return getClosestTile (weakest.tile, tiles);
 		}
 		return safest.Tile;
 	}

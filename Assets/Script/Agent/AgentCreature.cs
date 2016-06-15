@@ -4,21 +4,13 @@ using System.Collections.Generic;
 
 public class AgentCreature : Agent {
 
-	protected override void OnStart ()
+	public AgentCreature() : base()
 	{
-		base.OnStart ();
 		depBehaviour = new DepBehaviour (this);
 		stayBehaviour = new StayBehaviour (this);
 	}
 
 	protected AttackBehaviour attackBehaviour;
-
-	private List<Point> chemin;
-	public List<Point> Chemin {
-		get {
-			return chemin;
-		}
-	}
 
 	public AttackBehaviour AttackBehaviour {
 		get {
@@ -56,6 +48,9 @@ public class AgentCreature : Agent {
 	public Creature CurrentCreature {
 		get {
 			return mCurrentCreature;
+		}
+		set {
+			mCurrentCreature = value;
 		}
 	}
 

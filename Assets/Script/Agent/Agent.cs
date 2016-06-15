@@ -7,11 +7,7 @@ public abstract class Agent : MonoBehaviour {
 	private string name;
 	// Use this for initialization
 
-	void Start () {
-		OnStart();
-	}
-
-	protected virtual void OnStart() {
+	public void Awake() {
 		controller = GameObject.Find ("BattleController").GetComponent<BattleController> ();
 	}
 	// Update is called once per frame
@@ -22,10 +18,10 @@ public abstract class Agent : MonoBehaviour {
 	public void receiveMessage(MessageInfo messageInfo){
 		switch (messageInfo.getPerformatif()) {
 		case "REQUEST":
-			onRequest (messageInfo.getSender (), messageInfo.getData());
+			onRequest (messageInfo.getSender (), messageInfo);
 			break;
 		case "INFORM":
-			onInform (messageInfo.getSender (), messageInfo.getData());
+			onInform (messageInfo.getSender (), messageInfo);
 			break;
 			
 		}

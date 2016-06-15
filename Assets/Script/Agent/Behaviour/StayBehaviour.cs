@@ -3,8 +3,8 @@ using System.Collections;
 
 public class StayBehaviour : AgentBehaviour {
 	
-	public StayBehaviour(Agent agent) {
-		Parent = agent;
+	public StayBehaviour(Agent agent) : base(agent) {
+
 	}
 
 	public override CreatureAction Run(){

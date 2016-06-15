@@ -79,7 +79,6 @@ public class BattleController : StateMachine
 			ChangeState<InitBattleState> ();
 		} else if(level == 4) {
 			gameType = "IA";
-			Debug.Log ("MyLittleSelector" + GameObject.Find ("TileSelector").transform);
 			tileSelectionIndicator = GameObject.Find ("TileSelector").transform;
 			turn.owner = this;
 			ChangeState<InitBattleState> ();
