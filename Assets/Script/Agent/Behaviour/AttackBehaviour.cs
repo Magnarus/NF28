@@ -50,5 +50,5 @@ public class AttackBehaviour : AgentBehaviour {
 	}
 
 
-	public virtual PhysicTile GetDestination (PhysicTile t);
+	public virtual PhysicTile GetDirectionToGo(PhysicTile t) { return null; }
 }

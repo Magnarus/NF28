@@ -8,6 +8,7 @@ public class WarriorAttackBehaviour : AttackBehaviour {
 	public WarriorAttackBehaviour(AgentCreature agent) : base(agent) {	}
 
 
+	/** Calcul du meilleur coup **/
 	public override CreatureAction Run() {
 		List<Creature> ennemiesJ1 = Parent.controller.creaturesJ1;
 		List<PhysicTile> tiles = new List<PhysicTile> ();
@@ -22,12 +23,12 @@ public class WarriorAttackBehaviour : AttackBehaviour {
 		CreatureDescriptor statsCreature = ((AgentCreature)Parent).CurrentCreature.GetComponent<CreatureDescriptor>();
 
 		foreach (PhysicTile e in ennemies) {
-			Creature newC = e.contentTile;
+			Creature newC = e.contentTile.GetComponent<Creature> ();
 			if (ennemiesJ1.Contains (newC)) {
 				CreatureDescriptor statsEnnemy = newC.GetComponent<CreatureDescriptor> ();
 				damages += (20 + statsCreature.Strength.value - statsEnnemy.Armor.value);
 
-				if (statsEnnemy - damages <= 0) {
+				if (statsEnnemy.HP.CurrentValue - damages <= 0) {
 					if (targetDeath == null || newC.classCreature == "hero") {
 						targetDeath = newC;
 					}
@@ -40,15 +41,18 @@ public class WarriorAttackBehaviour : AttackBehaviour {
 
 		CreatureAction c;
 		if (targetDeath != null) {
-			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirection (), targetDeath, 500); 
+			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirectionToGo (targetDeath.tile), targetDeath, 500); 
+		} else if (targetDamages != null) {
+			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirectionToGo (targetDamages.tile), targetDamages, maxDamage); 
 		} else {
-			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirection (), targetDamages, maxDamage); 
+			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature);
 		}
 
 		return c;
 	}
 
-	public override PhysicTile GetDirection(PhysicTile t) {
+	/** Retourne une des cases à portée d'attaque du warrior pour attaquer sa cible **/
+	public override PhysicTile GetDirectionToGo(PhysicTile t) {
 		PhysicTile destination = null;
 		PhysicTile toTest;
 		Point[] dirs = new Point[4] {  new Point(0, 1),  new Point(1, 0), new Point(0, -1), new Point(-1, 0) };
@@ -56,7 +60,7 @@ public class WarriorAttackBehaviour : AttackBehaviour {
 		while (i < 4 && destination == null) {
 			if (Parent.controller.board.tiles.ContainsKey (t.pos + dirs [i])) {
 				toTest = Parent.controller.board.tiles [t.pos + dirs [i]];
-				if (TargetMovement.Contains (toTest))
+				if (TargetMovement.Contains (toTest) && toTest.contentTile == null)
 					destination = toTest;
 			}
 			i++;
