@@ -25,20 +25,55 @@ public class AgentMageArcher : AgentCreature {
 	
 	}
 
-	public void choseAction(MessageInfo info){
-		CreatureAction action;
-		if (mAgentMageArcher.AttackBehaviour.finish ()) {//On se bat !
-
-		} else if (mAgentMageArcher.DepBehaviour.finish ()) {//On se déplace
-
-		} else {//On reste sur place
-
-		}		
-
+	private void SendMessage(MessageInfo info){
+		CreatureAction action = choseAction (info);
+		MessageInfo infoIATurn = new MessageInfo ("INFORM", this, action);
+		DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("MessageReceive",infoIATurn, SendMessageOptions.DontRequireReceiver);
 	}
 
+	public CreatureAction choseAction(MessageInfo info){
+		CreatureAction action = mAgentMageArcher.DepBehaviour.Run ();
+		if (action == null) {
+			action = mAgentMageArcher.AttackBehaviour.Run ();
+			if (action == null) {
+				action = mAgentMageArcher.StayBehaviour.Run();
+			}
+		} 
+		return action;
+	}
 
 	public void doAction(MessageInfo info){
+		CreatureAction action = info.getData () as CreatureAction;
+		string typeAction = action.GetType ().ToString();
+		if (typeAction.Equals (ActionType.ATK)) {
+			if (action.Target == null) {
+				action = choseAction (info);
+			}
+		}else if (typeAction.Equals (ActionType.DEP)) {
+			if (action.Destination.contentTile!=null) { // récupérer si la tile est disponible 
+				action = choseAction (info);
+			}
+		}
+		executeAction (action);
+	}
+
+	public void executeAction(CreatureAction action){
+		switch (action.Type) {
+		case ActionType.ATK:
+			controller.turn.doAttack (action.Actor, action.Target);
+			mAgentMageArcher.CurrentCreature.hasFinished = true;
+			break;
+		case ActionType.DEP:
+			action.Actor.GetComponent<Movement> ().Traverse (action.Destination);
+			mAgentMageArcher.CurrentCreature.hasFinished = true;
+			break;
+		case ActionType.STAY:
+			break;
+		default:
+			break;
+		}
+
+
 	}
 
 

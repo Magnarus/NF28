@@ -87,7 +87,7 @@ public class Turn
     }
 
     /** Implémentation de l'attaque si la saisie est correcte **/
-    private float doAttack(Creature currentCreature, Creature currentEnnemy)
+    public float doAttack(Creature currentCreature, Creature currentEnnemy)
     {
         CreatureDescriptor statsCreature = currentCreature.GetComponent<CreatureDescriptor>();
         CreatureDescriptor statsEnnemy = currentEnnemy.GetComponent<CreatureDescriptor>();
