@@ -21,7 +21,7 @@ public class DepBehaviour : AgentBehaviour
 			mov = c.gameObject.GetComponent<Movement> ();
 			creatureTileRange = mov.GetTilesInRange (Parent.controller.board);
 			GameObject ability = ((AgentCreature)Parent).CurrentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
-			List<PhysicTile> totalRange = Parent.controller.board.GetMaxRange (Parent, creatureTileRange);
+			List<PhysicTile> totalRange = Parent.controller.board.GetMaxRange ((AgentCreature)Parent, creatureTileRange);
 			foreach (PhysicTile tile in totalRange) {
 				infoList.addTile (current, tile, c);
 			}

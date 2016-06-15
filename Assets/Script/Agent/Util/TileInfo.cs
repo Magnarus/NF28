@@ -27,7 +27,7 @@ public class TileInfo
 
 	public TileInfo(Creature current, PhysicTile tile, Creature c) {
 		this.tile = tile;
-		opponents.Add (current, c);
+		opponents.Add (c);
 	}
 
 	public void addOpponent(Creature current, Creature c) {

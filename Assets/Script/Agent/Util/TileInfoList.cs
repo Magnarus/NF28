@@ -16,7 +16,7 @@ public class TileInfoList
 	public void addTile(Creature current, PhysicTile tile, Creature c) {
 		TileInfo info = getTileInfo (tile);
 		if (info != null) {
-			info.addOpponent (c);
+			info.addOpponent (current, c);
 		} else {
 			info = new TileInfo(current, tile, c);
 			infos.Add (info);
