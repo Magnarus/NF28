@@ -13,12 +13,12 @@ public class TileInfoList
 	{
 	}
 
-	public void addTile(PhysicTile tile, Creature c) {
+	public void addTile(Creature current, PhysicTile tile, Creature c) {
 		TileInfo info = getTileInfo (tile);
 		if (info != null) {
 			info.addOpponent (c);
 		} else {
-			info = new TileInfo(tile, c);
+			info = new TileInfo(current, tile, c);
 			infos.Add (info);
 		}
 	}

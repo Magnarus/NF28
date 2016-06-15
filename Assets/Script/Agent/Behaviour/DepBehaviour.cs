@@ -10,28 +10,28 @@ public class DepBehaviour : AgentBehaviour
 		List<PhysicTile> tile = mov.GetTilesInRange();
 	}
 
-	public override bool Run ()
+	public override CreatureAction Run ()
 	{
 		TileInfoList infoList = new TileInfoList ();
 		List<Creature> opponentCreature = Parent.controller.creaturesJ1;
 		Movement mov;
 		List<PhysicTile> creatureTileRange;
+		Creature current = ((AgentCreature)Parent).CurrentCreature;
 		foreach(Creature c in opponentCreature) {
 			mov = c.gameObject.GetComponent<Movement> ();
 			creatureTileRange = mov.GetTilesInRange (Parent.controller.board);
 			GameObject ability = ((AgentCreature)Parent).CurrentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
 			List<PhysicTile> totalRange = Parent.controller.board.GetMaxRange (Parent, creatureTileRange);
-
 			foreach (PhysicTile tile in totalRange) {
-				infoList.addTile (tile, c);
+				infoList.addTile (current, tile, c);
 			}
 		}
-		Creature current = ((AgentCreature)Parent).CurrentCreature;
+
 		mov = current.gameObject.GetComponent<Movement> ();
 		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
 		PhysicTile saferTile = getSafestTile (infoList, currentCreatureMovTileRange);
 		CreatureAction action = new CreatureAction (ActionType.DEP, current, saferTile);
-		//TODO send it to agent
+		return action;
 	}
 
 	/*
