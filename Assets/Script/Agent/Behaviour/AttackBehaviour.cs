@@ -4,11 +4,16 @@ using System.Collections.Generic;
 
 public class AttackBehaviour : AgentBehaviour {
 
+	private List<PhysicTile> targetMovement;
+	public List<PhysicTile> TargetMovement {
+		get {
+			return targetMovement;
+		}
+	}
 
 	public AttackBehaviour(Agent myAgent) {
 		Parent = myAgent;
 	}
-
 
 
 	public override CreatureAction Run() {
@@ -26,10 +31,10 @@ public class AttackBehaviour : AgentBehaviour {
 		Movement m = ((AgentCreature)Parent).CurrentCreature.gameObject.GetComponent<Movement> ();
 		// Listes des cases sur lesquelles elle peut se déplacer
 		List<PhysicTile> tiles = m.GetTilesInRange (Parent.controller.board);
-
+		targetMovement = tiles;
 		List<PhysicTile> maxRangeTiles = Parent.controller.board.GetMaxRange((AgentCreature)Parent, tiles);
 
-		return tiles;
+		return maxRangeTiles;
 	}
 
 
@@ -43,5 +48,7 @@ public class AttackBehaviour : AgentBehaviour {
 		}
 		return ennemies;
 	}
-		
+
+
+	public virtual PhysicTile GetDestination (PhysicTile t);
 }
