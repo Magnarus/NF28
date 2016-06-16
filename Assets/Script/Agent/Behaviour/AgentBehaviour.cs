@@ -43,6 +43,7 @@ public abstract class AgentBehaviour {
 				chemin.Add(current.pos);
 				current = current.prev;
 		}
+		chemin.Add (current.pos);
 	}
 
 	public void RecreatePath() {
