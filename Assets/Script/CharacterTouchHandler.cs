@@ -17,7 +17,6 @@ public class CharacterTouchHandler : MonoBehaviour {
 		if (controller.CurrentState.GetType () == typeof(SelectUnitState)) {
 			((SelectUnitState)controller.CurrentState).characterClicked ();
 		} else if (controller.CurrentState.GetType () == typeof(AttackState)) {
-			Debug.Log ("I'm in AttackState state");
 			((AttackState)controller.CurrentState).Attack ();
 		}
 	}

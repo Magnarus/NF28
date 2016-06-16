@@ -82,6 +82,7 @@ public class BattleController : StateMachine
 			tileSelectionIndicator = GameObject.Find ("TileSelector").transform;
 			turn.owner = this;
 			ChangeState<InitBattleState> ();
+			cameraRig.follow = tileSelectionIndicator;
 		}
 	}
 

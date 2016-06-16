@@ -42,8 +42,11 @@ public class AgentIATurn : Agent {
 				MessageInfo info = new MessageInfo ("REQUEST", this, action, "doAction");
 				agent.gameObject.SendMessage ("receiveMessage", info, SendMessageOptions.DontRequireReceiver);
 			}
+			actions.Clear ();
+			controller.ChangeState<SelectUnitState>();
 		}
-		controller.ChangeState<SelectUnitState>();
+
+
 		Debug.Log ("onInform IATurn");
 	}
 

@@ -76,7 +76,6 @@ public class Turn
     }
 
     public string getCurrentTeam() {
-
         if (owner.creaturesJ2.Contains(currentCreature)) return "J2";
         return "J1";
     }
@@ -141,7 +140,8 @@ public class Turn
 		if (getCurrentTeam () == "J1") {
 			creatureList = owner.creaturesJ1;
 		} else creatureList = owner.creaturesJ2;
-		owner.matchController.localPlayer.CmdSyncDeath (c.tile.pos);
+		if (owner.gameType == "JcJ")
+			 owner.matchController.localPlayer.CmdSyncDeath (c.tile.pos);
 		c.gameObject.GetComponent<Animator> ().SetTrigger ("Die");
 		creatureList.Remove (c);
 		GameObject.Destroy(c.gameObject, 5.0f);

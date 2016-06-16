@@ -76,6 +76,14 @@ public class SelectUnitState : BattleState
 			if(owner.gameType == "JcJ") owner.matchController.localPlayer.CmdChangeCurrentPlayer ();
 
 			if (owner.gameType == "IA" && currentPlayer == "J2") {
+				index = 0;
+				turn.Clear();
+				currentPlayer = "J1";
+				if (turn.currentCreature != null) {
+					turn.currentCreature.hasMoved = false;
+					turn.currentCreature.hasFinished = false;
+					turn.currentCreature = null;
+				}
 				MessageInfo messageInfo = new MessageInfo ("REQUEST");
 				DictionaryAgent.getAgent ("IATurnAgent").gameObject.SendMessage("receiveMessage", messageInfo, SendMessageOptions.DontRequireReceiver);
 			}
