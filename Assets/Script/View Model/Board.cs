@@ -178,7 +178,7 @@ public class Board : MonoBehaviour
         }
     }
 
-	public List<PhysicTile> GetMaxRange(AgentCreature agent, List<PhysicTile> tiles) {
+	public List<PhysicTile> GetMaxRange(Creature c, List<PhysicTile> tiles) {
 		// Calcul de la range des cases extrêmes
 		List<PhysicTile> returnedList = new List<PhysicTile>(tiles);
 		RangeInfoList range = new RangeInfoList ();
@@ -197,57 +197,18 @@ public class Board : MonoBehaviour
 					currentR.MaxY = t.pos.y;
 				}
 			}
-			/*if (xMin > t.pos.x)
-				xMin = t.pos.x;
-			if (xMax < t.pos.x)
-				xMax = t.pos.x;*/
 		}
 
 		// On récupère la portée de l'unité
-		GameObject ability = agent.CurrentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
+		GameObject ability = c.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
 		AbilityRangeCalculator abilityRange = ability.GetComponent<AbilityRangeCalculator>();
-
-
-		// On récupère la portée pour chaque extrême
-		List<PhysicTile> tmpMax;
-		List<PhysicTile> tmpMin; 
 
 		foreach (RangeInfo r in range.List) {
 			GetTilesInRangeExcept (ref returnedList, this.tiles[new Point(r.PosX, r.MaxY)], abilityRange.horizontal);
 			GetTilesInRangeExcept (ref returnedList, this.tiles[new Point(r.PosX, r.MinY)], abilityRange.horizontal);
-		/*	foreach (PhysicTile t in tmpMax) {
-				if (!returnedList.Contains (t)) {
-					returnedList.Add (t);
-				}
-			}
-			if (r.MaxY != r.MinY) {
-				foreach (PhysicTile t in tmpMin) {
-					if (!returnedList.Contains (t)) {
-						returnedList.Add (t);
-					}
-				}
-			}*/
-		}
-		// Tout le haut 
-		/*RangeInfo max = range.GetRangeInfo (xMax);
-		for (int j = max.MinY; j < max.MaxY; j++) {
-			tmpMax =  abilityRange.GetTilesInRange (this, this.tiles[new Point(max.PosX, j)]);
-			foreach (PhysicTile t in tmpMax) {
-				if (!returnedList.Contains (t))
-					returnedList.Add (t);
-			}
+
 		}
 
-		// Tout le bas
-		RangeInfo min = range.GetRangeInfo (xMin);
-		for (int j = min.MinY; j < min.MaxY; j++) {
-			tmpMax =  abilityRange.GetTilesInRange (this, this.tiles[new Point(min.PosX, j)]);
-			foreach (PhysicTile t in tmpMax) {
-				if (!returnedList.Contains (t))
-					returnedList.Add (t);
-			}
-		}
-		*/
 		return returnedList;
 	}
 
@@ -276,11 +237,19 @@ public class Board : MonoBehaviour
 					next = tiles[t.pos + dirs[i]];
 				}
 				// On vérifie que cette case existe/qu'on ajoute le chemin le plus opti
-				if (next == null || next.distance <= t.distance + 1)
+				if (next == null)
 					continue;
 
 				// On ajoute la case au pathfinding
-				if (t.distance + 1 <= range && !currentList.Contains(next) )
+				bool contains = false;
+				foreach(PhysicTile tile in currentList) {
+					if (next.pos == tile.pos) {
+						contains = true;
+						break;
+					}
+				}
+
+				if (t.distance + 1 <= range && !contains )
 				{	 
 					currentList.Add (next);
 					next.distance = t.distance + 1;
@@ -294,5 +263,4 @@ public class Board : MonoBehaviour
 			}
 		}
 	}
-
 }

@@ -61,13 +61,13 @@ public class AttackBehaviour : AgentBehaviour {
 		// Listes des cases sur lesquelles elle peut se déplacer
 		List<PhysicTile> tiles = m.GetTilesInRange (Parent.controller.board);
 		targetMovement = tiles;
-		List<PhysicTile> maxRangeTiles = Parent.controller.board.GetMaxRange((AgentCreature)Parent, tiles);
+		List<PhysicTile> maxRangeTiles = Parent.controller.board.GetMaxRange(((AgentCreature)Parent).CurrentCreature, tiles);
 
-		if (((AgentCreature)Parent).CurrentCreature.classCreature == "archer") {
+		/*if (((AgentCreature)Parent).CurrentCreature.classCreature == "archer") {
 			foreach (PhysicTile t in maxRangeTiles) {
 				Debug.Log ("Peut tapper " + t.pos);
 			}
-		}
+		}*/
 
 		return maxRangeTiles;
 	}

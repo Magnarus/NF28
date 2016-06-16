@@ -19,6 +19,7 @@ public abstract class Movement : MonoBehaviour
     /** Récupère les tiles disponibles pour des criètes donnés **/
     public virtual List<PhysicTile> GetTilesInRange(Board board)
     {
+		//Debug.Log ("Unit : " + unit.classCreature);
         List<PhysicTile> retValue = board.Search(unit.tile, unit.type, ExpandSearch);
         Filter(retValue);
         return retValue;

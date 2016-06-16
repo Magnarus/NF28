@@ -27,11 +27,10 @@ public class DepBehaviour : AgentBehaviour
 			totalRange.Clear ();
 			mov = c.gameObject.GetComponent<Movement> ();
 			creatureTileRange = mov.GetTilesInRange (Parent.controller.board);
-			GameObject ability = ((AgentCreature)Parent).CurrentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
-			totalRange = Parent.controller.board.GetMaxRange ((AgentCreature)Parent, creatureTileRange);
-			Debug.Log ("cases de : " + c.classCreature);
+			totalRange = Parent.controller.board.GetMaxRange (c, creatureTileRange);
+//			Debug.Log ("cases de : " + c.classCreature);
 			foreach (PhysicTile tile in totalRange) {
-				Debug.Log (tile.pos);
+//				Debug.Log (tile.pos);
 				infoList.addTile (current, tile, c);
 			}
 		}
@@ -91,9 +90,12 @@ public class DepBehaviour : AgentBehaviour
 		//Si il y a des cases sans dégâts, on prend la plus proche de l'ennemi le plus vulnérable
 		if (availableTiles.Count > 0) {
 			Creature weakest = getWeakest (opponentCreatures);
-			if (current.classCreature == "warrior")
+			if (current.classCreature == "warrior") 
 				Debug.Log ("YALALA");
-			return getClosestTile (weakest.tile, tiles);
+			if (availableTiles.Count == 1) {
+				return availableTiles [0];
+			}
+			return getClosestTile (weakest.tile, availableTiles);
 		} 
 		// Sinon si la case sur laquelle est le perso est safe ou équivalente à la moins dangereuse
 		else if (creatureTileInfo == null || creatureTileInfo.Damages <= safest.Damages) {
