@@ -63,6 +63,12 @@ public class AttackBehaviour : AgentBehaviour {
 		targetMovement = tiles;
 		List<PhysicTile> maxRangeTiles = Parent.controller.board.GetMaxRange((AgentCreature)Parent, tiles);
 
+		if (((AgentCreature)Parent).CurrentCreature.classCreature == "archer") {
+			foreach (PhysicTile t in maxRangeTiles) {
+				Debug.Log ("Peut tapper " + t.pos);
+			}
+		}
+
 		return maxRangeTiles;
 	}
 

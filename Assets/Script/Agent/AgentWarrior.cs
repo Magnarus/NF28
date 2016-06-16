@@ -35,6 +35,7 @@ public class AgentWarrior : AgentCreature {
 				action = choseAction (info);
 			}
 		} else if (typeAction.Equals (ActionType.DEP)) {
+			Debug.Log (" to : " + action.Destination.pos);
 			if (action.Destination.contentTile!=null) { // récupérer si la tile est disponible 
 				action = choseAction (info);
 			}

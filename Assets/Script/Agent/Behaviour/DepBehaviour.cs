@@ -34,7 +34,6 @@ public class DepBehaviour : AgentBehaviour
 		//Récupère la zone de déplacement de la creature actuelle.
 		mov = current.gameObject.GetComponent<Movement> ();
 		List<PhysicTile> currentCreatureMovTileRange = mov.GetTilesInRange(Parent.controller.board);
-
 		//On enlève la case sur laquelle est déjà la créature pour le test de déplacement.
 		currentCreatureMovTileRange.Remove (current.tile);
 		PhysicTile safestTile = getSafestTile (infoList, currentCreatureMovTileRange);
