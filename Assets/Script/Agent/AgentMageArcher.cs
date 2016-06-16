@@ -45,12 +45,14 @@ public class AgentMageArcher : AgentCreature {
 		switch (action.Type) {
 		case ActionType.ATK:
 			attackBehaviour.RecreatePath ();
+			action.Destination.contentTile = action.Actor.gameObject;
 			controller.launchCoroutine(CurrentCreature, attackBehaviour.chemin.ToArray());
 			controller.turn.doAttack (action.Actor, action.Target);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
+			action.Destination.contentTile = action.Actor.gameObject;
 			controller.launchCoroutine(CurrentCreature, depBehaviour.chemin.ToArray());
 			break;
 		case ActionType.STAY:
