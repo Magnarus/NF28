@@ -19,14 +19,19 @@ public class DepBehaviour : AgentBehaviour
 		TileInfoList infoList = new TileInfoList ();
 		opponentCreatures = Parent.controller.creaturesJ1;
 		Movement mov;
-		List<PhysicTile> creatureTileRange;
+		List<PhysicTile> creatureTileRange = new List<PhysicTile>();
+		List<PhysicTile> totalRange = new List<PhysicTile> ();
 		current = ((AgentCreature)Parent).CurrentCreature;
 		foreach(Creature c in opponentCreatures) {
+			creatureTileRange.Clear ();
+			totalRange.Clear ();
 			mov = c.gameObject.GetComponent<Movement> ();
 			creatureTileRange = mov.GetTilesInRange (Parent.controller.board);
 			GameObject ability = ((AgentCreature)Parent).CurrentCreature.GetComponentInChildren<AbilityRangeCalculator>().gameObject;
-			List<PhysicTile> totalRange = Parent.controller.board.GetMaxRange ((AgentCreature)Parent, creatureTileRange);
+			totalRange = Parent.controller.board.GetMaxRange ((AgentCreature)Parent, creatureTileRange);
+			Debug.Log ("cases de : " + c.classCreature);
 			foreach (PhysicTile tile in totalRange) {
+				Debug.Log (tile.pos);
 				infoList.addTile (current, tile, c);
 			}
 		}
@@ -38,7 +43,8 @@ public class DepBehaviour : AgentBehaviour
 		//On enlève la case sur laquelle est déjà la créature pour le test de déplacement.
 		currentCreatureMovTileRange.Remove (current.tile);
 		PhysicTile safestTile = getSafestTile (infoList, currentCreatureMovTileRange);
-
+		if (current.classCreature == "warrior")
+			Debug.Log ("case choisie : " + safestTile.pos);
 		//Pas besoin de faire d'action de fuite : on reste sur place.
 		if (safestTile == current.tile)
 			return null;
@@ -59,6 +65,8 @@ public class DepBehaviour : AgentBehaviour
 		List<PhysicTile> availableTiles = new List<PhysicTile> ();
 		//Si la première case n'est pas une case atteignable par les ennemis
 		if(safest == null) {
+			if (current.classCreature == "warrior")
+				Debug.Log ("pas de dégâts en " + tiles [0].pos);
 			availableTiles.Add (tiles [0]);
 		}
 		int cpt = 1;
@@ -67,6 +75,8 @@ public class DepBehaviour : AgentBehaviour
 			currentTileInfo = infoList.getTileInfo(tiles[cpt]);
 			//Si la case courante n'est pas une case atteignable par les ennemis
 			if(currentTileInfo == null) {
+				if(current.classCreature == "warrior")
+					Debug.Log ("pas de dégâts en " + tiles [cpt].pos);
 				availableTiles.Add(tiles[cpt]);
 			}
 			//Si la case courante fera moins mal que la case la plus sure actuelle
@@ -76,16 +86,24 @@ public class DepBehaviour : AgentBehaviour
 			cpt++;
 		}
 
+		//On récupère les info sur la case de la créature fuyant
 		TileInfo creatureTileInfo = infoList.getTileInfo(current.tile);
+
 		//Si il y a des cases sans dégâts, on prend la plus proche de l'ennemi le plus vulnérable
 		if (availableTiles.Count > 0) {
 			Creature weakest = getWeakest (opponentCreatures);
+			if (current.classCreature == "warrior")
+				Debug.Log ("YALALA");
 			return getClosestTile (weakest.tile, tiles);
 		} 
 		// Sinon si la case sur laquelle est le perso est safe ou équivalente à la moins dangereuse
 		else if (creatureTileInfo == null || creatureTileInfo.Damages <= safest.Damages) {
+			if (current.classCreature == "warrior")
+				Debug.Log ("YOLOLO");
 			return current.tile;
 		}
+		if (current.classCreature == "warrior")
+			Debug.Log ("YULULU");
 		//Sinon, ben on prend le moins dangereux de ce qui reste.
 		return safest.Tile;
 	}
