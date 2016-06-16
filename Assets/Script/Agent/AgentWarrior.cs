@@ -48,16 +48,13 @@ public class AgentWarrior : AgentCreature {
 		switch (action.Type) {
 		case ActionType.ATK:
 			attackBehaviour.RecreatePath ();
-			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
 			controller.launchCoroutine(CurrentCreature, attackBehaviour.chemin.ToArray());
 			controller.turn.doAttack (action.Actor, action.Target);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
-			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
-			//controller.launchCoroutine(CurrentCreature, depBehaviour.chemin.ToArray());
-			controller.LaunchCoroutine(CurrentCreature, depBehaviour.chemin);
+			controller.launchCoroutine(CurrentCreature, depBehaviour.chemin.ToArray());
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:
