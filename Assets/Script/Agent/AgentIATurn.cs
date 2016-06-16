@@ -38,7 +38,9 @@ public class AgentIATurn : Agent {
 			sortedActions.AddRange(tmpAction);
 			sortedActions.AddRange(getNotAttackAction(actions));
 			foreach(CreatureAction action in sortedActions) {
-				Debug.Log (action.Type);
+				Debug.Log (action.Actor.classCreature + " " + action.Type);
+				if (action.Destination != null)
+					Debug.Log (" to " + action.Destination.pos);
 				Agent agent = getCreatureAgent (action.Actor.classCreature);
 				MessageInfo info = new MessageInfo ("REQUEST", this, action, "doAction");
 				agent.gameObject.SendMessage ("receiveMessage", info, SendMessageOptions.DontRequireReceiver);

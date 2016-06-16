@@ -27,7 +27,7 @@ public class AgentHero : AgentCreature {
 	public void doAction(MessageInfo info){
 		CreatureAction action = info.getData () as CreatureAction;
 		ActionType typeAction = action.Type;
-		Debug.Log ("Appel du doAction du hero avec " + typeAction);
+		//Debug.Log ("Appel du doAction du hero avec " + typeAction);
 		if (typeAction.Equals (ActionType.ATK)) {
 			if (action.Target == null) {
 				action = choseAction (info);
@@ -46,14 +46,15 @@ public class AgentHero : AgentCreature {
 		case ActionType.ATK:
 			attackBehaviour.RecreatePath ();
 			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
-			CurrentCreature.Match();
+			//controller.launchCoroutine(CurrentCreature, attackBehaviour.chemin.ToArray());
 			controller.turn.doAttack (action.Actor, action.Target);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
 			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
-			CurrentCreature.Match ();
+			//controller.launchCoroutine(CurrentCreature, depBehaviour.chemin.ToArray());
+			controller.LaunchCoroutine(CurrentCreature, depBehaviour.chemin);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.STAY:
@@ -66,7 +67,7 @@ public class AgentHero : AgentCreature {
 	}
 
 	public override void onRequest(Agent sender, object data) {
-		Debug.Log ("onRequest AgentHero");
+		//Debug.Log ("onRequest AgentHero");
 		MessageInfo info = data as MessageInfo;
 		if(info.getConversationId() != null && info.getConversationId().Equals("choseAction")){
 			CurrentCreature = (Creature)info.getData ();

@@ -53,4 +53,6 @@ public abstract class AgentBehaviour {
 			first = Parent.controller.board.tiles[p[i]].pos;
 		}
 	}
+
+
 }

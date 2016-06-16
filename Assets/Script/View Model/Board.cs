@@ -197,10 +197,10 @@ public class Board : MonoBehaviour
 					currentR.MaxY = t.pos.y;
 				}
 			}
-			if (xMin > t.pos.x)
+			/*if (xMin > t.pos.x)
 				xMin = t.pos.x;
 			if (xMax < t.pos.x)
-				xMax = t.pos.x;
+				xMax = t.pos.x;*/
 		}
 
 		// On récupère la portée de l'unité
@@ -212,22 +212,24 @@ public class Board : MonoBehaviour
 		List<PhysicTile> tmpMax;
 		List<PhysicTile> tmpMin; 
 
-		/*foreach (RangeInfo r in range.List) {
-			//tmpMax = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MaxY)]);
-			//tmpMin = abilityRange.GetTilesInRange (this, this.tiles[new Point(r.PosX, r.MinY)]);
-			foreach (PhysicTile t in tmpMax) {
-				if (!returnedList.Contains (t)) {
-					returnedList.Add (t);
-				}
-			/*	foreach (PhysicTile t in tmpMin) {
+		foreach (RangeInfo r in range.List) {
+			GetTilesInRangeExcept (ref returnedList, this.tiles[new Point(r.PosX, r.MaxY)], abilityRange.horizontal);
+			GetTilesInRangeExcept (ref returnedList, this.tiles[new Point(r.PosX, r.MinY)], abilityRange.horizontal);
+		/*	foreach (PhysicTile t in tmpMax) {
 				if (!returnedList.Contains (t)) {
 					returnedList.Add (t);
 				}
 			}
-		
-*/
+			if (r.MaxY != r.MinY) {
+				foreach (PhysicTile t in tmpMin) {
+					if (!returnedList.Contains (t)) {
+						returnedList.Add (t);
+					}
+				}
+			}*/
+		}
 		// Tout le haut 
-		RangeInfo max = range.GetRangeInfo (xMax);
+		/*RangeInfo max = range.GetRangeInfo (xMax);
 		for (int j = max.MinY; j < max.MaxY; j++) {
 			tmpMax =  abilityRange.GetTilesInRange (this, this.tiles[new Point(max.PosX, j)]);
 			foreach (PhysicTile t in tmpMax) {
@@ -245,8 +247,52 @@ public class Board : MonoBehaviour
 					returnedList.Add (t);
 			}
 		}
-
+		*/
 		return returnedList;
+	}
+
+
+	public void GetTilesInRangeExcept(ref List<PhysicTile> currentList, PhysicTile start, int range) {
+		// Liste des cases sur laquelle on va pouvoir se déplacer
+		// Deux piles l'une pour les cases en train d'être analysés et une autre pour ceux qui vont être analysés
+		Queue<PhysicTile> toCheck = new Queue<PhysicTile>();
+		Queue<PhysicTile> check = new Queue<PhysicTile>();
+
+		// Initialisation de la recherche
+		start.distance = 0;
+		check.Enqueue(start);
+
+		// Parcours et vérification de toutes les cases tant qu'on a plus de cases à évaluer
+		while (check.Count > 0)
+		{
+
+			PhysicTile t = check.Dequeue();
+
+			for (int i = 0; i < 4; ++i)
+			{
+				PhysicTile next = null;
+				if (tiles.ContainsKey(t.pos + dirs[i]) ) // Il a une case qui existe dans cette zone
+				{
+					next = tiles[t.pos + dirs[i]];
+				}
+				// On vérifie que cette case existe/qu'on ajoute le chemin le plus opti
+				if (next == null || next.distance <= t.distance + 1)
+					continue;
+
+				// On ajoute la case au pathfinding
+				if (t.distance + 1 <= range && !currentList.Contains(next) )
+				{	 
+					currentList.Add (next);
+					next.distance = t.distance + 1;
+					next.prev = t;
+					toCheck.Enqueue(next);
+				}
+				if (check.Count == 0)
+				{
+					SwapReference(ref check, ref toCheck);
+				}
+			}
+		}
 	}
 
 }

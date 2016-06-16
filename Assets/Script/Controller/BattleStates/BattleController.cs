@@ -139,7 +139,7 @@ public class BattleController : StateMachine
 		}
 	}
 
-	void launchCoroutine(Creature c, Point[] points) {
+	public void launchCoroutine(Creature c, Point[] points) {
 		Movement m = c.GetComponent<Movement>();
 		int size = points.Length;
 		for (int i = size-2; i >= 0; i--) {
@@ -177,6 +177,20 @@ public class BattleController : StateMachine
 			SceneManager.LoadScene ("Defeat");
 		}
 
+	}
+
+
+	public void LaunchCoroutine(Creature c, List<Point> chemin) {
+		List<Point> p = chemin;
+		Point first = p [p.Count - 1];
+		Movement m = c.GetComponent<Movement> ();
+	//	Debug.Log("Début Coroutine");
+		for (int i = p.Count-2 ; i >= 0; i--) {
+			//StartCoroutine(m.Traverse(board.tiles[p[i]]));
+	//		Debug.Log("Current prev : " + board.tiles[p[i]].prev.pos);
+	//		Debug.Log("Current : " + board.tiles[p[i]].pos);
+		}
+		c.Match();
 	}
 
 }

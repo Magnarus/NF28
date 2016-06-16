@@ -9,9 +9,8 @@ public class AttackBehaviour : AgentBehaviour {
 
 
 	public override CreatureAction Run() {
-		List<PhysicTile> tiles = new List<PhysicTile> ();
+		List<PhysicTile> tiles;
 		tiles = GetTilesInRange ();
-
 		List<PhysicTile> ennemies = GetEnnemyInRange (tiles);
 		float damages = 0; 
 		float maxDamage = 0;
@@ -19,6 +18,8 @@ public class AttackBehaviour : AgentBehaviour {
 		Creature targetDamages = null;
 
 		CreatureDescriptor statsCreature = ((AgentCreature)Parent).CurrentCreature.GetComponent<CreatureDescriptor>();
+
+		//Debug.Log ("Pour l'agent : " + ((AgentCreature)Parent).CurrentCreature.classCreature + " les ennemis sont : " + ennemies.Count);
 
 		foreach (PhysicTile e in ennemies) {
 			Creature newC = e.contentTile.GetComponent<Creature> ();
@@ -33,18 +34,18 @@ public class AttackBehaviour : AgentBehaviour {
 				targetDamages = newC;
 			}
 		}
-
+		PhysicTile dest;
 		CreatureAction c = null;
 		if (targetDeath != null) {
-			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirectionToGo (targetDeath.tile), targetDeath, 500); 
-			SavePath (((AgentCreature)Parent).CurrentCreature.tile, targetDeath.tile);
+			 dest = GetDirectionToGo (targetDeath.tile);
+			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, dest, targetDeath, 500); 
+			SavePath (((AgentCreature)Parent).CurrentCreature.tile, dest);
 		} else if (targetDamages != null) {
-			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, GetDirectionToGo (targetDamages.tile), targetDamages, maxDamage); 
-			Debug.Log ("From : " + ((AgentCreature)Parent).CurrentCreature.tile.pos + " to : " + targetDamages.tile.pos);
-			SavePath (((AgentCreature)Parent).CurrentCreature.tile, targetDamages.tile);
+			dest = GetDirectionToGo (targetDamages.tile);
+			c = new CreatureAction (ActionType.ATK, ((AgentCreature)Parent).CurrentCreature, dest , targetDamages, maxDamage); 
+			SavePath (((AgentCreature)Parent).CurrentCreature.tile, dest);
 
 		} 
-
 		return c;
 	}
 

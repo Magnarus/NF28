@@ -104,6 +104,7 @@ public class Turn
 		newLife = (newLife > 0) ? newLife : 0;
 		Debug.Log ("Life : " + newLife);
 		statsEnnemy.HP.CurrentValue = newLife;
+		if(owner.gameType == "JcJ")	
 		owner.matchController.localPlayer.CmdSyncDamage (new string[] {
 																currentEnnemy.tile.pos.x.ToString(),
 																currentEnnemy.tile.pos.y.ToString(), 

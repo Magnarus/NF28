@@ -14,9 +14,9 @@ public class AgentMageArcher : AgentCreature {
 	}
 
 	public CreatureAction choseAction(MessageInfo info){
-		CreatureAction action = DepBehaviour.Run ();
+		CreatureAction action = AttackBehaviour.Run ();
 		if (action == null) {
-			action = AttackBehaviour.Run ();
+			action = DepBehaviour.Run ();
 			if (action == null) {
 				action = StayBehaviour.Run();
 			}
@@ -27,7 +27,7 @@ public class AgentMageArcher : AgentCreature {
 	public void doAction(MessageInfo info){
 		CreatureAction action = info.getData () as CreatureAction;
 		ActionType typeAction = action.Type;
-		Debug.Log ("Appel du doAction du mage avec " + typeAction);
+		//Debug.Log ("Appel du doAction du mage avec " + typeAction);
 		if (typeAction.Equals (ActionType.ATK)) {
 			if (action.Target == null) {
 				action = choseAction (info);
@@ -46,15 +46,15 @@ public class AgentMageArcher : AgentCreature {
 		case ActionType.ATK:
 			attackBehaviour.RecreatePath ();
 			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
-			CurrentCreature.Match ();
+			controller.launchCoroutine(CurrentCreature, attackBehaviour.chemin.ToArray());
 			controller.turn.doAttack (action.Actor, action.Target);
 			CurrentCreature.hasFinished = true;
 			break;
 		case ActionType.DEP:
 			depBehaviour.RecreatePath ();
 			//StartCoroutine(action.Actor.GetComponent<Movement> ().Traverse (action.Destination));
-			CurrentCreature.Match ();
-
+			controller.LaunchCoroutine(CurrentCreature, depBehaviour.chemin);
+			//CurrentCreature.Match ();
 			break;
 		case ActionType.STAY:
 			break;
